@@ -4,9 +4,38 @@
 void Game::ProcessKeyPressed(unsigned char key, int px, int py)
 {
 	std::cout << "Tecla pulsada: " << key << std::endl;
-
-	//GetCuboid().SetColor(Color()); LLAMA A UNA INSTANCIA
-
+	if (key == 'w')
+	{
+		this->player->SetSpeed(
+			Vector3D(
+				this->player->GetSpeed().GetX(),
+				this->player->GetSpeed().GetY() + 0.01,
+				this->player->GetSpeed().GetZ()));
+	} 
+	else if (key == 's')
+	{
+		this->player->SetSpeed(
+			Vector3D(
+				this->player->GetSpeed().GetX(),
+				this->player->GetSpeed().GetY() - 0.01,
+				this->player->GetSpeed().GetZ()));
+	}
+	else if (key == 'a')
+	{
+		this->player->SetSpeed(
+			Vector3D(
+				this->player->GetSpeed().GetX() - 0.01,
+				this->player->GetSpeed().GetY(),
+				this->player->GetSpeed().GetZ()));
+	}
+	else if (key == 'd')
+	{
+		this->player->SetSpeed(
+			Vector3D(
+				this->player->GetSpeed().GetX() + 0.01,
+				this->player->GetSpeed().GetY(),
+				this->player->GetSpeed().GetZ()));
+	}
 }
 
 void Game::ProcessMouseMovement(int x, int y)
@@ -22,32 +51,40 @@ void Game::ProcessMouseClick(int button, int state, int x, int y)
 
 void Game::Init()
 {
-	srand(static_cast<unsigned int>(std::time(nullptr)));
+	Scene* mainScene = new(nothrow) Scene();
+	this->scenes.push_back(mainScene);
+	this->activeScene = mainScene;
+
+	ModelLoader* loader = new ModelLoader();
+
+	this->player = new Model();
 	
-	Sphere SpherePrototype = Sphere();
+	loader->LoadModel("..\\..\\3dModels\\player.obj");
+	*this->player = loader->getModel();
+	player->SetCoordinates(Vector3D(0, 0, 1));
+	player->SetOrientation(Vector3D(15, 180, 0));
+	player->SetSpeed(Vector3D(0.8, 0.8, 0.9));
+	player->PaintColor(Color(0.8, 0.8, 0.9));
+	mainScene->AddGameObject(player);
 
-	Teapot TeapotPrototype = Teapot(0.4);
-
-	Cube CubePrototype = Cube(Vector3D(0,0,-2),Color(1,0,0),Vector3D(0,0,0),2);
-
-	Teapot* tParticle = TeapotPrototype.Clone();
-
-	Sphere* sParticle = SpherePrototype.Clone();
-
-	Cube* cParticle = CubePrototype.Clone();
-	
-	emmiter.SetParticle(tParticle);
-
+	//Model* star = new Model();
+	//loader->LoadModel("..\\..\\3dModels\\star.obj");
+	//*star = loader->getModel();
+	//star->SetCoordinates(Vector3D(1, 1, 1));
+	//star->SetOrientation(Vector3D(30, -60, -10));
+	//star->SetOrientationSpeed(Vector3D(3, 2, 1));
+	//star->SetSpeed(Vector3D(0.01, 0.02, 0.03)); 
+	//star->PaintColor(Color(0.2, 0.5, 0.1));
+	//mainScene->AddGameObject(star);
+	loader->Clear();
 }
 
 void Game::Render()
 {
-	scene.Render();
-	emmiter.Render();
+	this->activeScene->Render();
 }
 
 void Game::Update()
 {
-	emmiter.Update();
-	scene.Update();
+	this->activeScene->Update(TIME_INCREMENT);
 }

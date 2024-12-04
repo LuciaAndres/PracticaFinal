@@ -1,10 +1,10 @@
 #include "Solid.h"
 
 
-void Solid::Update() 
+void Solid::Update(const float& time)
 {
-	orientation = orientation + orientationSpeed * 1;
-	coordinates = coordinates + speed * 1;
+	this->SetCoordinates(this->GetCoordinates() + this->GetSpeed() * time);
+	this->SetOrientation(this->GetOrientation() + this->GetOrientationSpeed() * time);
 }
 
 bool Solid::CheckCollision(Solid* other)

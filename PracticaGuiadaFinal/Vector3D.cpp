@@ -2,57 +2,57 @@
 #include <math.h>
 
 
-Vector3D Vector3D::Add(const Vector3D& b)
+template <class S> Vector3Dx<S> Vector3Dx<S>::Add(Vector3D b)
 {
-	return Vector3D(this->x + b.x, this->y + b.y, this->z + b.z);
+	return Vector3Dx<S>(this->GetX() + v.GetX(), this->GetY() + v.GetY(), this->GetZ() + v.GetZ());
 }
 
-Vector3D Vector3D::Subtract(const Vector3D& b)
+template <class S> Vector3Dx<S> Vector3Dx<S>::Subtract(Vector3D b)
 {
-	return Vector3D(this->x - b.x, this->y - b.y, this->z - b.z);
+	return Vector3Dx<S>(this->GetX() - v.GetX(), this->GetY() - v.GetY(), this->GetZ() - v.GetZ());
 }
 
-Vector3D Vector3D::Product(const float& b)
+template <class S> Vector3Dx<S> Vector3Dx<S>::Product(S b)
 {
-	return Vector3D(this->x * b, this->y * b, this->z * b);
+	return Vector3Dx<S>(this->GetX() * b, this->GetY() * b, this->GetZ() * b);
 }
 
-Vector3D Vector3D::Divide(const float& b)
+template <class S> Vector3Dx<S> Vector3Dx<S>::Divide(S b)
 {
-	return Vector3D(this->x / b, this->y / b, this->z / b);
+	return Vector3D(this->GetX() / b, this->GetY() / b, this->GetZ() / b);
 }
 
-float Vector3D::DotProduct(const Vector3D& v)
+template <class S> float Vector3Dx<S>::DotProduct(Vector3D v)
 {
-	return float((this->x * v.x) + (this->y * v.y) + (this->z * v.z));
+	return float((this->GetX() * v.GetX()) + (this->GetY() * v.GetY()) + (this->GetZ() * v.GetZ()));
 }
 
-float Vector3D::Magnitude()
+template <class S> float Vector3Dx<S>::Magnitude()
 {
-	return float(sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2)));
+	return S(sqrt(pow(this->GetX(), 2) + pow(this->GetY(), 2) + pow(this->GetZ(), 2)));
 }
 
-Vector3D Vector3D::operator+(const Vector3D& vector)
+template <class S> Vector3Dx<S> Vector3Dx<S>::operator+(Vector3Dx<S> v)
 {
-	return Add(vector);
+	return Add(v);
 }
 
-Vector3D Vector3D::operator-(const Vector3D& vector)
+template <class S> Vector3Dx<S> Vector3Dx<S>::operator-(Vector3Dx<S> v)
 {
-	return Subtract(vector);
+	return Subtract(v);
 }
 
-Vector3D Vector3D::operator*(const float& value)
+template <class S> Vector3Dx<S> Vector3Dx<S>::operator*(S v)
 {
-	return Product(value);
+	return Product(v);
 }
 
-Vector3D Vector3D::operator/(const float& value)
+template <class S> Vector3Dx<S> Vector3Dx<S>::operator/(S v)
 {
-	return Divide(value);
+	return Divide(v);
 }
 
-float Vector3D::operator*(const Vector3D& vector)
+template <class S> float Vector3Dx<S>::operator*(Vector3Dx<S> v)
 {
-	return DotProduct(vector);
+	return DotProduct(v);
 }

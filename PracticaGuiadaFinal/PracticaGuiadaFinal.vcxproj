@@ -135,13 +135,18 @@
     <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="Emmiter.cpp" />
     <ClCompile Include="EmmiterConfiguration.cpp" />
+    <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="PracticaGuiada.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Solid.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Teapot.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Torus.cpp" />
+    <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,12 +157,17 @@
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Emmiter.h" />
     <ClInclude Include="EmmiterConfiguration.h" />
+    <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Solid.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Teapot.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Torus.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vector3D.h" />
   </ItemGroup>
   <ItemGroup>

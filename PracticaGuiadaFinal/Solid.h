@@ -43,7 +43,7 @@ public:
 
 	virtual void Render() = 0;
 	virtual Solid* Clone() = 0;
-	virtual void Update();
+	virtual void Update(const float& time);
 
 	virtual bool CheckCollision(Solid* other);
 };

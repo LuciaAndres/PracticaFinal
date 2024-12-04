@@ -18,7 +18,7 @@ class EmmiterConfiguration
 			numParticles(25), emissionPeriod(10), particle(particle) {}
 
 		EmmiterConfiguration() :
-			numParticles(50), emissionPeriod(100), particle(NULL) {}
+			numParticles(500), emissionPeriod(500), particle(NULL) {}
 
 		inline int getParticleNum() const { return this->numParticles; }
 		inline int getEmissionPeriod() const { return this->emissionPeriod; }

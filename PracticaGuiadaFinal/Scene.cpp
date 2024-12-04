@@ -8,18 +8,18 @@ void Scene::AddGameObject(Solid* object)
 
 void Scene::Render()
 {
-	this->camera.Render();
+	this->camera->Render();
 	for (auto& object : gameObjects)
 	{
 		object->Render();
 	}
 }
 
-void Scene::Update()
+void Scene::Update(const float& time)
 {
 	for (auto& object : gameObjects)
 	{
-		object->Update();
+		object->Update(time);
 		checkBoundary(object);
 	}
 }

@@ -1,43 +1,46 @@
 #pragma once
 #include <iostream>
 
-class Vector3D
+template <class S> class Vector3Dx;
+
+typedef Vector3Dx<float> Vector3D;
+
+typedef Vector3Dx<float> Vector3Df;
+typedef Vector3Dx<double> Vector3Dd;
+typedef Vector3Dx<int> Vector3Di;
+
+template<class S>class Vector3Dx
 {
 
 private:
 
-	float x;
-	float y;
-	float z;
+	S x, y, z;
 
 public:
 
-	Vector3D(float x, float y, float z) :
+	Vector3Dx(S x = 0, S y = 0, S z = 0) :
 		x(x), y(y), z(z) {}
 
-	Vector3D() :
-		x(0.0), y(0.0), z(0.0) {}
+	inline S GetX() const { return this->x; }
+	inline S GetY() const { return this->y; }
+	inline S GetZ() const { return this->z; }
 
-	inline float GetX() const { return this->x; }
-	inline float GetY() const { return this->y; }
-	inline float GetZ() const { return this->z; }
+	inline void SetX(S d) { x = d; }
+	inline void SetY(S d) { y = d; }
+	inline void SetZ(S d) { z = d; }
 
-	inline void SetX(const float& XToSet) { this->x = XToSet; }
-	inline void SetY(const float& YToSet) { this->y = YToSet; }
-	inline void SetZ(const float& ZToSet) { this->z = ZToSet; }
-
-	Vector3D Add(const Vector3D& b);
-	Vector3D Subtract(const Vector3D& b);
-	Vector3D Product(const float& b);
-	Vector3D Divide(const float& b);
-	float DotProduct(const Vector3D& v);
+	Vector3Dx<S> Add(Vector3D b);
+	Vector3Dx<S> Subtract(Vector3D b);
+	Vector3Dx<S> Product(S b);
+	Vector3Dx<S> Divide(S b);
+	float DotProduct(Vector3D v);
 	float Magnitude();
 
-	Vector3D operator+(const Vector3D& vector);
-	Vector3D operator-(const Vector3D& vector);
-	Vector3D operator*(const float& value);
-	Vector3D operator/(const float& value);
-	float operator*(const Vector3D& vector);
+	Vector3Dx<S> operator+(Vector3Dx<S> v);
+	Vector3Dx<S> operator-(Vector3Dx<S> v);
+	Vector3Dx<S> operator*(S s);
+	Vector3Dx<S> operator/(S s);
+	float operator*(Vector3Dx<S> v);
 
 };
 

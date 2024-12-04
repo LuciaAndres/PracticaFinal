@@ -7,19 +7,30 @@
 #include "Cylinder.h"
 #include "Emmiter.h"
 #include "Scene.h"
+#include "Model.h"
+#include "ModelLoader.h"
+#include <chrono>
 
-
+using namespace std::chrono;
 
 class Game
 {
 private:
+	const double TIME_INCREMENT = 0.4;
+	const long UPDATE_PERIOD = 10;
 
-	Emmiter emmiter;
-	Scene scene;
+	milliseconds initialMilliseconds;
+	long lastUpdatedTime;;
+
+	Scene* activeScene;
+	vector<Scene*> scenes;
+
+	Model* player;
 
 public:
 
-	//Game() : {}
+	Game() : 
+	activeScene(nullptr), initialMilliseconds(duration_cast<milliseconds>(system_clock::now().time_since_epoch())), lastUpdatedTime(0), player(nullptr) {}
 	
 
 

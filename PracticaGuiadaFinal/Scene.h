@@ -12,23 +12,21 @@ private:
 	
 	std::vector<Solid*> gameObjects;
 
-	Camera camera;
+	Camera* camera;
 
 	Vector3D boundary = Vector3D(8, 6, 4);
 
 	void checkBoundary(Solid* object);
 
 public:
-	Scene()
-	{
-		this->camera.SetCoordinates(Vector3D(0, 0, 16));
-	}
+	Scene() :
+		boundary(Vector3D(8, 6, 4)) {}
 
 	void AddGameObject(Solid* object);
 
 	
 
-	void Update();
+	void Update(const float& time);
 	void Render();
 };
 
