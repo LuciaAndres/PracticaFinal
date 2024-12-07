@@ -55,6 +55,7 @@ void FirstPersonCamera::ProcessMouseMovement(int x, int y)
 	{
 		Vector3D orientation = this->GetOrientation() + Vector3D(y - this->GetMouseY(), x - this->GetMouseX(), 0);
 		this->SetOrientation(orientation);
+		std::cout << "I got here" << std::endl;
 	}
 	this->SetMouseX(x);
 	this->SetMouseY(y);

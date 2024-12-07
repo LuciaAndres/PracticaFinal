@@ -1,6 +1,9 @@
 #include "Vector3D.h"
 #include <math.h>
 
+template class Vector3Dx<float>;  
+template class Vector3Dx<double>; 
+template class Vector3Dx<int>;
 
 template <class S> Vector3Dx<S> Vector3Dx<S>::Add(Vector3Dx<S> b)
 {

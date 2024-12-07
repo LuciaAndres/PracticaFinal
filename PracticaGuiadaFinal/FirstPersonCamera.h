@@ -17,7 +17,7 @@ private:
 
 public:
 
-	FirstPersonCamera(Vector3D positionArgument = Vector3D()) : Camera(positionArgument), mouseX(-1), mouseY(-1), cameraStep(0.25) { };
+	FirstPersonCamera(Vector3D positionArgument = Vector3D()) : Camera(positionArgument), mouseX(-1), mouseY(-1), cameraStep(0.2) { };
 	void Render();
 	void Update(const float& time);
 

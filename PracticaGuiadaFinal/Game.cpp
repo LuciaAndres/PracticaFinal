@@ -37,22 +37,25 @@ void Game::ProcessKeyPressed(unsigned char key, int px, int py)
 				this->player->GetSpeed().GetY(),
 				this->player->GetSpeed().GetZ()));
 	}*/
+	this->view->ProcessKeyPressed(key, px, py);
 }
 
 void Game::ProcessMouseMovement(int x, int y)
 {
+	this->view->ProcessMouseMovement(x, y);
 	std::cout << "Movimiento del mouse: " << x << ", " << y << std::endl;
 }
 
 void Game::ProcessMouseClick(int button, int state, int x, int y)
 {
 	std::cout << "Clic: " << button << std::endl;
-
+	
 }
 
 void Game::Init()
 {
-	Scene* mainScene = new(nothrow) Scene();
+
+	Scene* mainScene = new(nothrow) Scene(this->view);
 	this->scenes.push_back(mainScene);
 	this->activeScene = mainScene;
 
@@ -60,8 +63,10 @@ void Game::Init()
 
 	Sphere testSphere = Sphere();
 	Solid* sphereTest = testSphere.Clone();
-
+	sphereTest->SetSpeed(Vector3D(1, 1, 1));
 	mainScene->AddGameObject(sphereTest);
+
+	
 	/*
 	this->player = new Model();
 	

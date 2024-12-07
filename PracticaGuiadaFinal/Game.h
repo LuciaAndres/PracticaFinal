@@ -23,6 +23,8 @@ private:
 	milliseconds initialMilliseconds;
 	long lastUpdatedTime;;
 
+	FirstPersonCamera* view = new FirstPersonCamera();
+
 	Scene* activeScene;
 	vector<Scene*> scenes;
 
