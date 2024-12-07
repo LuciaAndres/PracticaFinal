@@ -10,8 +10,9 @@ void FirstPersonCamera::Render()
 
 void FirstPersonCamera::Update(const float& time)
 {
+	const Vector3D& gravity = Vector3D(0, 9.81, 0);  //AFK
 	this->SetSpeed(this->calcSpeedVector());
-	Camera::Update(time);
+	Camera::Update(time, gravity);
 }
 
 Vector3D FirstPersonCamera::calcSpeedVector()

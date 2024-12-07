@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Cuboid.cpp" />
     <ClCompile Include="Cylinder.cpp" />
@@ -137,6 +138,10 @@
     <ClCompile Include="EmmiterConfiguration.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialModel.cpp" />
+    <ClCompile Include="MaterialModelLoader.cpp" />
+    <ClCompile Include="MaterialTriangle.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="PracticaGuiada.cpp" />
@@ -152,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Coordinate.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Cuboid.h" />
     <ClInclude Include="Cylinder.h" />
@@ -159,6 +165,11 @@
     <ClInclude Include="EmmiterConfiguration.h" />
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialModel.h" />
+    <ClInclude Include="MaterialModelLoader.h" />
+    <ClInclude Include="MaterialTriangle.h" />
+    <ClInclude Include="util.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Scene.h" />
@@ -180,7 +191,7 @@
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets'))" />
     <Error Condition="!Exists('..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets'))" />

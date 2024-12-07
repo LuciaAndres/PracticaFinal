@@ -3,6 +3,7 @@
 
 void Game::ProcessKeyPressed(unsigned char key, int px, int py)
 {
+	/*
 	std::cout << "Tecla pulsada: " << key << std::endl;
 	if (key == 'w')
 	{
@@ -35,7 +36,7 @@ void Game::ProcessKeyPressed(unsigned char key, int px, int py)
 				this->player->GetSpeed().GetX() + 0.01,
 				this->player->GetSpeed().GetY(),
 				this->player->GetSpeed().GetZ()));
-	}
+	}*/
 }
 
 void Game::ProcessMouseMovement(int x, int y)
@@ -57,6 +58,11 @@ void Game::Init()
 
 	ModelLoader* loader = new ModelLoader();
 
+	Sphere testSphere = Sphere();
+	Solid* sphereTest = testSphere.Clone();
+
+	mainScene->AddGameObject(sphereTest);
+	/*
 	this->player = new Model();
 	
 	loader->LoadModel("..\\..\\3dModels\\player.obj");
@@ -67,15 +73,16 @@ void Game::Init()
 	player->PaintColor(Color(0.8, 0.8, 0.9));
 	mainScene->AddGameObject(player);
 
-	//Model* star = new Model();
-	//loader->LoadModel("..\\..\\3dModels\\star.obj");
-	//*star = loader->getModel();
-	//star->SetCoordinates(Vector3D(1, 1, 1));
-	//star->SetOrientation(Vector3D(30, -60, -10));
-	//star->SetOrientationSpeed(Vector3D(3, 2, 1));
-	//star->SetSpeed(Vector3D(0.01, 0.02, 0.03)); 
-	//star->PaintColor(Color(0.2, 0.5, 0.1));
-	//mainScene->AddGameObject(star);
+	Model* star = new Model();
+	loader->LoadModel("..\\..\\3dModels\\star.obj");
+	*star = loader->getModel();
+	star->SetCoordinates(Vector3D(1, 1, 1));
+	star->SetOrientation(Vector3D(30, -60, -10));
+	star->SetOrientationSpeed(Vector3D(3, 2, 1));
+	star->SetSpeed(Vector3D(0.01, 0.02, 0.03)); 
+	star->PaintColor(Color(0.2, 0.5, 0.1));
+	mainScene->AddGameObject(star);
+	*/
 	loader->Clear();
 }
 
@@ -86,5 +93,10 @@ void Game::Render()
 
 void Game::Update()
 {
-	this->activeScene->Update(TIME_INCREMENT);
+	milliseconds currentTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	if ((currentTime.count() - this->initialMilliseconds.count()) - this->lastUpdatedTime > UPDATE_PERIOD)
+	{
+		this->activeScene->Update(TIME_INCREMENT);
+		this->lastUpdatedTime = currentTime.count() - this->initialMilliseconds.count();
+	}
 }

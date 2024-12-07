@@ -11,7 +11,7 @@ private:
 
 public:
 	Text() :
-		Solid(), text(0) {}
+		Solid(), text("null") {}
 	
 	void Render();
 	Text* Clone();

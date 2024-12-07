@@ -9,7 +9,10 @@ private:
 public:
 	Camera() {}
 	
-
+	Camera(Vector3D positionArgument) 
+	{
+		this->SetCoordinates(positionArgument);
+	}
 	Camera* Clone();
 
 	void Render();

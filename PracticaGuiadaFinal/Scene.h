@@ -19,15 +19,16 @@ private:
 	void checkBoundary(Solid* object);
 
 public:
-	Scene() :
-		boundary(Vector3D(8, 6, 4)) {}
+	Scene() : camera(new Camera()), boundary(Vector3D(8, 6, 4)) {}
 
-	void AddGameObject(Solid* object);
+	Scene(Camera* cameraToSet) : camera(cameraToSet), boundary(Vector3D(8, 6, 4)) {}
+
+	virtual void AddGameObject(Solid* object);
 
 	
 
-	void Update(const float& time);
-	void Render();
+	virtual void Update(const float& time);
+	virtual void Render();
 };
 
 

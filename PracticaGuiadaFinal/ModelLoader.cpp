@@ -3,8 +3,8 @@
 void ModelLoader::calcBoundaries(Vector3D vectorPoint)
 {
 	this->maxX = fmax(this->maxX, vectorPoint.GetX()); 
-	this->maxY - fmax(this->maxY, vectorPoint.GetY()); 
-	this->maxZ - fmax(this->maxZ, vectorPoint.GetZ()); 
+	this->maxY = fmax(this->maxY, vectorPoint.GetX());
+	this->maxZ = fmax(this->maxZ, vectorPoint.GetX());
 	this->minX = fmin(this->minX, vectorPoint.GetX()); 
 	this->minY = fmin(this->minY, vectorPoint.GetY());
 	this->minZ = fmin(this->minZ, vectorPoint.GetZ());
@@ -14,7 +14,7 @@ Triangle ModelLoader::center(Triangle triangle)
 {
 	Vector3D modelCenter(this->minX + this->getWidth() / 2.0,
 		this->minY + this->getHeight() / 2.0,
-		this->minZ + this->getLenght() / 2);
+		this->minZ + this->getLength() / 2);
 
 	Triangle centeredTriangle(
 		triangle.getCoords0() - modelCenter,

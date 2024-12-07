@@ -9,6 +9,7 @@
 #include "Scene.h"
 #include "Model.h"
 #include "ModelLoader.h"
+#include "FirstPersonCamera.h"
 #include <chrono>
 
 using namespace std::chrono;

@@ -29,18 +29,17 @@ public:
 	inline void SetY(S d) { y = d; }
 	inline void SetZ(S d) { z = d; }
 
-	Vector3Dx<S> Add(Vector3D b);
-	Vector3Dx<S> Subtract(Vector3D b);
-	Vector3Dx<S> Product(S b);
-	Vector3Dx<S> Divide(S b);
-	float DotProduct(Vector3D v);
+	Vector3Dx<S> Add(Vector3Dx<S>  b);
+	Vector3Dx<S> Subtract(Vector3Dx<S> b);
+	Vector3Dx<S> Product(S b) const;
+	Vector3Dx<S> Divide(S b) const;
+	float DotProduct(Vector3Dx<S> v);
 	float Magnitude();
 
 	Vector3Dx<S> operator+(Vector3Dx<S> v);
 	Vector3Dx<S> operator-(Vector3Dx<S> v);
-	Vector3Dx<S> operator*(S s);
-	Vector3Dx<S> operator/(S s);
-	float operator*(Vector3Dx<S> v);
+	Vector3Dx<S> operator*(S s) const;
+	Vector3Dx<S> operator/(S s) const;
 
 };
 

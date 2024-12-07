@@ -17,9 +17,10 @@ void Scene::Render()
 
 void Scene::Update(const float& time)
 {
+	Vector3D gravity = Vector3D(0, 0, 0);
 	for (auto& object : gameObjects)
 	{
-		object->Update(time);
+		object->Update(time, gravity);
 		checkBoundary(object);
 	}
 }

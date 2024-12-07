@@ -27,7 +27,7 @@ public:
 	inline void SetSlices(const float& slicesToSet) { this->slices = slicesToSet; }
 	inline void SetSlacks(const float& slacksToSet) { this->slacks = slacksToSet; }
 
-	Sphere* Clone();
+	Solid* Clone();
 
 	void Render();
 };

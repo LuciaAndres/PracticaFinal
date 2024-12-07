@@ -46,7 +46,7 @@ void Emmiter::Update()
 
 	for (auto& particle : particles)
 	{
-		particle->Update();
+		//particle->Update();
 		checkBoundary(particle);
 	}
 

@@ -12,7 +12,7 @@ void Sphere::Render()
 	glPopMatrix();
 }
 
-Sphere* Sphere::Clone()
+Solid* Sphere::Clone()
 {
 	return new Sphere(*this);
 }
