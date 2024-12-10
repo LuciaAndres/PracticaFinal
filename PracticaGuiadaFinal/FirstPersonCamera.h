@@ -13,6 +13,8 @@ private:
 
 	Vector3D calcSpeedVector();
 
+	Vector3D strafeVelocity;
+
 	float cameraStep;
 
 public:
@@ -21,8 +23,7 @@ public:
 	void Render();
 	void Update(const float& time);
 
-	void ProcessMouseMovement(int x, int y);
-	void ProcessKeyPressed(unsigned char key, int px, int py);
+
 
 	inline float GetMouseX() const { return this->mouseX; }
 	inline void SetMouseX(const float& mousexToSet) { this->mouseX = mousexToSet; }

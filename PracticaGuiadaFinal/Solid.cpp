@@ -3,6 +3,12 @@
 
 void Solid::Update(const float& time, const Vector3D& gravity)
 {
+	if (this->GetIsStationary())
+	{
+
+	}
+	else
+	{
 	if(this->GetIsAffectedByGravity())
 	{
 		this->SetSpeed(Vector3D(this->GetSpeed() + gravity * time)); //no operator "*" matches these operands --> const en Vector3D
@@ -13,10 +19,10 @@ void Solid::Update(const float& time, const Vector3D& gravity)
 	}
 
 
-	this->SetCoordinates(this->GetCoordinates() + this->GetSpeed() * time);
-	this->SetOrientation(this->GetOrientation() + this->GetOrientationSpeed() * time);
-	std::cout << this->GetOrientation().GetX() << ", " << this->GetOrientation().GetY() << std::endl;
-
+	this->SetCoordinates(this->GetCoordinates() + this->GetSpeed());
+	//this->SetOrientation(this->GetOrientation() + this->GetOrientationSpeed());
+	//std::cout << this->GetOrientation().GetX() << ", " << this->GetOrientation().GetY() << std::endl;
+	}
 }
 
 bool Solid::CheckCollision(Solid* other)

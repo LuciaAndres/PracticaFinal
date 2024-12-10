@@ -54,18 +54,21 @@ void Game::ProcessMouseClick(int button, int state, int x, int y)
 
 void Game::Init()
 {
-	player = new(nothrow) Player();
-    FirstPersonCamera* view = player->getFPS();
+	player = new Player();
+    FirstPersonCamera* view = player->getFPC();
 	Scene* mainScene = new(nothrow) Scene(view);
 	this->scenes.push_back(mainScene);
 	this->activeScene = mainScene;
 
 	ModelLoader* loader = new ModelLoader();
 
+	Cuboid testCuboid = Cuboid(Vector3D(0, -2, 0), Color(0.8,0,0), Vector3D(0, 0, 0), 100, 0.1, 100);
 	Sphere testSphere = Sphere();
 	Solid* sphereTest = testSphere.Clone();
-	sphereTest->SetSpeed(Vector3D(1, 1, 1));
+	Solid* cuboidTest = testCuboid.Clone();
+	sphereTest->SetSpeed(Vector3D(0, 0, 0));
 	mainScene->AddGameObject(sphereTest);
+	mainScene->AddGameObject(cuboidTest);
 
 	
 	/*

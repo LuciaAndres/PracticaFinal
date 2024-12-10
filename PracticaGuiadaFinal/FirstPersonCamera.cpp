@@ -1,4 +1,6 @@
 #include "FirstPersonCamera.h"
+#define degToRad(angleInDegrees) ((angleInDegrees) * M_PI / 180.0) 
+#define radToDeg(angleInRadians) ((angleInRadians) * 180.0 / M_PI)
 
 void FirstPersonCamera::Render()
 {
@@ -8,12 +10,15 @@ void FirstPersonCamera::Render()
 	glTranslatef(-1 * this->GetCoordinates().GetX(), -1 * this->GetCoordinates().GetY(), -1 * this->GetCoordinates().GetZ());
 }
 
+
 void FirstPersonCamera::Update(const float& time)
 {
 	const Vector3D& gravity = Vector3D(0, -9.81, 0);  
 	this->SetSpeed(this->calcSpeedVector());
 	Camera::Update(time, gravity);
+
 }
+
 
 Vector3D FirstPersonCamera::calcSpeedVector()
 {
@@ -32,30 +37,4 @@ Vector3D FirstPersonCamera::calcSpeedVector()
 	
 	Vector3D speedVector = { xComponent, yComponent, zComponent };
 	return speedVector;
-}
-
-void FirstPersonCamera::ProcessKeyPressed(unsigned char key, int px, int py)
-{
-	switch (key)
-	{
-	case 'w':
-	case 'W':
-		this->Update(this->cameraStep);
-		break;
-	case 's':
-	case 'S':
-		this->Update(-1 * this->cameraStep);
-		break;
-	}
-}
-
-void FirstPersonCamera::ProcessMouseMovement(int x, int y)
-{
-	if (this->GetMouseX() >= 0 && this->GetMouseY() >= 0)
-	{
-		Vector3D orientation = this->GetOrientation() + Vector3D(y - this->GetMouseY(), x - this->GetMouseX(), 0);
-		this->SetOrientation(orientation);
-	}
-	this->SetMouseX(x);
-	this->SetMouseY(y);
 }

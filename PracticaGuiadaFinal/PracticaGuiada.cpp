@@ -128,8 +128,11 @@ int main(int argc, char** argv)
 	glutKeyboardFunc(keyPressed);
 	glutSpecialFunc(specialKey);
 	glutPassiveMotionFunc(mouseMoved);
+	glutMotionFunc(mouseMoved);
 	glutMouseFunc(mouseClicked);
 	glutIdleFunc(idle);
+	glutSetCursor(GLUT_CURSOR_NONE); //HACER EL CURSOR INVISIBLE
+
 
 	writeLine("Iniciando graficos");
 	initGraphics();
