@@ -1,4 +1,5 @@
 #pragma once
+#include "util.h"
 #include <iostream>
 
 template <class S> class Vector3Dx;
@@ -33,6 +34,9 @@ public:
 	Vector3Dx<S> Subtract(Vector3Dx<S> b);
 	Vector3Dx<S> Product(S b) const;
 	Vector3Dx<S> Divide(S b) const;
+	Vector3Dx<S> Cross(Vector3Dx<S> b);
+	Vector3Dx<S> Normalize();
+
 	float DotProduct(Vector3Dx<S> v);
 	float Magnitude();
 
@@ -40,6 +44,8 @@ public:
 	Vector3Dx<S> operator-(Vector3Dx<S> v);
 	Vector3Dx<S> operator*(S s) const;
 	Vector3Dx<S> operator/(S s) const;
+
+	friend std::ostream& operator<<(std::ostream& os, const Vector3Dx<S>& v); //No funciona
 
 };
 

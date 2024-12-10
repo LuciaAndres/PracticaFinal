@@ -25,6 +25,25 @@ template <class S> Vector3Dx<S> Vector3Dx<S>::Divide(S b) const
 	return Vector3Dx<S>(this->GetX() / b, this->GetY() / b, this->GetZ() / b);
 }
 
+template <class S> Vector3Dx<S> Vector3Dx<S>::Cross(Vector3Dx<S> v)
+{
+	return Vector3Dx<S>(this->GetY() * v.GetZ() - this->GetZ() * v.GetY(),
+		this->GetZ() * v.GetX() - this->GetX() * v.GetZ(),
+		this->GetX() * v.GetY() - this->GetY() * v.GetX());
+}
+
+template <class S> Vector3Dx<S> Vector3Dx<S>::Normalize()
+{
+	float magnitude = this->Magnitude();
+		if(magnitude == 0.0f)
+		{
+			return *this;
+		}
+	return Vector3Dx<S>(this->GetX() / magnitude,
+		this->GetY() / magnitude,
+		this->GetZ() / magnitude);
+}
+
 template <class S> float Vector3Dx<S>::DotProduct(Vector3Dx<S> v)
 {
 	return float((this->GetX() * v.GetX()) + (this->GetY() * v.GetY()) + (this->GetZ() * v.GetZ()));
@@ -55,3 +74,8 @@ template <class S> Vector3Dx<S> Vector3Dx<S>::operator/(S v) const
 	return Divide(v);
 }
 
+template <class S> std::ostream& operator<<(std::ostream& os, const Vector3Dx<S>& v)
+{
+	os << "(" << v.GetX() << ", " << v.GetY() << ", " << v.GetZ() << ")";
+	return os;
+}

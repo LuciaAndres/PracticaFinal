@@ -10,7 +10,7 @@ void FirstPersonCamera::Render()
 
 void FirstPersonCamera::Update(const float& time)
 {
-	const Vector3D& gravity = Vector3D(0, 9.81, 0);  //AFK
+	const Vector3D& gravity = Vector3D(0, -9.81, 0);  
 	this->SetSpeed(this->calcSpeedVector());
 	Camera::Update(time, gravity);
 }
@@ -21,14 +21,14 @@ Vector3D FirstPersonCamera::calcSpeedVector()
 	float xOrientation = degToRad(this->GetOrientation().GetX());
 
 	//Fly cam
-	float xComponent = sin(yOrientation) * cos(xOrientation);
-	float yComponent = -sin(xOrientation);
-	float zComponent = -cos(yOrientation) * cos(xOrientation);
+	//float xComponent = sin(yOrientation) * cos(xOrientation);
+	//float yComponent = -sin(xOrientation);
+	//float zComponent = -cos(yOrientation) * cos(xOrientation);
 
 	//Walking camera
-	//float xComponent = sin(yOrientation);
-	//float yComponent = 0;
-	//float zComponent = -cos (yOrientation);
+	float xComponent = sin(yOrientation);
+	float yComponent = 0;
+	float zComponent = -cos (yOrientation);
 	
 	Vector3D speedVector = { xComponent, yComponent, zComponent };
 	return speedVector;
@@ -55,7 +55,6 @@ void FirstPersonCamera::ProcessMouseMovement(int x, int y)
 	{
 		Vector3D orientation = this->GetOrientation() + Vector3D(y - this->GetMouseY(), x - this->GetMouseX(), 0);
 		this->SetOrientation(orientation);
-		std::cout << "I got here" << std::endl;
 	}
 	this->SetMouseX(x);
 	this->SetMouseY(y);

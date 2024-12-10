@@ -1,8 +1,6 @@
 #include "Emmiter.h"
 #include <iostream>
 
-const double PI = 3.14159265358979;
-
 void Emmiter::SetParticle(Solid* particle)
 {
 	config.setParticle(particle);

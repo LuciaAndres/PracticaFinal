@@ -1,4 +1,4 @@
-
+#include <iostream>
 #include "Scene.h"
 
 void Scene::AddGameObject(Solid* object)

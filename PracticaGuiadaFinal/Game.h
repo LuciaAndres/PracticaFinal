@@ -8,6 +8,7 @@
 #include "Emmiter.h"
 #include "Scene.h"
 #include "Model.h"
+#include "Player.h"
 #include "ModelLoader.h"
 #include "FirstPersonCamera.h"
 #include <chrono>
@@ -23,17 +24,15 @@ private:
 	milliseconds initialMilliseconds;
 	long lastUpdatedTime;;
 
-	FirstPersonCamera* view = new FirstPersonCamera();
-
 	Scene* activeScene;
 	vector<Scene*> scenes;
 
-	Model* player;
+	Player* player;
 
 public:
 
 	Game() : 
-	activeScene(nullptr), initialMilliseconds(duration_cast<milliseconds>(system_clock::now().time_since_epoch())), lastUpdatedTime(0), player(nullptr) {}
+	activeScene(nullptr), initialMilliseconds(duration_cast<milliseconds>(system_clock::now().time_since_epoch())), lastUpdatedTime(0), player(nullptr){}
 	
 
 

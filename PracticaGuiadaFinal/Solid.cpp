@@ -9,12 +9,14 @@ void Solid::Update(const float& time, const Vector3D& gravity)
 	}
 	else
 	{
-		this->SetSpeed(Vector3D(this->GetSpeed() * time));
+		this->SetSpeed(Vector3D(this->GetSpeed() * time)); //Not equaling a -ive number properl
 	}
 
 
 	this->SetCoordinates(this->GetCoordinates() + this->GetSpeed() * time);
 	this->SetOrientation(this->GetOrientation() + this->GetOrientationSpeed() * time);
+	std::cout << this->GetOrientation().GetX() << ", " << this->GetOrientation().GetY() << std::endl;
+
 }
 
 bool Solid::CheckCollision(Solid* other)

@@ -37,13 +37,13 @@ void Game::ProcessKeyPressed(unsigned char key, int px, int py)
 				this->player->GetSpeed().GetY(),
 				this->player->GetSpeed().GetZ()));
 	}*/
-	this->view->ProcessKeyPressed(key, px, py);
+	this->player->ProcessKeyPressed(key, px, py);
 }
 
 void Game::ProcessMouseMovement(int x, int y)
 {
-	this->view->ProcessMouseMovement(x, y);
-	std::cout << "Movimiento del mouse: " << x << ", " << y << std::endl;
+	this->player->ProcessMouseMovement(x, y);
+	//std::cout << "Movimiento del mouse: " << x << ", " << y << std::endl;
 }
 
 void Game::ProcessMouseClick(int button, int state, int x, int y)
@@ -54,8 +54,9 @@ void Game::ProcessMouseClick(int button, int state, int x, int y)
 
 void Game::Init()
 {
-
-	Scene* mainScene = new(nothrow) Scene(this->view);
+	player = new(nothrow) Player();
+    FirstPersonCamera* view = player->getFPS();
+	Scene* mainScene = new(nothrow) Scene(view);
 	this->scenes.push_back(mainScene);
 	this->activeScene = mainScene;
 
