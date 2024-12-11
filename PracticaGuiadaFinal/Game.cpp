@@ -51,7 +51,6 @@ void Game::ProcessMouseClick(int button, int state, int x, int y)
 	std::cout << "Clic: " << button << std::endl;
 	
 }
-
 void Game::Init()
 {
 	player = new Player();
@@ -62,8 +61,9 @@ void Game::Init()
 
 	ModelLoader* loader = new ModelLoader();
 
-	Cuboid testCuboid = Cuboid(Vector3D(0, -2, 0), Color(0.8, 0.8, 0), Vector3D(0, 0, 0), 100, 0.1, 100);
+	Cuboid testCuboid = Cuboid(Vector3D(0, -2.1, 0), Color(0.8, 0.8, 0), Vector3D(0, 0, 0), 100, 0.1, 100);
 	Sphere testSphere = Sphere();
+	testSphere.SetCoordinates(Vector3D(0, -0.5, 0));
 	Solid* sphereTest = testSphere.Clone();
 	Solid* cuboidTest = testCuboid.Clone();
 	sphereTest->SetSpeed(Vector3D(0, 0, 0));
@@ -98,15 +98,23 @@ void Game::Init()
 void Game::Render()
 {
 	this->activeScene->Render();
-	this->player->Render();
 }
 
 void Game::Update()
 {
+
 	milliseconds currentTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+
+	float deltaTime = currentTime.count() - lastUpdatedTime;
+
 	if ((currentTime.count() - this->initialMilliseconds.count()) - this->lastUpdatedTime > UPDATE_PERIOD)
 	{
+		this->player->UpdateMovement(deltaTime);
 		this->activeScene->Update(TIME_INCREMENT);
 		this->lastUpdatedTime = currentTime.count() - this->initialMilliseconds.count();
 	}
+}
+
+void Game::ProcessKeyReleased(unsigned char key, int px, int py) {
+	player->ProcessKeyReleased(key, px, py);
 }

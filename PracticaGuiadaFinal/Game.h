@@ -19,7 +19,7 @@ class Game
 {
 private:
 	const double TIME_INCREMENT = 0.4;
-	const long UPDATE_PERIOD = 10;
+	const long UPDATE_PERIOD = 1;
 
 	milliseconds initialMilliseconds;
 	long lastUpdatedTime;;
@@ -44,8 +44,8 @@ public:
 	void Init();
 	void Render();
 	void Update();
-	void ProcessKeyPressed(unsigned char key, int px, int py);
 	void ProcessMouseMovement(int x, int y);
 	void ProcessMouseClick(int button, int state, int x, int y);
-
+	void ProcessKeyPressed(unsigned char key, int px, int py);
+	void ProcessKeyReleased(unsigned char key, int px, int py);
 };

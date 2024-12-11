@@ -18,24 +18,30 @@ private:
 
 	float playerStep;
 
+	const float INITIAL_SPEED = 0.1f;
+	const float MAX_SPEED = 0.2f;
+
 	Vector3D calcSpeedVector();
+	void updateSpeed();
+	void updateColliderCoords();
 	
 	float Clamp(float value, float min, float max);
 
 	void Strafe(float direction);
 
-	Cylinder CollisionHandler;
+	Cylinder Collider;
 
 	FirstPersonCamera* view;
 
+	bool keys[256] = { false };
 	bool fullScreenMode = false;
 public:
 
 	Player() :
-		CollisionHandler(Vector3D(0, 1, 1), Color(1, 0, 0), Vector3D(90, 0, 90),
+		Collider(Vector3D(0, 0, 1), Color(1, 0, 0), Vector3D(90, 0, 90),
 			0.5f, 0.5f, 2.0f, 20, 20, 0.0f),
 		mouseX(-1), mouseY(-1),
-		playerStep(0.2),
+		playerStep(0.002),
 		view(new FirstPersonCamera(Vector3D(0,0,0)))
 	{
 		SetIsStationary(false);
@@ -47,7 +53,9 @@ public:
 
 
 	void ProcessMouseMovement(int x, int y);
+	void UpdateMovement(float deltaTime);
 	void ProcessKeyPressed(unsigned char key, int px, int py);
+	void ProcessKeyReleased(unsigned char key, int px, int py);
 
 	inline float GetMouseX() const { return this->mouseX; }
 	inline void SetMouseX(const float& mousexToSet) { this->mouseX = mousexToSet; }

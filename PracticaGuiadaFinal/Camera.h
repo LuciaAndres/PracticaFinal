@@ -13,7 +13,7 @@ public:
 	{
 		this->SetCoordinates(positionArgument);
 	}
-	Camera* Clone();
+	Solid* Clone();
 
 	void Render();
 };

@@ -12,7 +12,7 @@ void Camera::Render()
 	glRotatef(this->GetOrientation().GetZ(), 0.0, 0.0, 1.0);
 }
 
-Camera* Camera::Clone()
+Solid* Camera::Clone()
 {
 	return new Camera(*this);
 }

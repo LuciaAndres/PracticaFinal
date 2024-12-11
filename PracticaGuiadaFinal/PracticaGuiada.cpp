@@ -15,8 +15,8 @@ const int WINDOW_POSITION_Y = 400;
 const char TITLE[] = "PARTE 1";
 bool fullScreenMode = false;
 const GLclampf RED = 0.2;
-const GLclampf GREEN = 0.6;
-const GLclampf BLUE = 0.5;
+const GLclampf GREEN = 0.4;
+const GLclampf BLUE = 0.8;
 const GLclampf ALPHA = 1.0;
 
 /////////////////////////FUNCIONES AUXILIARES/////////////////////////
@@ -108,6 +108,12 @@ void specialKey(int key, int x, int y)
 		break;
 	}
 }
+/////////////////////////NUEVAS FUNCIONES/////////////////////////
+
+void keyReleased(unsigned char key, int x, int y) {
+	game.ProcessKeyReleased(key, x, y); 
+	glutPostRedisplay();
+}
 
 /////////////////////////MAIN/////////////////////////
 
@@ -131,6 +137,7 @@ int main(int argc, char** argv)
 	glutMotionFunc(mouseMoved);
 	glutMouseFunc(mouseClicked);
 	glutIdleFunc(idle);
+	glutKeyboardUpFunc(keyReleased); //DETECTAR CUANDO UNA TECLA NO ESTA PRESIONADA
 	glutSetCursor(GLUT_CURSOR_NONE); //HACER EL CURSOR INVISIBLE
 
 
