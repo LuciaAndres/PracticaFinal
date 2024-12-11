@@ -32,8 +32,8 @@ private:
 public:
 
 	Player() :
-		CollisionHandler(Vector3D(0, 0, 1), Color(1, 0, 0), Vector3D(0, 0, 0),
-			0.5f, 0.5f, 1.8f, 20, 20, 0.0f),
+		CollisionHandler(Vector3D(0, 1, 1), Color(1, 0, 0), Vector3D(90, 0, 90),
+			0.5f, 0.5f, 2.0f, 20, 20, 0.0f),
 		mouseX(-1), mouseY(-1),
 		playerStep(0.2),
 		view(new FirstPersonCamera(Vector3D(0,0,0)))

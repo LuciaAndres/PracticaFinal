@@ -75,16 +75,21 @@ void Player::ProcessMouseMovement(int x, int y)
 
 void Player::Strafe(float direction)
 {
-	float yOrientation = degToRad(this->GetOrientation().GetY());
+	float yOrientation = degToRad(this->view->GetOrientation().GetY());
 
 	float xComponent = cos(yOrientation) * direction; 
 	float zComponent = sin(yOrientation) * direction;
 
 	Vector3D strafeVector(xComponent, 0, zComponent);
 
-	Vector3D newCoordinates = this->GetCoordinates() + strafeVector * playerStep;
+	strafeVector = strafeVector.Normalize();
+	std::cout << "old Coordinates: (" << GetCoordinates().GetX() << ", " << GetCoordinates().GetY() << ", " << GetCoordinates().GetZ() << ")\n";
+
+	Vector3D newCoordinates = this->view->GetCoordinates() + strafeVector * playerStep;
 	this->SetCoordinates(newCoordinates);
 	this->view->SetCoordinates(newCoordinates);
+
+	std::cout << "collision coords: " << CollisionHandler.GetCoordinates().GetX() << ", " << CollisionHandler.GetCoordinates().GetY() << ", " << CollisionHandler.GetCoordinates().GetZ() << std::endl;
 
 	std::cout << "Strafing: " << ((direction > 0) ? "Right" : "Left") << "\n";
 	std::cout << "New Coordinates: (" << newCoordinates.GetX() << ", " << newCoordinates.GetY() << ", " << newCoordinates.GetZ() << ")\n";

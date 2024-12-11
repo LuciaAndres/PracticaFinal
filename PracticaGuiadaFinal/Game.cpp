@@ -62,7 +62,7 @@ void Game::Init()
 
 	ModelLoader* loader = new ModelLoader();
 
-	Cuboid testCuboid = Cuboid(Vector3D(0, -2, 0), Color(0.8,0,0), Vector3D(0, 0, 0), 100, 0.1, 100);
+	Cuboid testCuboid = Cuboid(Vector3D(0, -2, 0), Color(0.8, 0.8, 0), Vector3D(0, 0, 0), 100, 0.1, 100);
 	Sphere testSphere = Sphere();
 	Solid* sphereTest = testSphere.Clone();
 	Solid* cuboidTest = testCuboid.Clone();
@@ -98,6 +98,7 @@ void Game::Init()
 void Game::Render()
 {
 	this->activeScene->Render();
+	this->player->Render();
 }
 
 void Game::Update()
