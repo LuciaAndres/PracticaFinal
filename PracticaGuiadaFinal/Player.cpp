@@ -10,20 +10,43 @@ void Player::UpdateMovement(float deltaTime)
 	float movementSpeed = playerStep * deltaTime;
 
 	if (keys['w'] || keys['W']) {
-		this->view->Update(movementSpeed);
+		this->MoveInDirection(1);
 	}
 	if (keys['s'] || keys['S']) {
-		this->view->Update(-movementSpeed);
+		this->MoveInDirection(-1);
 	}
 	if (keys['a'] || keys['A']) {
-		this->Strafe(-1);
+		this->StrafeInDirection(-1);
 	}
 	if (keys['d'] || keys['D']) {
-		this->Strafe(1);
+		this->StrafeInDirection(1);
 	}
 	if (keys['c'] || keys['C'])
 	{
 		std::cout << view->GetCoordinates().GetX() << ", " << view->GetCoordinates().GetY() << ", " << view->GetCoordinates().GetZ() << std::endl;
+		std::cout << verticalSpeed << std::endl;
+	}
+	if (keys[' '] && !isJumping)
+	{
+		isJumping = true;
+		verticalSpeed = jumpHeight;
+	}
+
+
+	if(isJumping)
+	{
+		verticalSpeed += gravity * deltaTime;
+
+		Vector3D currentPosition = view->GetCoordinates();
+		currentPosition.SetY(currentPosition.GetY() + verticalSpeed * deltaTime);
+
+		if (currentPosition.GetY() <= groundLevel) {
+			currentPosition.SetY(groundLevel);  
+			isJumping = false;   
+			verticalSpeed = 0.0f; 
+		}
+
+		view->SetCoordinates(currentPosition);  
 	}
 }
 /*
@@ -100,74 +123,23 @@ void Player::ProcessMouseMovement(int x, int y)
 
 	glutWarpPointer(centerX, centerY);
 }
-/*
-// Move the player forward
-void Player::MoveForward() {
-	this->MoveInDirection(1);  // Move forward by passing 1
-}
 
-// Move the player backward
-void Player::MoveBackward() {
-	this->MoveInDirection(-1); // Move backward by passing -1
-}
-
-// Strafe the player to the left
-void Player::StrafeLeft() {
-	this->StrafeInDirection(-1);  // Strafe left by passing -1
-}
-
-// Strafe the player to the right
-void Player::StrafeRight() {
-	this->StrafeInDirection(1);   // Strafe right by passing 1
-}
-
-// General movement in forward or backward direction
 void Player::MoveInDirection(float direction) {
-	// Calculate movement vector based on player orientation
+
 	float yOrientation = degToRad(this->view->GetOrientation().GetY());
 
-	// Calculate forward/backward movement vector
 	float xComponent = sin(yOrientation) * direction;
 	float zComponent = -cos(yOrientation) * direction;
 
 	Vector3D movementVector(xComponent, 0, zComponent);
-	movementVector = movementVector.Normalize();  // Normalize to ensure consistent speed
+	movementVector = movementVector.Normalize();
 
-	// Update speed but do not exceed MAX_SPEED
-	playerStep = min(playerStep + 0.001f, MAX_SPEED);
 
-	// Print the current speed for debugging
-	std::cout << "Forward/Backward speed: " << playerStep << std::endl;
-
-	// Calculate new coordinates by moving the player
 	Vector3D newCoordinates = this->view->GetCoordinates() + movementVector * playerStep;
 	this->view->SetCoordinates(newCoordinates);  // Update the player's position
 }
 
-// General strafing in left or right direction
-void Player::StrafeInDirection(float direction) {
-	// Calculate strafe vector based on player orientation
-	float yOrientation = degToRad(this->view->GetOrientation().GetY());
-
-	// Calculate left/right strafe vector
-	float xComponent = cos(yOrientation) * direction;
-	float zComponent = sin(yOrientation) * direction;
-
-	Vector3D strafeVector(xComponent, 0, zComponent);
-	strafeVector = strafeVector.Normalize();  // Normalize to ensure consistent speed
-
-	// Update speed but do not exceed MAX_SPEED
-	playerStep = min(playerStep + 0.001f, MAX_SPEED);
-
-	// Print the current speed for debugging
-	std::cout << "Strafe speed: " << playerStep << std::endl;
-
-	// Calculate new coordinates by strafing the player
-	Vector3D newCoordinates = this->view->GetCoordinates() + strafeVector * playerStep;
-	this->view->SetCoordinates(newCoordinates);  // Update the player's position
-}
-*/
-void Player::Strafe(float direction)
+void Player::StrafeInDirection(float direction)
 {
 	float yOrientation = degToRad(this->view->GetOrientation().GetY());
 
@@ -178,30 +150,8 @@ void Player::Strafe(float direction)
 
 	strafeVector = strafeVector.Normalize();
 
-	updateSpeed();
-
-	std::cout << playerStep << std::endl;
 	Vector3D newCoordinates = this->view->GetCoordinates() + strafeVector * playerStep;
 	this->view->SetCoordinates(newCoordinates);
-}
-
-Vector3D Player::calcSpeedVector()
-{
-	float yOrientation = degToRad(this->GetOrientation().GetY());
-	float xOrientation = degToRad(this->GetOrientation().GetX());
-
-	//Fly cam
-	//float xComponent = sin(yOrientation) * cos(xOrientation);
-	//float yComponent = -sin(xOrientation);
-	//float zComponent = -cos(yOrientation) * cos(xOrientation);
-
-	//Walking camera
-	float xComponent = sin(yOrientation);
-	float yComponent = 0;
-	float zComponent = -cos(yOrientation);
-
-	Vector3D speedVector = { xComponent, yComponent, zComponent };
-	return speedVector;
 }
 
 void Player::updateColliderCoords()
@@ -259,9 +209,3 @@ void Player::ProcessKeyReleased(unsigned char key, int px, int py) {
 	}
 }
 	
-void Player::updateSpeed()
-{
-
-	playerStep = min(playerStep + 0.001f, MAX_SPEED);
-
-}

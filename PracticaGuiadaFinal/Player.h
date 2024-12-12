@@ -11,23 +11,25 @@
 class Player : public Solid
 {
 private:
+	
 	int mouseX;
 	int mouseY;
 
-	Vector3D gravity = Vector3D(0, -9.81, 0);
+	float gravity = -9.81;
 
-	float playerStep;
+	bool isJumping = false;
+	float jumpHeight = 5.0f;
+	float verticalSpeed = 0.0f;
+	float groundLevel = 0.0f;
 
-	const float INITIAL_SPEED = 0.1f;
-	const float MAX_SPEED = 0.2f;
+	const float INITIAL_SPEED = 0.11f;
 
-	Vector3D calcSpeedVector();
-	void updateSpeed();
+	float playerStep = INITIAL_SPEED;
+
 	void updateColliderCoords();
-	
 	float Clamp(float value, float min, float max);
-
-	void Strafe(float direction);
+	void MoveInDirection(float direction);
+	void StrafeInDirection(float direction);
 
 	Cylinder Collider;
 
@@ -41,7 +43,6 @@ public:
 		Collider(Vector3D(0, 0, 1), Color(1, 0, 0), Vector3D(90, 0, 90),
 			0.5f, 0.5f, 2.0f, 20, 20, 0.0f),
 		mouseX(-1), mouseY(-1),
-		playerStep(0.002),
 		view(new FirstPersonCamera(Vector3D(0,0,0)))
 	{
 		SetIsStationary(false);
@@ -62,6 +63,7 @@ public:
 
 	inline float GetMouseY() const { return this->mouseY; }
 	inline void SetMouseY(const float& mouseyToSet) { this->mouseY = mouseyToSet; }
+
 
 	Solid* Clone();
 
