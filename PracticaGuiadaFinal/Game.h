@@ -9,7 +9,7 @@
 #include "Scene.h"
 #include "Model.h"
 #include "Player.h"
-#include "ModelLoader.h"
+#include "MaterialModelLoader.h"
 #include "FirstPersonCamera.h"
 #include <chrono>
 
@@ -18,7 +18,7 @@ using namespace std::chrono;
 class Game
 {
 private:
-	const double TIME_INCREMENT = 0.4;
+	const double TIME_INCREMENT = 0.016;
 	const long UPDATE_PERIOD = 1;
 
 	milliseconds initialMilliseconds;

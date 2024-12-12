@@ -23,7 +23,7 @@ private:
 
 public:
 
-	Solid() :coordinates(Vector3D(0.0, 0.0, -2.0)),
+	Solid() :coordinates(Vector3D(0.0, 0.0, 0.0)),
 		orientation(Vector3D(0, 0, 0)),
 		color(Color(0.2, 0.3, 0.4)) {}
 

@@ -66,9 +66,8 @@ void Game::Init()
 	testSphere.SetCoordinates(Vector3D(0, -0.5, 0));
 	Solid* sphereTest = testSphere.Clone();
 	Solid* cuboidTest = testCuboid.Clone();
-	sphereTest->SetSpeed(Vector3D(0, 0, 0));
 	mainScene->AddGameObject(sphereTest);
-	mainScene->AddGameObject(cuboidTest);
+	//mainScene->AddGameObject(cuboidTest);
 
 	
 	/*
@@ -81,17 +80,14 @@ void Game::Init()
 	player->SetSpeed(Vector3D(0.8, 0.8, 0.9));
 	player->PaintColor(Color(0.8, 0.8, 0.9));
 	mainScene->AddGameObject(player);
-
-	Model* star = new Model();
-	loader->LoadModel("..\\..\\3dModels\\star.obj");
-	*star = loader->getModel();
-	star->SetCoordinates(Vector3D(1, 1, 1));
-	star->SetOrientation(Vector3D(30, -60, -10));
-	star->SetOrientationSpeed(Vector3D(3, 2, 1));
-	star->SetSpeed(Vector3D(0.01, 0.02, 0.03)); 
-	star->PaintColor(Color(0.2, 0.5, 0.1));
-	mainScene->AddGameObject(star);
 	*/
+	Model* scenario = new Model();
+	loader->LoadModel("..\\..\\3dModels\\scene.obj");
+	*scenario = loader->getModel();
+	scenario->SetCoordinates(Vector3D(1, 1, 1));
+	scenario->PaintColor(Color(0.2, 0.5, 0.1));
+	mainScene->AddGameObject(scenario);
+	
 	loader->Clear();
 }
 
@@ -105,11 +101,11 @@ void Game::Update()
 
 	milliseconds currentTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
-	float deltaTime = currentTime.count() - lastUpdatedTime;
+	float deltaTime = (currentTime.count() - this->initialMilliseconds.count()) - this->lastUpdatedTime;
 
-	if ((currentTime.count() - this->initialMilliseconds.count()) - this->lastUpdatedTime > UPDATE_PERIOD)
+	if (deltaTime > UPDATE_PERIOD)
 	{
-		this->player->UpdateMovement(deltaTime);
+		this->player->UpdateMovement(TIME_INCREMENT);
 		this->activeScene->Update(TIME_INCREMENT);
 		this->lastUpdatedTime = currentTime.count() - this->initialMilliseconds.count();
 	}

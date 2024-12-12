@@ -18,7 +18,7 @@ private:
 	float gravity = -9.81;
 
 	bool isJumping = false;
-	float jumpHeight = 5.0f;
+	float jumpHeight = 3.0f;
 	float verticalSpeed = 0.0f;
 	float groundLevel = 0.0f;
 

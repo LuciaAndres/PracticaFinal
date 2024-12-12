@@ -26,6 +26,12 @@ void Player::UpdateMovement(float deltaTime)
 		std::cout << view->GetCoordinates().GetX() << ", " << view->GetCoordinates().GetY() << ", " << view->GetCoordinates().GetZ() << std::endl;
 		std::cout << verticalSpeed << std::endl;
 	}
+	if (keys['u'] || keys['U'])
+	{
+		Vector3D temp = this->view->GetCoordinates();
+		temp.SetY(5);
+		this->view->SetCoordinates(temp);
+	}
 	if (keys[' '] && !isJumping)
 	{
 		isJumping = true;
@@ -37,59 +43,19 @@ void Player::UpdateMovement(float deltaTime)
 	{
 		verticalSpeed += gravity * deltaTime;
 
-		Vector3D currentPosition = view->GetCoordinates();
+		Vector3D currentPosition = this->view->GetCoordinates();
 		currentPosition.SetY(currentPosition.GetY() + verticalSpeed * deltaTime);
-
+		std::cout << verticalSpeed << ", " << deltaTime << std::endl;
 		if (currentPosition.GetY() <= groundLevel) {
 			currentPosition.SetY(groundLevel);  
 			isJumping = false;   
 			verticalSpeed = 0.0f; 
 		}
 
-		view->SetCoordinates(currentPosition);  
+		this->view->SetCoordinates(currentPosition);  
 	}
 }
-/*
-void Player::ProcessKeyPressed(unsigned char key, int px, int py)
-{
-	
-	switch (key)
-	{/*
-	case 'w':
-	case 'W':
-		this->view->Update(playerStep);
-		break;
-	case 's':
-	case 'S':
-		this->view->Update(-1* playerStep);
-		break;
-	case 'a':
-	case 'A':
-		this->Strafe(-1);
-		break;
-	case 'd':
-	case 'D':
-		this->Strafe(1);
-		break;
-	case 'i':
-	case 'I':
-		this->view->SetCoordinates(Vector3D(GetCoordinates().GetX(), GetCoordinates().GetY() + 1, GetCoordinates().GetZ()));
-		break;
-	case 'k':
-	case 'K':
-		this->view->SetCoordinates(Vector3D(GetCoordinates().GetX(), GetCoordinates().GetY() - 1, GetCoordinates().GetZ()));
-		break;
-	case 27 :
-		exit(0);
-		break;
-		
-	default:
-		std::cout << "Key Pressed: " << key << " is not valid" << std::endl;
-		break;
-	}
-	updateColliderCoords();
-}
-*/
+
 void Player::ProcessMouseMovement(int x, int y)
 {
 	
@@ -132,8 +98,8 @@ void Player::MoveInDirection(float direction) {
 	float zComponent = -cos(yOrientation) * direction;
 
 	Vector3D movementVector(xComponent, 0, zComponent);
-	movementVector = movementVector.Normalize();
 
+	movementVector = movementVector.Normalize();
 
 	Vector3D newCoordinates = this->view->GetCoordinates() + movementVector * playerStep;
 	this->view->SetCoordinates(newCoordinates);  // Update the player's position

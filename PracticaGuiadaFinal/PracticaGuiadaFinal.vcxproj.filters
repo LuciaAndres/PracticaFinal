@@ -49,6 +49,9 @@
     <Filter Include="Source Files\Emmiter">
       <UniqueIdentifier>{8964fa16-eb9e-469a-ba6b-865f7f262b01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3dModels">
+      <UniqueIdentifier>{3c06879c-d016-4cf5-86bc-352a0d2404c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PracticaGuiada.cpp">
@@ -212,5 +215,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\..\..\..\Downloads\scene.obj">
+      <Filter>3dModels</Filter>
+    </Object>
   </ItemGroup>
 </Project>
