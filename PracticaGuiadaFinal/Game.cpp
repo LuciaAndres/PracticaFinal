@@ -72,7 +72,7 @@ void Game::Init()
 	Solid* sphereTest = testSphere.Clone();
 	Solid* cuboidTest = testCuboid.Clone();
 
-	mainScene->AddGameObject(sphereTest);
+	//mainScene->AddGameObject(sphereTest);
 	//mainScene->AddGameObject(cuboidTest);
 	//mainScene->AddHiddenObject(collider);
 	
@@ -90,19 +90,22 @@ void Game::Init()
 	Model* scenario = new Model();
 	//loader->LoadModel("..\\..\\3dModels\\soda.obj");
 	loader->setScale(0.05);
-	loader->LoadModel("C:\\Users\\lucas\\source\\repos\\PracticaFinalTest\\PracticaGuiadaFinal\\3dModels\\scene.obj");
+	loader->LoadModel("C:\\Users\\l.joglar.2023\\source\\repos\\PracticaFinalClase\\PracticaGuiadaFinal\\3dModels\\scene.obj");
 	*scenario = loader->getModel();
 	std::cout << loader->getMinY() << std::endl;
 	scenario->SetCoordinates(Vector3D(0, 10, 0));
 	scenario->PaintColor(Color(1,1,0));
 	scenario->SetIsStationary(true);
-	//mainScene->AddHiddenObject(scenario);
+	//mainScene->AddGameObject(scenario);
 
 	Collider* collider = player->getCollisionHandler();
 	mainScene->AddCollider(std::make_unique<CapsuleCollider>(*dynamic_cast<CapsuleCollider*>(collider)));
 
 	Collider* scenarioCollider = scenario->CreateMeshColliderFromModel(*scenario);
-	mainScene->AddCollider(std::make_unique<CapsuleCollider>(*dynamic_cast<CapsuleCollider*>(scenarioCollider)));
+	scenarioCollider->SetPosition(scenario->GetCoordinates());
+	mainScene->AddCollider(std::unique_ptr<Collider>(scenarioCollider));
+
+	
 }
 
 void Game::Render()

@@ -24,13 +24,14 @@ public:
 
 
 	bool CheckCollisionWithCapsule(CapsuleCollider& capsule);
-	std::unique_ptr<MeshCollider> CreateMeshColliderFromModel(const Model& model);
+	Collider* CreateMeshColliderFromModel(Model& model);
 
 	void Render();
 	void AddTriangle(Triangle triangle);
 	const std::vector<Triangle>& GetTriangles() const {
 		return triangles;
 	}
+
 	void Clear();
 	void PaintColor(Color color);
 	Solid* Clone();

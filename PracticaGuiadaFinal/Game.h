@@ -8,6 +8,7 @@
 #include "Emmiter.h"
 #include "Scene.h"
 #include "Model.h"
+#include "MeshCollider.h"
 #include "Player.h"
 #include "MaterialModelLoader.h"
 #include "FirstPersonCamera.h"

@@ -5,7 +5,7 @@
 
 class Solid
 {
-private:
+protected:
 
 	Vector3D coordinates;
 
