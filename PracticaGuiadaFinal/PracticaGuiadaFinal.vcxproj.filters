@@ -52,6 +52,12 @@
     <Filter Include="3dModels">
       <UniqueIdentifier>{3c06879c-d016-4cf5-86bc-352a0d2404c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Collider">
+      <UniqueIdentifier>{8e6029ee-dc12-4219-b159-7df22e1d86fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collider">
+      <UniqueIdentifier>{3bc09bb1-f168-40ff-b1d2-07ddb46034e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PracticaGuiada.cpp">
@@ -131,6 +137,18 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CapsuleCollider.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshCollider.cpp">
+      <Filter>Source Files\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,13 +230,20 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleCollider.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshCollider.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="..\..\..\..\Downloads\scene.obj">
-      <Filter>3dModels</Filter>
-    </Object>
   </ItemGroup>
 </Project>

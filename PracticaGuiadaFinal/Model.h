@@ -5,6 +5,8 @@
 #include "Solid.h"
 #include <vector>
 #include "Triangle.h"
+#include "CapsuleCollider.h"
+#include "MeshCollider.h"
 
 class Model : public Solid
 {
@@ -21,10 +23,16 @@ public:
 		Solid() {}
 
 
+	bool CheckCollisionWithCapsule(CapsuleCollider& capsule);
+	std::unique_ptr<MeshCollider> CreateMeshColliderFromModel(const Model& model);
+
 	void Render();
 	void AddTriangle(Triangle triangle);
+	const std::vector<Triangle>& GetTriangles() const {
+		return triangles;
+	}
 	void Clear();
 	void PaintColor(Color color);
-	Model* Clone();
+	Solid* Clone();
 };
 

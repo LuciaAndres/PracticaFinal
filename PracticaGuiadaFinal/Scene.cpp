@@ -6,29 +6,48 @@ void Scene::AddGameObject(Solid* object)
 	gameObjects.push_back(object);
 }
 
+void Scene::AddCollider(std::unique_ptr<Collider> collider)
+{
+	colliders.push_back((std::move(collider)));
+}
+
+void Scene::AddHiddenObject(Solid* object)
+{
+	object->SetIsHidden(true);
+	AddGameObject(object);
+}
+
 void Scene::Render()
 {
 	this->camera->Render();
 	for (auto& object : gameObjects)
 	{
-		object->Render();
+		if (!object->GetIsHidden())
+		{
+			object->Render();
+		}
 	}
 }
 
 void Scene::Update(const float& time)
 {
-	Vector3D gravity = Vector3D(0, 0, 0);
-	for (auto& object : gameObjects)
-	{
-		object->Update(time, gravity);
-		checkBoundary(object);
+	for (size_t i = 0; i < colliders.size(); ++i) {
+		for (size_t j = i + 1; j < colliders.size(); ++j) {
+			if (colliders[i]->CheckCollision(*colliders[j])) {
+				std::cout << "Collision detected between collider " << i << " and " << j << std::endl;
+			}
+		}
+	}
+
+	for (auto& collider : colliders) {
+		collider->DebugRenderer();
 	}
 }
 
 void Scene::checkBoundary(Solid* object)
 {
 	Vector3D oSpeed = object->GetSpeed();
-
+	
 	float SpeedX = oSpeed.GetX();
 	float SpeedY = oSpeed.GetY();
 	float SpeedZ = oSpeed.GetZ();

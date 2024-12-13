@@ -25,3 +25,8 @@ void MaterialModel::Clear()
 {
 	this->triangles.clear();
 }
+
+Solid* MaterialModel::Clone()
+{
+	return nullptr;
+}

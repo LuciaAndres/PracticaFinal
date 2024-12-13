@@ -32,9 +32,11 @@ public:
 
 	inline Model getModel() const { return model; }
 	inline float getScale() const { return scale; }
-	
+	inline float getMinY() const { return minY; }
 	inline void setScale(const float& scaleToSet) { scale = scaleToSet; }
 	void LoadModel(const string& filePath);
 	void Clear();
+	
+	void RenderBoundingBox();
 };
 

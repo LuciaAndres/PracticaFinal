@@ -34,13 +34,6 @@ public:
 	Game() : 
 	activeScene(nullptr), initialMilliseconds(duration_cast<milliseconds>(system_clock::now().time_since_epoch())), lastUpdatedTime(0), player(nullptr){}
 	
-
-
-
-	//inline Cuboid GetCuboidMiddle() { return this->cuboidMiddle; }
-
-
-
 	void Init();
 	void Render();
 	void Update();

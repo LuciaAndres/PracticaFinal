@@ -39,6 +39,7 @@ public:
 
 	float DotProduct(Vector3Dx<S> v);
 	float Magnitude();
+	float LenghtSquared();
 
 	Vector3Dx<S> operator+(Vector3Dx<S> v);
 	Vector3Dx<S> operator-(Vector3Dx<S> v);

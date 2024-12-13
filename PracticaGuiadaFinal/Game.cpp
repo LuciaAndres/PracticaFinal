@@ -37,6 +37,7 @@ void Game::ProcessKeyPressed(unsigned char key, int px, int py)
 				this->player->GetSpeed().GetY(),
 				this->player->GetSpeed().GetZ()));
 	}*/
+	
 	this->player->ProcessKeyPressed(key, px, py);
 }
 
@@ -55,6 +56,7 @@ void Game::Init()
 {
 	player = new Player();
     FirstPersonCamera* view = player->getFPC();
+
 	Scene* mainScene = new(nothrow) Scene(view);
 	this->scenes.push_back(mainScene);
 	this->activeScene = mainScene;
@@ -62,13 +64,17 @@ void Game::Init()
 	ModelLoader* loader = new ModelLoader();
 
 	Cuboid testCuboid = Cuboid(Vector3D(0, -2.1, 0), Color(0.8, 0.8, 0), Vector3D(0, 0, 0), 100, 0.1, 100);
+
 	Sphere testSphere = Sphere();
-	testSphere.SetCoordinates(Vector3D(0, -0.5, 0));
+	testSphere.SetCoordinates(Vector3D(0, 1, 0));
+	testSphere.SetRadius(1);
+
 	Solid* sphereTest = testSphere.Clone();
 	Solid* cuboidTest = testCuboid.Clone();
+
 	mainScene->AddGameObject(sphereTest);
 	//mainScene->AddGameObject(cuboidTest);
-
+	//mainScene->AddHiddenObject(collider);
 	
 	/*
 	this->player = new Model();
@@ -82,18 +88,27 @@ void Game::Init()
 	mainScene->AddGameObject(player);
 	*/
 	Model* scenario = new Model();
-	loader->LoadModel("..\\..\\3dModels\\scene.obj");
+	//loader->LoadModel("..\\..\\3dModels\\soda.obj");
+	loader->setScale(0.05);
+	loader->LoadModel("C:\\Users\\lucas\\source\\repos\\PracticaFinalTest\\PracticaGuiadaFinal\\3dModels\\scene.obj");
 	*scenario = loader->getModel();
-	scenario->SetCoordinates(Vector3D(1, 1, 1));
-	scenario->PaintColor(Color(0.2, 0.5, 0.1));
-	mainScene->AddGameObject(scenario);
-	
-	loader->Clear();
+	std::cout << loader->getMinY() << std::endl;
+	scenario->SetCoordinates(Vector3D(0, 10, 0));
+	scenario->PaintColor(Color(1,1,0));
+	scenario->SetIsStationary(true);
+	//mainScene->AddHiddenObject(scenario);
+
+	Collider* collider = player->getCollisionHandler();
+	mainScene->AddCollider(std::make_unique<CapsuleCollider>(*dynamic_cast<CapsuleCollider*>(collider)));
+
+	Collider* scenarioCollider = scenario->CreateMeshColliderFromModel(*scenario);
+	mainScene->AddCollider(std::make_unique<CapsuleCollider>(*dynamic_cast<CapsuleCollider*>(scenarioCollider)));
 }
 
 void Game::Render()
 {
 	this->activeScene->Render();
+	player->getCollisionHandler()->DebugRenderer();
 }
 
 void Game::Update()

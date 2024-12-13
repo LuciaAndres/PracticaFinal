@@ -21,6 +21,84 @@ void Triangle::Render()
 	glEnd();
 }
 
+Vector3D Triangle::GetClosestPointToSegment(Vector3D& start, Vector3D& end) {
+    Vector3D edge1 = vertex2Coords - vertex1Coords;
+    Vector3D edge2 = vertex3Coords - vertex1Coords;
+    Vector3D normal = edge1.Cross(edge2).Normalize();
+
+    Vector3D segmentDir = end - start;
+    float t = (vertex1Coords - start).DotProduct(normal) / segmentDir.DotProduct(normal);
+
+    if (t < 0) t = 0;
+    if (t > 1) t = 1;
+
+    Vector3D projectionPoint = start + segmentDir * t;
+
+    if (PointInTriangle(projectionPoint)) {
+        return projectionPoint;
+    }
+
+    Vector3D closestPoint = vertex1Coords;
+    float closestDist = (projectionPoint - vertex1Coords).Magnitude();
+
+    Vector3D tempPoint;
+    float tempDist;
+
+    tempPoint = ClosestPointOnSegment(projectionPoint, vertex2Coords, vertex3Coords);
+    tempDist = (projectionPoint - tempPoint).Magnitude();
+    if (tempDist < closestDist) {
+        closestDist = tempDist;
+        closestPoint = tempPoint;
+    }
+
+    tempPoint = ClosestPointOnSegment(projectionPoint, vertex1Coords, vertex2Coords);
+    tempDist = (projectionPoint - tempPoint).Magnitude();
+    if (tempDist < closestDist) {
+        closestDist = tempDist;
+        closestPoint = tempPoint;
+    }
+
+    tempPoint = ClosestPointOnSegment(projectionPoint, vertex3Coords, vertex1Coords);
+    tempDist = (projectionPoint - tempPoint).Magnitude();
+    if (tempDist < closestDist) {
+        closestDist = tempDist;
+        closestPoint = tempPoint;
+    }
+
+    return closestPoint;
+}
+
+bool Triangle::PointInTriangle(Vector3D& point) {
+    Vector3D edge1 = vertex2Coords - vertex1Coords;
+    Vector3D edge2 = vertex3Coords - vertex1Coords;
+    Vector3D edge3 = vertex1Coords - vertex3Coords;
+
+    Vector3D c1 = point - vertex1Coords;
+    Vector3D c2 = point - vertex2Coords;
+    Vector3D c3 = point - vertex3Coords;
+
+    if (edge1.Cross(c1).DotProduct(edge1.Cross(edge2)) >= 0 &&
+        edge2.Cross(c2).DotProduct(edge2.Cross(edge3)) >= 0 &&
+        edge3.Cross(c3).DotProduct(edge3.Cross(edge1)) >= 0) {
+        return true;
+    }
+
+    return false;
+}
+
+Vector3D Triangle::ClosestPointOnSegment(Vector3D& point, Vector3D& segStart, Vector3D& segEnd) {
+    Vector3D segmentDir = segEnd - segStart;
+    float t = (point - segStart).DotProduct(segmentDir) / segmentDir.DotProduct(segmentDir);
+    t = Clamp(t, 0.0f, 1.0f);
+    return segStart + segmentDir * t;
+}
+
+float Triangle::Clamp(float value, float min, float max) {
+    if (value < min) return min;
+    if (value > max) return max;
+    return value;
+}
+
 Triangle* Triangle::Clone()
 {
 	return nullptr;

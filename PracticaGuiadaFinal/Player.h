@@ -2,7 +2,8 @@
 #include "util.h"
 #include "Solid.h"
 #include "FirstPersonCamera.h"
-#include "Cylinder.h"
+#include "Cuboid.h"
+#include "CapsuleCollider.h"
 #include "ModelLoader.h"
 #include <math.h>
 #define degToRad(angleInDegrees) ((angleInDegrees) * M_PI / 180.0) 
@@ -18,11 +19,11 @@ private:
 	float gravity = -9.81;
 
 	bool isJumping = false;
-	float jumpHeight = 3.0f;
+	float jumpHeight = 5.0f;
 	float verticalSpeed = 0.0f;
-	float groundLevel = 0.0f;
+	float groundLevel = 2.5f;
 
-	const float INITIAL_SPEED = 0.11f;
+	const float INITIAL_SPEED = 0.14f;
 
 	float playerStep = INITIAL_SPEED;
 
@@ -31,7 +32,7 @@ private:
 	void MoveInDirection(float direction);
 	void StrafeInDirection(float direction);
 
-	Cylinder Collider;
+	std::unique_ptr<CapsuleCollider> playerCollider;
 
 	FirstPersonCamera* view;
 
@@ -40,12 +41,11 @@ private:
 public:
 
 	Player() :
-		Collider(Vector3D(0, 0, 1), Color(1, 0, 0), Vector3D(90, 0, 90),
-			0.5f, 0.5f, 2.0f, 20, 20, 0.0f),
 		mouseX(-1), mouseY(-1),
-		view(new FirstPersonCamera(Vector3D(0,0,0)))
+		view(new FirstPersonCamera(Vector3D(0,2.5,0)))
 	{
 		SetIsStationary(false);
+		playerCollider = std::make_unique<CapsuleCollider>(Vector3D(0, 0, 0), Vector3D(0, 2.8, 0), 1.0f);
 	}
 	
 	bool CheckCollision(Solid* other);
@@ -64,12 +64,12 @@ public:
 	inline float GetMouseY() const { return this->mouseY; }
 	inline void SetMouseY(const float& mouseyToSet) { this->mouseY = mouseyToSet; }
 
+	Collider* getCollisionHandler() {
+		return playerCollider.get();
+	}
 
 	Solid* Clone();
 
 	void Render();
 
 };
-
-
-

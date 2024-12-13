@@ -3,7 +3,8 @@
 
 bool Player::CheckCollision(Solid* other)
 {
-	return Collider.CheckCollision(other);
+	//return Collider->CheckCollision(other);
+	return false;
 }
 void Player::UpdateMovement(float deltaTime)
 {
@@ -26,10 +27,16 @@ void Player::UpdateMovement(float deltaTime)
 		std::cout << view->GetCoordinates().GetX() << ", " << view->GetCoordinates().GetY() << ", " << view->GetCoordinates().GetZ() << std::endl;
 		std::cout << verticalSpeed << std::endl;
 	}
-	if (keys['u'] || keys['U'])
+	if (keys['i'] || keys['I'])
 	{
 		Vector3D temp = this->view->GetCoordinates();
-		temp.SetY(5);
+		temp.SetY(temp.GetY()+1);
+		this->view->SetCoordinates(temp);
+	}
+	if (keys['k'] || keys['K'])
+	{
+		Vector3D temp = this->view->GetCoordinates();
+		temp.SetY(temp.GetY() - 1);
 		this->view->SetCoordinates(temp);
 	}
 	if (keys[' '] && !isJumping)
@@ -54,6 +61,7 @@ void Player::UpdateMovement(float deltaTime)
 
 		this->view->SetCoordinates(currentPosition);  
 	}
+	updateColliderCoords();
 }
 
 void Player::ProcessMouseMovement(int x, int y)
@@ -122,7 +130,7 @@ void Player::StrafeInDirection(float direction)
 
 void Player::updateColliderCoords()
 {
-	this->Collider.SetCoordinates(Vector3D(this->view->GetCoordinates()));
+	//this->Collider->SetCoordinates(Vector3D(this->view->GetCoordinates()));
 }
 
 float Player::Clamp(float value, float min, float max)
@@ -144,7 +152,7 @@ Solid* Player::Clone()
 
 void Player::Render()
 {
-	Collider.Render();
+	//Collider->Render();
 }
 
 void Player::ProcessKeyPressed(unsigned char key, int px, int py) {

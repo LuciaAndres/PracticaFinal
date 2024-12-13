@@ -16,3 +16,8 @@ Solid* Sphere::Clone()
 {
 	return new Sphere(*this);
 }
+
+Collider* Sphere::GetCollider()
+{
+	return new SphereCollider(this->GetCoordinates(), this->radius);
+}

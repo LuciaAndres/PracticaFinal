@@ -37,7 +37,22 @@ void Model::PaintColor(Color color)
 	}
 }
 
-Model* Model::Clone()
+bool Model::CheckCollisionWithCapsule(CapsuleCollider& capsule)
+{
+	for (auto& triangle : triangles) {
+		if (capsule.CheckCollisionWithTriangle(triangle)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+std::unique_ptr<MeshCollider> Model::CreateMeshColliderFromModel(const Model& model) {
+	std::vector<Triangle> meshTriangles = model.GetTriangles();
+	return std::make_unique<MeshCollider>(meshTriangles);
+}
+
+Solid* Model::Clone()
 {
 	return nullptr;
 }

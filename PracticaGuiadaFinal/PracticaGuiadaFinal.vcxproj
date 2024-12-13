@@ -129,6 +129,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CapsuleCollider.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="Cube.cpp" />
@@ -142,6 +144,7 @@
     <ClCompile Include="MaterialModel.cpp" />
     <ClCompile Include="MaterialModelLoader.cpp" />
     <ClCompile Include="MaterialTriangle.cpp" />
+    <ClCompile Include="MeshCollider.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -149,6 +152,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Solid.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Teapot.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Torus.cpp" />
@@ -157,6 +161,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CapsuleCollider.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="Cube.h" />
@@ -170,7 +176,9 @@
     <ClInclude Include="MaterialModel.h" />
     <ClInclude Include="MaterialModelLoader.h" />
     <ClInclude Include="MaterialTriangle.h" />
+    <ClInclude Include="MeshCollider.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelLoader.h" />
@@ -185,9 +193,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="..\..\..\..\Downloads\scene.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

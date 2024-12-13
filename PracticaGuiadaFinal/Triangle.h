@@ -35,9 +35,10 @@ public:
 	Triangle* Clone();
 	void Render();
 
-
-
-
+	Vector3D GetClosestPointToSegment(Vector3D& start, Vector3D& end);
+	bool PointInTriangle(Vector3D& point);
+	Vector3D ClosestPointOnSegment(Vector3D& point, Vector3D& segStart, Vector3D& segEnd);
+	float Clamp(float value, float min, float max);
 	inline Color getColor0() const { return vertex1Color; }
 	inline Vector3D getNormal0() const { return vertex1Normal; }
 	inline Vector3D getCoords0() const { return vertex1Coords; }

@@ -16,6 +16,6 @@ public:
 	void AddMaterialTriangle(MaterialTriangle triangle);
 	void Clear();
 	void Render();
-	MaterialModel* Clone();
+	Solid* Clone();
 };
 

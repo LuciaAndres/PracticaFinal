@@ -3,8 +3,8 @@
 void ModelLoader::calcBoundaries(Vector3D vectorPoint)
 {
 	this->maxX = fmax(this->maxX, vectorPoint.GetX()); 
-	this->maxY = fmax(this->maxY, vectorPoint.GetX());
-	this->maxZ = fmax(this->maxZ, vectorPoint.GetX());
+	this->maxY = fmax(this->maxY, vectorPoint.GetY());
+	this->maxZ = fmax(this->maxZ, vectorPoint.GetZ());
 	this->minX = fmin(this->minX, vectorPoint.GetX()); 
 	this->minY = fmin(this->minY, vectorPoint.GetY());
 	this->minZ = fmin(this->minZ, vectorPoint.GetZ());
@@ -109,4 +109,47 @@ void ModelLoader::Clear()
 {
 	this->verts.clear();
 	this->normals.clear();
+}
+
+void ModelLoader::RenderBoundingBox()
+{
+	glBegin(GL_LINES);
+
+	// Front face
+	glVertex3f(minX, minY, minZ);
+	glVertex3f(maxX, minY, minZ);
+
+	glVertex3f(maxX, minY, minZ);
+	glVertex3f(maxX, maxY, minZ);
+
+	glVertex3f(maxX, maxY, minZ);
+	glVertex3f(minX, maxY, minZ);
+
+	glVertex3f(minX, maxY, minZ);
+	glVertex3f(minX, minY, minZ);
+
+	glVertex3f(maxX, minY, maxZ);
+
+	glVertex3f(maxX, minY, maxZ);
+	glVertex3f(maxX, maxY, maxZ);
+
+	glVertex3f(maxX, maxY, maxZ);
+	glVertex3f(minX, maxY, maxZ);
+
+	glVertex3f(minX, maxY, maxZ);
+	glVertex3f(minX, minY, maxZ);
+
+	glVertex3f(minX, minY, minZ);
+	glVertex3f(minX, minY, maxZ);
+
+	glVertex3f(maxX, minY, minZ);
+	glVertex3f(maxX, minY, maxZ);
+
+	glVertex3f(maxX, maxY, minZ);
+	glVertex3f(maxX, maxY, maxZ);
+
+	glVertex3f(minX, maxY, minZ);
+	glVertex3f(minX, maxY, maxZ);
+
+	glEnd();
 }
