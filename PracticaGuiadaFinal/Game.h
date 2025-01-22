@@ -20,7 +20,7 @@ class Game
 {
 private:
 	const double TIME_INCREMENT = 0.016;
-	const long UPDATE_PERIOD = 1;
+	const long UPDATE_PERIOD = 0.016;
 
 	milliseconds initialMilliseconds;
 	long lastUpdatedTime;;
@@ -28,7 +28,10 @@ private:
 	Scene* activeScene;
 	vector<Scene*> scenes;
 
+	Model* enemy;
 	Player* player;
+
+	UI ui;
 
 public:
 

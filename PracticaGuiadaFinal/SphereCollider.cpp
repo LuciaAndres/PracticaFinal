@@ -4,7 +4,7 @@ bool SphereCollider::CheckCollision(Collider& other)
 {
     const SphereCollider* sphere = dynamic_cast<SphereCollider*>(&other);
     if (sphere) {
-        float distanceSquared = (this->center - sphere->center).LenghtSquared();
+        float distanceSquared = (this->center - sphere->center).LengthSquared();
         float radiusSum = radius + sphere->radius;
         return distanceSquared <= (radiusSum * radiusSum);
     }

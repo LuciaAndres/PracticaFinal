@@ -127,7 +127,6 @@ int main(int argc, char** argv)
 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutInitWindowPosition(WINDOW_POSITION_X, WINDOW_POSITION_Y);
 	glutCreateWindow(TITLE);
-
 	writeLine("Registrando funciones de tratamiento de eventos");
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(display);

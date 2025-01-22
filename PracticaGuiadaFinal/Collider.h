@@ -3,7 +3,7 @@
 
 class Collider
 {
-private:
+protected:
 
 	Vector3D position;
 	float scale;
@@ -13,6 +13,11 @@ public:
 	Collider() {}
 	virtual bool CheckCollision(Collider& other) = 0;
 	virtual void DebugRenderer() = 0;
+	virtual void UpdatePosition(Vector3D newPosition)
+	{
+		SetPosition(newPosition);
+	}
+	
 	virtual ~Collider() {}
 
 	inline void SetPosition(const Vector3D& positionToSet) { this->position = positionToSet; }

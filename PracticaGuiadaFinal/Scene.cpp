@@ -20,6 +20,7 @@ void Scene::AddHiddenObject(Solid* object)
 void Scene::Render()
 {
 	this->camera->Render();
+
 	for (auto& object : gameObjects)
 	{
 		if (!object->GetIsHidden())
@@ -27,20 +28,33 @@ void Scene::Render()
 			object->Render();
 		}
 	}
+	for (auto& collider : colliders) {
+		collider->DebugRenderer();
+	}
+
 }
 
-void Scene::Update(const float& time)
-{
-	for (size_t i = 0; i < colliders.size(); ++i) {
-		for (size_t j = i + 1; j < colliders.size(); ++j) {
-			if (colliders[i]->CheckCollision(*colliders[j])) {
-				std::cout << "Collision detected between collider " << i << " and " << j << std::endl;
+void Scene::Update(const float& time) {
+	for (auto& object : gameObjects) {
+		object->Update(time, Vector3D(0, -9.81f, 0));
+
+		// Update associated collider position if it exists
+		for (auto& collider : colliders) {
+			if (auto* meshCollider = dynamic_cast<MeshCollider*>(collider.get())){
+				meshCollider->SetPosition(object->GetCoordinates());
 			}
 		}
 	}
+	// Check collisions
+	for (size_t i = 0; i < colliders.size(); ++i) {
+		for (size_t j = i + 1; j < colliders.size(); ++j) {
+			if (colliders[i]->CheckCollision(*colliders[j])) {
+				//std::cout << "Collision detected between collider " << i << " and " << j << std::endl;
+				//std::cout << "Collision coords of " << i << " are " << colliders[i].get()->GetPosition().GetX() << ", " << colliders[i].get()->GetPosition().GetY() << ", " << colliders[i].get()->GetPosition().GetZ() << std::endl;
+				//std::cout << "Collision coords of " << j << " are " << colliders[j].get()->GetPosition().GetX() << ", " << colliders[j].get()->GetPosition().GetY() << ", " << colliders[j].get()->GetPosition().GetZ() << std::endl;
 
-	for (auto& collider : colliders) {
-		collider->DebugRenderer();
+			}
+		}
 	}
 }
 

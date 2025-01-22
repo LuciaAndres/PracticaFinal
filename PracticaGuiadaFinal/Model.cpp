@@ -1,7 +1,7 @@
 #include "Model.h"
 void Model::Render()
 {
-
+	//glDisable(GL_LIGHTING);
 	glPushMatrix();
 	glTranslatef(this->GetCoordinates().GetX(), this->GetCoordinates().GetY(), this->GetCoordinates().GetZ());
 	glColor3f(this->GetColor().GetRed(), this->GetColor().GetGreen(), this->GetColor().GetBlue());
@@ -15,6 +15,7 @@ void Model::Render()
 	}
 
 	glPopMatrix();
+	//glEnable(GL_LIGHTING);
 }
 
 void Model::AddTriangle(Triangle triangle)
@@ -47,9 +48,9 @@ bool Model::CheckCollisionWithCapsule(CapsuleCollider& capsule)
 	return false;
 }
 
-Collider* Model::CreateMeshColliderFromModel(Model& model) {
-	std::vector<Triangle> meshTriangles = model.GetTriangles();
-	std::unique_ptr<MeshCollider> meshCollider = std::make_unique<MeshCollider>(meshTriangles);
+Collider* Model::CreateMeshColliderFromModel() {
+	std::unique_ptr<MeshCollider> meshCollider = std::make_unique<MeshCollider>(this->triangles);
+	meshCollider->UpdatePosition(this->GetCoordinates());
 	return meshCollider.release();
 }
 

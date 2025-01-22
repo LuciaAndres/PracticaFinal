@@ -32,5 +32,6 @@ public:
 
     void DebugRenderer() override;
     inline float GetRadius() const { return this->radius; }
+    void Update();
 };
 

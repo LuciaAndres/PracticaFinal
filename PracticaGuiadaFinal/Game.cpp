@@ -61,7 +61,9 @@ void Game::Init()
 	this->scenes.push_back(mainScene);
 	this->activeScene = mainScene;
 
+	ModelLoader* collisionLoader = new ModelLoader();
 	ModelLoader* loader = new ModelLoader();
+	ModelLoader* loaderT = new ModelLoader();
 
 	Cuboid testCuboid = Cuboid(Vector3D(0, -2.1, 0), Color(0.8, 0.8, 0), Vector3D(0, 0, 0), 100, 0.1, 100);
 
@@ -88,30 +90,43 @@ void Game::Init()
 	mainScene->AddGameObject(player);
 	*/
 	Model* scenario = new Model();
+	enemy = new Model();
 	//loader->LoadModel("..\\..\\3dModels\\soda.obj");
 	loader->setScale(0.05);
-	loader->LoadModel("C:\\Users\\l.joglar.2023\\source\\repos\\PracticaFinalClase\\PracticaGuiadaFinal\\3dModels\\scene.obj");
+	loader->LoadModel(".\\3dModels\\scene2.obj");
 	*scenario = loader->getModel();
-	std::cout << loader->getMinY() << std::endl;
 	scenario->SetCoordinates(Vector3D(0, 10, 0));
-	scenario->PaintColor(Color(1,1,0));
+	scenario->PaintColor(Color(1, 0, 0));
 	scenario->SetIsStationary(true);
-	//mainScene->AddGameObject(scenario);
-
-	Collider* collider = player->getCollisionHandler();
-	mainScene->AddCollider(std::make_unique<CapsuleCollider>(*dynamic_cast<CapsuleCollider*>(collider)));
-
-	Collider* scenarioCollider = scenario->CreateMeshColliderFromModel(*scenario);
-	scenarioCollider->SetPosition(scenario->GetCoordinates());
+	mainScene->AddGameObject(scenario);
+	loader->Clear();
+	loaderT->setScale(0.15);
+	//loaderT->LoadModel(".\\3dModels\\enemigo.obj");
+	loaderT->LoadModel(".\\3dModels\\ammo.obj");
+	*enemy = loaderT->getModel();
+	enemy->SetCoordinates(Vector3D(0, 1, 0));
+	enemy->SetOrientation(Vector3D(0, 90, 0));
+	//enemy->PaintColor(Color(1,0.6,0));
+	enemy->PaintColor(Color(0,0.6,0));
+	mainScene->AddGameObject(enemy);
+	
+	Model* collider = new Model();
+	collisionLoader->setScale(0.05);
+	collisionLoader->LoadModel(".\\3dModels\\ramp.obj");
+	*collider = collisionLoader->getModel();
+	collider->SetCoordinates(scenario->GetCoordinates());
+	Collider* scenarioCollider = collider->CreateMeshColliderFromModel();
 	mainScene->AddCollider(std::unique_ptr<Collider>(scenarioCollider));
-
+	mainScene->AddCollider(std::unique_ptr<Collider>(player->getCollisionHandler()));
 	
 }
 
 void Game::Render()
 {
+	//this->activeScene->Render();
+	//player->getCollisionHandler()->DebugRenderer();
 	this->activeScene->Render();
-	player->getCollisionHandler()->DebugRenderer();
+	ui.Render();
 }
 
 void Game::Update()
@@ -123,8 +138,12 @@ void Game::Update()
 
 	if (deltaTime > UPDATE_PERIOD)
 	{
-		this->player->UpdateMovement(TIME_INCREMENT);
-		this->activeScene->Update(TIME_INCREMENT);
+		enemy->SetOrientation(Vector3D(0, enemy->GetOrientation().GetY() + 1, 0));
+		enemy->SetCoordinates(Vector3D(0, cos(2 * deg2rad(enemy->GetOrientation().GetY())), 0));
+		double time = deltaTime / 1000;
+		this->player->Update(time);
+		this->activeScene->Update(time);
+		ui.UpdateFPS(time);
 		this->lastUpdatedTime = currentTime.count() - this->initialMilliseconds.count();
 	}
 }

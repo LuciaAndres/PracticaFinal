@@ -16,7 +16,7 @@ private:
 	int mouseX;
 	int mouseY;
 
-	float gravity = -9.81;
+	float gravity = -10;
 
 	bool isJumping = false;
 	float jumpHeight = 5.0f;
@@ -27,10 +27,14 @@ private:
 
 	float playerStep = INITIAL_SPEED;
 
-	void updateColliderCoords();
+	void updateColliderCoords(Vector3D coords);
 	float Clamp(float value, float min, float max);
 	void MoveInDirection(float direction);
+	void MoveInDirectionDebug(float direction);
 	void StrafeInDirection(float direction);
+	void StrafeInDirectionDebug(float direction);
+	void UpdateMovement(float deltaTime);
+	void UpdateCamera(float deltaTime);
 
 	std::unique_ptr<CapsuleCollider> playerCollider;
 
@@ -45,7 +49,7 @@ public:
 		view(new FirstPersonCamera(Vector3D(0,2.5,0)))
 	{
 		SetIsStationary(false);
-		playerCollider = std::make_unique<CapsuleCollider>(Vector3D(0, 0, 0), Vector3D(0, 2.8, 0), 1.0f);
+		playerCollider = std::make_unique<CapsuleCollider>(Vector3D(0, -3.75, 0), Vector3D(0, 0.75, 0), 1.0f);
 	}
 	
 	bool CheckCollision(Solid* other);
@@ -54,7 +58,7 @@ public:
 
 
 	void ProcessMouseMovement(int x, int y);
-	void UpdateMovement(float deltaTime);
+	void Update(float deltaTime);
 	void ProcessKeyPressed(unsigned char key, int px, int py);
 	void ProcessKeyReleased(unsigned char key, int px, int py);
 

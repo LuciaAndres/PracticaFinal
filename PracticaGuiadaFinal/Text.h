@@ -12,8 +12,15 @@ private:
 public:
 	Text() :
 		Solid(), text("null") {}
-	
-	void Render();
+
+	Text(string text) :
+		Solid(), text(text) {}
+
 	Text* Clone();
+	void Render();
+	void renderOnScreenAt(float x, float y);
+
+	inline string getText() const { return this->text; }
+	inline void setText(const string& textToSet) { this->text = textToSet; }
 };
 

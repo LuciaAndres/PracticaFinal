@@ -49,12 +49,12 @@ template <class S> float Vector3Dx<S>::DotProduct(Vector3Dx<S> v)
 	return float((this->GetX() * v.GetX()) + (this->GetY() * v.GetY()) + (this->GetZ() * v.GetZ()));
 }
 
-template <class S> float Vector3Dx<S>::Magnitude()
+template <class S> S Vector3Dx<S>::Magnitude()
 {
-	return float(sqrt(LenghtSquared()));
+	return float(sqrt(LengthSquared()));
 }
-
-template <class S> float Vector3Dx<S>::LenghtSquared()
+							
+template <class S> S Vector3Dx<S>::LengthSquared()
 {
 	return float(pow(this->GetX(), 2) + pow(this->GetY(), 2) + pow(this->GetZ(), 2));
 }
@@ -77,10 +77,4 @@ template <class S> Vector3Dx<S> Vector3Dx<S>::operator*(S v) const
 template <class S> Vector3Dx<S> Vector3Dx<S>::operator/(S v) const
 {
 	return Divide(v);
-}
-
-template <class S> std::ostream& operator<<(std::ostream& os, const Vector3Dx<S>& v)
-{
-	os << "(" << v.GetX() << ", " << v.GetY() << ", " << v.GetZ() << ")";
-	return os;
 }

@@ -6,6 +6,20 @@ bool Player::CheckCollision(Solid* other)
 	//return Collider->CheckCollision(other);
 	return false;
 }
+
+void Player::Update(float deltaTime)
+{
+	this->UpdateMovement(deltaTime);
+	this->UpdateCamera(deltaTime);
+	this->updateColliderCoords(this->GetCoordinates());
+}
+
+void Player::UpdateCamera(float deltaTime)
+{
+	this->view->SetCoordinates(this->GetCoordinates());
+	this->view->SetOrientation(this->GetOrientation());
+	this->view->Update(deltaTime);
+}
 void Player::UpdateMovement(float deltaTime)
 {
 	float movementSpeed = playerStep * deltaTime;
@@ -29,15 +43,31 @@ void Player::UpdateMovement(float deltaTime)
 	}
 	if (keys['i'] || keys['I'])
 	{
-		Vector3D temp = this->view->GetCoordinates();
-		temp.SetY(temp.GetY()+1);
-		this->view->SetCoordinates(temp);
+		this->MoveInDirectionDebug(1);
 	}
 	if (keys['k'] || keys['K'])
 	{
-		Vector3D temp = this->view->GetCoordinates();
+		this->MoveInDirectionDebug(-1);
+	}
+	if (keys['j'] || keys['J'])
+	{
+		this->StrafeInDirectionDebug(-1);
+	}
+	if (keys['l'] || keys['L'])
+	{
+		this->StrafeInDirectionDebug(1);
+	}
+	if (keys['t'] || keys['T'])
+	{
+		Vector3D temp = this->GetCoordinates();
+		temp.SetY(temp.GetY() + 1);
+		this->SetCoordinates(temp);
+	}
+	if (keys['g'] || keys['G'])
+	{
+		Vector3D temp = this->GetCoordinates();
 		temp.SetY(temp.GetY() - 1);
-		this->view->SetCoordinates(temp);
+		this->SetCoordinates(temp);
 	}
 	if (keys[' '] && !isJumping)
 	{
@@ -50,18 +80,17 @@ void Player::UpdateMovement(float deltaTime)
 	{
 		verticalSpeed += gravity * deltaTime;
 
-		Vector3D currentPosition = this->view->GetCoordinates();
+		Vector3D currentPosition = this->GetCoordinates();
 		currentPosition.SetY(currentPosition.GetY() + verticalSpeed * deltaTime);
-		std::cout << verticalSpeed << ", " << deltaTime << std::endl;
+		//std::cout << verticalSpeed << ", " << deltaTime << std::endl;
 		if (currentPosition.GetY() <= groundLevel) {
 			currentPosition.SetY(groundLevel);  
 			isJumping = false;   
 			verticalSpeed = 0.0f; 
 		}
 
-		this->view->SetCoordinates(currentPosition);  
+		this->SetCoordinates(currentPosition); 
 	}
-	updateColliderCoords();
 }
 
 void Player::ProcessMouseMovement(int x, int y)
@@ -89,7 +118,6 @@ void Player::ProcessMouseMovement(int x, int y)
 		orientation.SetX(Clamp(orientation.GetX(), -89.0f, 89.0f));
 
 		this->SetOrientation(orientation);
-		this->view->SetOrientation(orientation);
 
 	}
 
@@ -100,7 +128,7 @@ void Player::ProcessMouseMovement(int x, int y)
 
 void Player::MoveInDirection(float direction) {
 
-	float yOrientation = degToRad(this->view->GetOrientation().GetY());
+	float yOrientation = degToRad(this->GetOrientation().GetY());
 
 	float xComponent = sin(yOrientation) * direction;
 	float zComponent = -cos(yOrientation) * direction;
@@ -109,13 +137,28 @@ void Player::MoveInDirection(float direction) {
 
 	movementVector = movementVector.Normalize();
 
-	Vector3D newCoordinates = this->view->GetCoordinates() + movementVector * playerStep;
-	this->view->SetCoordinates(newCoordinates);  // Update the player's position
+	Vector3D newCoordinates = this->GetCoordinates() + movementVector * playerStep;
+	this->SetCoordinates(newCoordinates);  // Update the player's position
+}
+
+void Player::MoveInDirectionDebug(float direction) {
+
+	float yOrientation = degToRad(this->GetOrientation().GetY());
+
+	float xComponent = sin(yOrientation) * direction;
+	float zComponent = -cos(yOrientation) * direction;
+
+	Vector3D movementVector(xComponent, 0, zComponent);
+
+	movementVector = movementVector.Normalize();
+
+	Vector3D newCoordinates = this->GetCoordinates() + movementVector * playerStep;
+	this->SetCoordinates(newCoordinates);  // Update the player's position
 }
 
 void Player::StrafeInDirection(float direction)
 {
-	float yOrientation = degToRad(this->view->GetOrientation().GetY());
+	float yOrientation = degToRad(this->GetOrientation().GetY());
 
 	float xComponent = cos(yOrientation) * direction; 
 	float zComponent = sin(yOrientation) * direction;
@@ -124,13 +167,29 @@ void Player::StrafeInDirection(float direction)
 
 	strafeVector = strafeVector.Normalize();
 
-	Vector3D newCoordinates = this->view->GetCoordinates() + strafeVector * playerStep;
-	this->view->SetCoordinates(newCoordinates);
+	Vector3D newCoordinates = this->GetCoordinates() + strafeVector * playerStep;
+	this->SetCoordinates(newCoordinates);
 }
 
-void Player::updateColliderCoords()
+void Player::StrafeInDirectionDebug(float direction)
 {
-	//this->Collider->SetCoordinates(Vector3D(this->view->GetCoordinates()));
+	float yOrientation = degToRad(this->GetOrientation().GetY());
+
+	float xComponent = cos(yOrientation) * direction;
+	float zComponent = sin(yOrientation) * direction;
+
+	Vector3D strafeVector(xComponent, 0, zComponent);
+
+	strafeVector = strafeVector.Normalize();
+
+	Vector3D newCoordinates = this->GetCoordinates() + strafeVector * playerStep;
+	this->SetCoordinates(newCoordinates);
+}
+
+void Player::updateColliderCoords(Vector3D coords)
+{
+	this->playerCollider->SetPosition(coords);
+	//std::cout << coords.GetX() << ", " << coords.GetY() << ", " << coords.GetZ() << endl;
 }
 
 float Player::Clamp(float value, float min, float max)

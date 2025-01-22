@@ -3,7 +3,8 @@
 #include "Solid.h"
 #include "Camera.h"
 #include "Vector3D.h"
-#include "Collider.h"
+#include "MeshCollider.h"
+#include "UI.h"
 
 
 

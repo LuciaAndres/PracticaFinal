@@ -38,16 +38,21 @@ public:
 	Vector3Dx<S> Normalize();
 
 	float DotProduct(Vector3Dx<S> v);
-	float Magnitude();
-	float LenghtSquared();
+	S Magnitude();
+	S LengthSquared();
 
 	Vector3Dx<S> operator+(Vector3Dx<S> v);
 	Vector3Dx<S> operator-(Vector3Dx<S> v);
 	Vector3Dx<S> operator*(S s) const;
 	Vector3Dx<S> operator/(S s) const;
 
-	friend std::ostream& operator<<(std::ostream& os, const Vector3Dx<S>& v); //No funciona
+	template <class T>
+	friend std::ostream& operator<<(std::ostream& os, const Vector3Dx<T>& v);
 
 };
 
-
+template <class S>
+std::ostream& operator<<(std::ostream& os, const Vector3Dx<S>& v) {
+	os << "(" << v.GetX() << ", " << v.GetY() << ", " << v.GetZ() << ")";
+	return os;
+}

@@ -1,4 +1,5 @@
 #include "CapsuleCollider.h"
+#include <iostream>
 
 bool CapsuleCollider::CheckCollision(Collider& other) {
     CapsuleCollider* capsule = dynamic_cast<CapsuleCollider*>(&other);
@@ -14,28 +15,30 @@ bool CapsuleCollider::CheckCollision(Collider& other) {
     return false; // Extend for other collision types
 }
 
-bool CapsuleCollider::CheckCollisionWithTriangle(Triangle& triangle)
-{
-    Vector3D closestPointOnTriangle = triangle.GetClosestPointToSegment(start, end);
-    float distance = (closestPointOnTriangle - start).Magnitude();
+bool CapsuleCollider::CheckCollisionWithTriangle(Triangle& triangle) {
+    Vector3D startUpdated = this->start + this->position;
+    Vector3D endUpdated = this->end + this->position;
+    Vector3D closestPointOnTriangle = triangle.GetClosestPointToSegment(startUpdated, endUpdated);
+    //std::cout << this->start << " , "  << this->end << std::endl;
+    float distanceSquared = (closestPointOnTriangle - startUpdated).LengthSquared();
 
-    return distance <= GetRadius();
+    return distanceSquared <= (this->radius * this->radius);
 }
 
 void CapsuleCollider::DebugRenderer() {
 
     glBegin(GL_LINES);
-    glVertex3f(start.GetX(), start.GetY(), start.GetZ());
-    glVertex3f(end.GetX(), end.GetY(), end.GetZ());
+    glVertex3f(start.GetX() + position.GetX(), start.GetY() + position.GetY(), start.GetZ() + position.GetZ());
+    glVertex3f(end.GetX() + position.GetX(), end.GetY() + position.GetY(), end.GetZ() + position.GetZ());
     glEnd();
 
     glPushMatrix();
-    glTranslatef(start.GetX(), start.GetY(), start.GetZ());
+    glTranslatef(start.GetX() + position.GetX(), start.GetY() + position.GetY(), start.GetZ() + position.GetZ());
     glutWireSphere(radius, 16, 16);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(end.GetX(), end.GetY(), end.GetZ());
+    glTranslatef(end.GetX() + position.GetX(), end.GetY() + position.GetY(), end.GetZ() + position.GetZ());
     glutWireSphere(radius, 16, 16);
     glPopMatrix();
 }
@@ -85,7 +88,7 @@ float CapsuleCollider::ClosestDistanceBetweenSegments(Vector3D& p1, Vector3D& q1
     c1 = p1 + d1 * s;
     c2 = p2 + d2 * t;
 
-    return (c1 - c2).LenghtSquared();
+    return (c1 - c2).LengthSquared();
 }
 
 float CapsuleCollider::Clamp(float value, float min, float max)
