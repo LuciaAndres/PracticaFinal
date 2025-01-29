@@ -22,6 +22,7 @@ private:
 
 	void checkBoundary(Solid* object);
 
+	static Scene* instance;
 public:
 	Scene() : camera(new Camera()), boundary(Vector3D(8, 6, 4)) {}
 
@@ -29,7 +30,7 @@ public:
 
 	virtual void AddGameObject(Solid* object);
 	virtual void AddCollider(std::unique_ptr<Collider> collider);
-	
+	virtual MeshCollider* GetScenarioCollider();
 	virtual void AddHiddenObject(Solid* object);
 	virtual void Update(const float& time);
 	virtual void Render();

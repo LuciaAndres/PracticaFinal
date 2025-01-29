@@ -12,7 +12,7 @@ const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 const int WINDOW_POSITION_X = 300;
 const int WINDOW_POSITION_Y = 400;
-const char TITLE[] = "PARTE 1";
+const char TITLE[] = "FIRST PERSON SHOOTER";
 bool fullScreenMode = false;
 const GLclampf RED = 0.2;
 const GLclampf GREEN = 0.4;
@@ -120,7 +120,6 @@ void keyReleased(unsigned char key, int x, int y) {
 int main(int argc, char** argv)
 {
 	writeLine("Hello world con OpenGL");
-
 	writeLine("Generando ventana...");
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);

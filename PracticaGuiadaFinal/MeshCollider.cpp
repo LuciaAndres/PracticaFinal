@@ -2,18 +2,47 @@
 #include "CapsuleCollider.h"
 bool MeshCollider::CheckCollision(Collider& other) {
     // Handle CapsuleCollider specifically
-    CapsuleCollider* capsule = dynamic_cast<CapsuleCollider*>(&other);
-    if (capsule) {
-        return CheckCollisionWithCapsule(*capsule);
+    if (IsWithinBounds(other))
+    {
+        CapsuleCollider* capsule = dynamic_cast<CapsuleCollider*>(&other);
+        if (capsule) {
+            return CheckCollisionWithCapsule(*capsule);
+        }
     }
     return false; // Extend for other collider types if needed
 }
 
 bool MeshCollider::CheckCollisionWithCapsule(CapsuleCollider& capsule) {
-    for (auto& triangle : triangles) {
-        // Check if the capsule intersects any triangle
-        if (capsule.CheckCollisionWithTriangle(triangle)) {
-            return true; // Collision detected
+    for (const auto& triangle : triangles) {
+        // Transform triangle vertices to world space
+        Triangle worldTriangle(
+            triangle.getCoords0() + this->GetPosition(),
+            triangle.getCoords1() + this->GetPosition(),
+            triangle.getCoords2() + this->GetPosition(),
+            triangle.getNormal0(),
+            triangle.getNormal1(),
+            triangle.getNormal2(),
+            triangle.getColor0(),
+            triangle.getColor1(),
+            triangle.getColor2()
+        );
+
+        if (worldTriangle.getCoords0() == worldTriangle.getCoords1() ||
+            worldTriangle.getCoords1() == worldTriangle.getCoords2() ||
+            worldTriangle.getCoords2() == worldTriangle.getCoords0()) {
+            std::cout << "Skipping invalid triangle: "
+                << worldTriangle.getCoords0() << ", "
+                << worldTriangle.getCoords1() << ", "
+                << worldTriangle.getCoords2() << std::endl;
+            continue;
+        }
+
+        if (capsule.CheckCollisionWithTriangle(worldTriangle)) {
+            std::cout << "Collision detected with triangle at: "
+                << worldTriangle.getCoords0() << ", "
+                << worldTriangle.getCoords1() << ", "
+                << worldTriangle.getCoords2() << std::endl;
+            return true;
         }
     }
     return false; // No collision detected
@@ -39,6 +68,46 @@ void MeshCollider::DebugRenderer() {
         glVertex3f(triangle.getCoords2().GetX(), triangle.getCoords2().GetY(), triangle.getCoords2().GetZ());
         glVertex3f(triangle.getCoords0().GetX(), triangle.getCoords0().GetY(), triangle.getCoords0().GetZ());
     }
+    glColor3f(1.0f, 1.0f, 0.0f);
+    //BOUNDING BOX
+    glVertex3f(minBounds.GetX(), minBounds.GetY(), minBounds.GetZ());
+    glVertex3f(maxBounds.GetX(), minBounds.GetY(), minBounds.GetZ());
+
+    glVertex3f(maxBounds.GetX(), minBounds.GetY(), minBounds.GetZ());
+    glVertex3f(maxBounds.GetX(), maxBounds.GetY(), minBounds.GetZ());
+
+    glVertex3f(maxBounds.GetX(), maxBounds.GetY(), minBounds.GetZ());
+    glVertex3f(minBounds.GetX(), maxBounds.GetY(), minBounds.GetZ());
+
+    glVertex3f(minBounds.GetX(), maxBounds.GetY(), minBounds.GetZ());
+    glVertex3f(minBounds.GetX(), minBounds.GetY(), minBounds.GetZ());
+
+    // Back face
+    glVertex3f(minBounds.GetX(), minBounds.GetY(), maxBounds.GetZ());
+    glVertex3f(maxBounds.GetX(), minBounds.GetY(), maxBounds.GetZ());
+
+    glVertex3f(maxBounds.GetX(), minBounds.GetY(), maxBounds.GetZ());
+    glVertex3f(maxBounds.GetX(), maxBounds.GetY(), maxBounds.GetZ());
+
+    glVertex3f(maxBounds.GetX(), maxBounds.GetY(), maxBounds.GetZ());
+    glVertex3f(minBounds.GetX(), maxBounds.GetY(), maxBounds.GetZ());
+
+    glVertex3f(minBounds.GetX(), maxBounds.GetY(), maxBounds.GetZ());
+    glVertex3f(minBounds.GetX(), minBounds.GetY(), maxBounds.GetZ());
+
+    // Connect front and back faces
+    glVertex3f(minBounds.GetX(), minBounds.GetY(), minBounds.GetZ());
+    glVertex3f(minBounds.GetX(), minBounds.GetY(), maxBounds.GetZ());
+
+    glVertex3f(maxBounds.GetX(), minBounds.GetY(), minBounds.GetZ());
+    glVertex3f(maxBounds.GetX(), minBounds.GetY(), maxBounds.GetZ());
+
+    glVertex3f(maxBounds.GetX(), maxBounds.GetY(), minBounds.GetZ());
+    glVertex3f(maxBounds.GetX(), maxBounds.GetY(), maxBounds.GetZ());
+
+    glVertex3f(minBounds.GetX(), maxBounds.GetY(), minBounds.GetZ());
+    glVertex3f(minBounds.GetX(), maxBounds.GetY(), maxBounds.GetZ());
+
     glEnd();
 
     glEnable(GL_LIGHTING);
@@ -46,8 +115,6 @@ void MeshCollider::DebugRenderer() {
 
 void MeshCollider::UpdatePosition(Vector3D newPosition){
     Vector3D offset = newPosition - this->GetPosition();
-    //std::cout << "Vector3D: (" << newPosition.GetX() << ", " << newPosition.GetY() << ", " << newPosition.GetZ() << ")" << std::endl;
-    //std::cout << "Vector3D: (" << this->GetPosition().GetX() << ", " << this->GetPosition().GetY() << ", " << this->GetPosition().GetZ() << ")" << std::endl;
     this->SetPosition(newPosition);
 
     for (auto& triangle : triangles) {
@@ -55,7 +122,9 @@ void MeshCollider::UpdatePosition(Vector3D newPosition){
         triangle.setCoords1(triangle.getCoords1() + offset);
         triangle.setCoords2(triangle.getCoords2() + offset);
     }
+    CalculateBounds();
 }
+
 void MeshCollider::CalculateBounds() {
     if (triangles.empty()) return;
 

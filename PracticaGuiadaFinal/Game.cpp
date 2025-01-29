@@ -78,17 +78,12 @@ void Game::Init()
 	//mainScene->AddGameObject(cuboidTest);
 	//mainScene->AddHiddenObject(collider);
 	
-	/*
-	this->player = new Model();
 	
-	loader->LoadModel("..\\..\\3dModels\\player.obj");
-	*this->player = loader->getModel();
-	player->SetCoordinates(Vector3D(0, 0, 1));
-	player->SetOrientation(Vector3D(15, 180, 0));
-	player->SetSpeed(Vector3D(0.8, 0.8, 0.9));
-	player->PaintColor(Color(0.8, 0.8, 0.9));
-	mainScene->AddGameObject(player);
-	*/
+	
+	player->SetCoordinates(Vector3D(-20, 2.5, -60));
+	player->SetOrientation(Vector3D(0, 180, 0));
+	player->SetScene(mainScene);
+
 	Model* scenario = new Model();
 	enemy = new Model();
 	//loader->LoadModel("..\\..\\3dModels\\soda.obj");
@@ -119,6 +114,7 @@ void Game::Init()
 	mainScene->AddCollider(std::unique_ptr<Collider>(scenarioCollider));
 	mainScene->AddCollider(std::unique_ptr<Collider>(player->getCollisionHandler()));
 	
+
 }
 
 void Game::Render()

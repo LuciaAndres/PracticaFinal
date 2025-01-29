@@ -37,15 +37,18 @@ public:
 	Vector3Dx<S> Cross(Vector3Dx<S> b);
 	Vector3Dx<S> Normalize();
 
+
 	float DotProduct(Vector3Dx<S> v);
 	S Magnitude();
 	S LengthSquared();
+	bool isZero();
 
 	Vector3Dx<S> operator+(Vector3Dx<S> v);
 	Vector3Dx<S> operator-(Vector3Dx<S> v);
 	Vector3Dx<S> operator*(S s) const;
 	Vector3Dx<S> operator/(S s) const;
 
+	bool operator==(Vector3Dx<S> v);
 	template <class T>
 	friend std::ostream& operator<<(std::ostream& os, const Vector3Dx<T>& v);
 

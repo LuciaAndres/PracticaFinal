@@ -17,6 +17,14 @@ void Scene::AddHiddenObject(Solid* object)
 	AddGameObject(object);
 }
 
+MeshCollider* Scene::GetScenarioCollider() {
+	for (auto& collider : colliders) {
+		if (auto* meshCollider = dynamic_cast<MeshCollider*>(collider.get())) {
+			return meshCollider;
+		}
+	}
+	return nullptr; // No MeshCollider found
+}
 void Scene::Render()
 {
 	this->camera->Render();
@@ -31,7 +39,6 @@ void Scene::Render()
 	for (auto& collider : colliders) {
 		collider->DebugRenderer();
 	}
-
 }
 
 void Scene::Update(const float& time) {

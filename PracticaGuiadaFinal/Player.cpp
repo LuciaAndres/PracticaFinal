@@ -12,6 +12,7 @@ void Player::Update(float deltaTime)
 	this->UpdateMovement(deltaTime);
 	this->UpdateCamera(deltaTime);
 	this->updateColliderCoords(this->GetCoordinates());
+	this->ApplyGravity(deltaTime);
 }
 
 void Player::UpdateCamera(float deltaTime)
@@ -22,7 +23,7 @@ void Player::UpdateCamera(float deltaTime)
 }
 void Player::UpdateMovement(float deltaTime)
 {
-	float movementSpeed = playerStep * deltaTime;
+	Vector3D originalPosition = GetCoordinates();
 
 	if (keys['w'] || keys['W']) {
 		this->MoveInDirection(1);
@@ -91,6 +92,15 @@ void Player::UpdateMovement(float deltaTime)
 
 		this->SetCoordinates(currentPosition); 
 	}
+
+	if (scene && scene->GetScenarioCollider()->CheckCollision(*playerCollider)) {
+		std::cout << "Collision detected at: " << GetCoordinates() << std::endl;
+		SetCoordinates(originalPosition); // Revert position
+	}
+	else {
+		std::cout << "No collision at: " << GetCoordinates() << std::endl;
+	}
+
 }
 
 void Player::ProcessMouseMovement(int x, int y)
@@ -137,13 +147,15 @@ void Player::MoveInDirection(float direction) {
 
 	movementVector = movementVector.Normalize();
 
+
 	Vector3D newCoordinates = this->GetCoordinates() + movementVector * playerStep;
+
 	this->SetCoordinates(newCoordinates);  // Update the player's position
 }
 
 void Player::MoveInDirectionDebug(float direction) {
 
-	float yOrientation = degToRad(this->GetOrientation().GetY());
+	float yOrientation = degToRad(this->GetOrientation(). GetY());
 
 	float xComponent = sin(yOrientation) * direction;
 	float zComponent = -cos(yOrientation) * direction;
@@ -241,4 +253,7 @@ void Player::ProcessKeyReleased(unsigned char key, int px, int py) {
 		break;
 	}
 }
-	
+void Player::ApplyGravity(float deltaTime)
+{
+
+}

@@ -107,7 +107,6 @@ void ModelLoader::LoadModel(const std::string& filePath)
 
 void ModelLoader::Clear()
 {
-	std::cout << "Me mato" << endl;
 	this->verts.clear();
 	this->normals.clear();
 	cout << "Size: " << verts.size() << endl;

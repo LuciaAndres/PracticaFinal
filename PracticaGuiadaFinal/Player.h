@@ -5,6 +5,7 @@
 #include "Cuboid.h"
 #include "CapsuleCollider.h"
 #include "ModelLoader.h"
+#include "Scene.h"
 #include <math.h>
 #define degToRad(angleInDegrees) ((angleInDegrees) * M_PI / 180.0) 
 #define radToDeg(angleInRadians) ((angleInRadians) * 180.0 / M_PI)
@@ -35,13 +36,17 @@ private:
 	void StrafeInDirectionDebug(float direction);
 	void UpdateMovement(float deltaTime);
 	void UpdateCamera(float deltaTime);
+	void ApplyGravity(float deltaTime);
 
 	std::unique_ptr<CapsuleCollider> playerCollider;
+
+	Scene* scene;
 
 	FirstPersonCamera* view;
 
 	bool keys[256] = { false };
 	bool fullScreenMode = false;
+
 public:
 
 	Player() :
@@ -67,6 +72,8 @@ public:
 
 	inline float GetMouseY() const { return this->mouseY; }
 	inline void SetMouseY(const float& mouseyToSet) { this->mouseY = mouseyToSet; }
+
+	void SetScene(Scene* newScene) { scene = newScene; }
 
 	Collider* getCollisionHandler() {
 		return playerCollider.get();

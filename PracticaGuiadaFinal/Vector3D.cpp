@@ -58,7 +58,10 @@ template <class S> S Vector3Dx<S>::LengthSquared()
 {
 	return float(pow(this->GetX(), 2) + pow(this->GetY(), 2) + pow(this->GetZ(), 2));
 }
-
+template <class S> bool Vector3Dx<S>::isZero()
+{
+	return (GetX() == 0 && GetY() == 0 && GetZ() == 0);
+}
 template <class S> Vector3Dx<S> Vector3Dx<S>::operator+(Vector3Dx<S> v)
 {
 	return Add(v);
@@ -77,4 +80,9 @@ template <class S> Vector3Dx<S> Vector3Dx<S>::operator*(S v) const
 template <class S> Vector3Dx<S> Vector3Dx<S>::operator/(S v) const
 {
 	return Divide(v);
+}	
+
+template <class S> bool Vector3Dx<S>::operator==(Vector3Dx<S> v)
+{
+	return this->GetX() == v.GetX() && this->GetY() == v.GetY() && this->GetZ() == v.GetZ();
 }
