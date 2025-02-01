@@ -24,7 +24,6 @@ public:
 
 
 	bool CheckCollisionWithCapsule(CapsuleCollider& capsule);
-	Collider* CreateMeshColliderFromModel();
 
 	void Render();
 	void AddTriangle(Triangle triangle);

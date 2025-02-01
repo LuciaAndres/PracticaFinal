@@ -48,12 +48,6 @@ bool Model::CheckCollisionWithCapsule(CapsuleCollider& capsule)
 	return false;
 }
 
-Collider* Model::CreateMeshColliderFromModel() {
-	std::unique_ptr<MeshCollider> meshCollider = std::make_unique<MeshCollider>(this->triangles);
-	meshCollider->UpdatePosition(this->GetCoordinates());
-	return meshCollider.release();
-}
-
 Solid* Model::Clone()
 {
 	return nullptr;

@@ -35,9 +35,9 @@ private:
 
 public:
 
-	Game() : 
+	Game() :
 	activeScene(nullptr), initialMilliseconds(duration_cast<milliseconds>(system_clock::now().time_since_epoch())), lastUpdatedTime(0), player(nullptr), enemy(nullptr){}
-	
+
 	void Init();
 	void Render();
 	void Update();

@@ -12,13 +12,14 @@ private:
 	float screenWidth = 800;
 	float screenHeight = 600;
 
+	void RenderFPS();
+	void RenderCrosshair();
 public:
 
 	UI() :
-		fps("FPS: null") {}
+		fps("FPS: null") {
+	}
 
 	void UpdateFPS(float deltaTime);
 	void Render();
-	void RenderFPS();
 };
-

@@ -2,6 +2,7 @@
 void UI::Render()
 {
 	RenderFPS();
+	RenderCrosshair();
 }
 
 void UI::RenderFPS()
@@ -29,7 +30,7 @@ void UI::RenderFPS()
 	if (windowWidth == screenWidth && windowHeight == screenHeight)
 	{
 		xPos = 5;
-		yPos = screenHeight - 30.0f;	
+		yPos = screenHeight - 30.0f;
 	}
 	fps.SetColor(Color(1, 1, 1));
 	fps.renderOnScreenAt(xPos, yPos);
@@ -55,4 +56,37 @@ void UI::UpdateFPS(float deltaTime)
 		fpsUpdateTimer = 0.0f;   // Reset the timer
 		frameCount = 0;          // Reset the frame count
 	}
+}
+
+void UI::RenderCrosshair() {
+	glColor3f(1.0f, 1.0f, 1.0f); // White color for the crosshair
+	glDisable(GL_LIGHTING);
+	glLineWidth(2.0f);
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(0, glutGet(GLUT_WINDOW_WIDTH), 0, glutGet(GLUT_WINDOW_HEIGHT));
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	int centerX = glutGet(GLUT_WINDOW_WIDTH) / 2;
+	int centerY = glutGet(GLUT_WINDOW_HEIGHT) / 2;
+
+	glBegin(GL_LINES);
+	// Vertical Line
+	glVertex2f(centerX, centerY - 10);
+	glVertex2f(centerX, centerY + 10);
+
+	// Horizontal Line
+	glVertex2f(centerX - 10, centerY);
+	glVertex2f(centerX + 10, centerY);
+	glEnd();
+	glEnable(GL_LIGHTING);
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
 }

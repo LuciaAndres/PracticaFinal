@@ -1,9 +1,7 @@
 #include "Player.h"
-#include <algorithm>
 
 bool Player::CheckCollision(Solid* other)
 {
-	//return Collider->CheckCollision(other);
 	return false;
 }
 
@@ -11,7 +9,6 @@ void Player::Update(float deltaTime)
 {
 	this->UpdateMovement(deltaTime);
 	this->UpdateCamera(deltaTime);
-	this->updateColliderCoords(this->GetCoordinates());
 	this->ApplyGravity(deltaTime);
 }
 
@@ -77,35 +74,21 @@ void Player::UpdateMovement(float deltaTime)
 	}
 
 
-	if(isJumping)
-	{
-		verticalSpeed += gravity * deltaTime;
+	Vector3D newPosition = GetCoordinates();
+	AABB newBoundingBox(newPosition - Vector3D(0.75, 2.5, 0.75), newPosition + Vector3D(0.75, 1.0, 0.75));
 
-		Vector3D currentPosition = this->GetCoordinates();
-		currentPosition.SetY(currentPosition.GetY() + verticalSpeed * deltaTime);
-		//std::cout << verticalSpeed << ", " << deltaTime << std::endl;
-		if (currentPosition.GetY() <= groundLevel) {
-			currentPosition.SetY(groundLevel);  
-			isJumping = false;   
-			verticalSpeed = 0.0f; 
-		}
-
-		this->SetCoordinates(currentPosition); 
-	}
-
-	if (scene && scene->GetScenarioCollider()->CheckCollision(*playerCollider)) {
-		std::cout << "Collision detected at: " << GetCoordinates() << std::endl;
-		SetCoordinates(originalPosition); // Revert position
+	// Collision check
+	if (scene && scene->GetScenarioCollider()->CheckCollision(newBoundingBox)) {
+		// Collision detected, revert position
+		SetCoordinates(originalPosition);
 	}
 	else {
-		std::cout << "No collision at: " << GetCoordinates() << std::endl;
+		playerBoundingBox = newBoundingBox;
 	}
-
 }
 
 void Player::ProcessMouseMovement(int x, int y)
 {
-	
 	static bool firstMouse = true;
 
 	int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
@@ -114,21 +97,18 @@ void Player::ProcessMouseMovement(int x, int y)
 	int centerX = windowWidth / 2;
 	int centerY = windowHeight / 2;
 
-	if(!firstMouse)
+	if (!firstMouse)
 	{
-
 		float deltaX = x - centerX;
 		float deltaY = y - centerY;
 
 		float tempSensValue = 0.3f;
-
 
 		Vector3D orientation = this->GetOrientation() + Vector3D(deltaY * tempSensValue, deltaX * tempSensValue, 0);
 
 		orientation.SetX(Clamp(orientation.GetX(), -89.0f, 89.0f));
 
 		this->SetOrientation(orientation);
-
 	}
 
 	firstMouse = false;
@@ -137,7 +117,6 @@ void Player::ProcessMouseMovement(int x, int y)
 }
 
 void Player::MoveInDirection(float direction) {
-
 	float yOrientation = degToRad(this->GetOrientation().GetY());
 
 	float xComponent = sin(yOrientation) * direction;
@@ -147,15 +126,13 @@ void Player::MoveInDirection(float direction) {
 
 	movementVector = movementVector.Normalize();
 
-
 	Vector3D newCoordinates = this->GetCoordinates() + movementVector * playerStep;
 
 	this->SetCoordinates(newCoordinates);  // Update the player's position
 }
 
 void Player::MoveInDirectionDebug(float direction) {
-
-	float yOrientation = degToRad(this->GetOrientation(). GetY());
+	float yOrientation = degToRad(this->GetOrientation().GetY());
 
 	float xComponent = sin(yOrientation) * direction;
 	float zComponent = -cos(yOrientation) * direction;
@@ -165,14 +142,14 @@ void Player::MoveInDirectionDebug(float direction) {
 	movementVector = movementVector.Normalize();
 
 	Vector3D newCoordinates = this->GetCoordinates() + movementVector * playerStep;
-	this->SetCoordinates(newCoordinates);  // Update the player's position
+	this->view->SetCoordinates(newCoordinates);  // Update the player's position
 }
 
 void Player::StrafeInDirection(float direction)
 {
 	float yOrientation = degToRad(this->GetOrientation().GetY());
 
-	float xComponent = cos(yOrientation) * direction; 
+	float xComponent = cos(yOrientation) * direction;
 	float zComponent = sin(yOrientation) * direction;
 
 	Vector3D strafeVector(xComponent, 0, zComponent);
@@ -195,13 +172,7 @@ void Player::StrafeInDirectionDebug(float direction)
 	strafeVector = strafeVector.Normalize();
 
 	Vector3D newCoordinates = this->GetCoordinates() + strafeVector * playerStep;
-	this->SetCoordinates(newCoordinates);
-}
-
-void Player::updateColliderCoords(Vector3D coords)
-{
-	this->playerCollider->SetPosition(coords);
-	//std::cout << coords.GetX() << ", " << coords.GetY() << ", " << coords.GetZ() << endl;
+	this->view->SetCoordinates(newCoordinates);
 }
 
 float Player::Clamp(float value, float min, float max)
@@ -210,7 +181,7 @@ float Player::Clamp(float value, float min, float max)
 	{
 		return min;
 	}
-	else if(value > max) {
+	else if (value > max) {
 		return max;
 	}
 	return value;
@@ -224,6 +195,8 @@ Solid* Player::Clone()
 void Player::Render()
 {
 	//Collider->Render();
+	; // Green color for player's bounding box
+	playerBoundingBox.DebugRenderer(Color(0,1,0));
 }
 
 void Player::ProcessKeyPressed(unsigned char key, int px, int py) {
@@ -253,7 +226,29 @@ void Player::ProcessKeyReleased(unsigned char key, int px, int py) {
 		break;
 	}
 }
-void Player::ApplyGravity(float deltaTime)
-{
 
+void Player::ApplyGravity(float deltaTime) {
+	if (isJumping) {
+		verticalSpeed += gravity * deltaTime;
+	}
+
+	Vector3D currentPosition = GetCoordinates();
+	Vector3D newPosition = currentPosition;
+	newPosition.SetY(newPosition.GetY() + verticalSpeed * deltaTime);
+
+	// Update AABB for the new position
+	AABB newBoundingBox(newPosition - Vector3D(0.75, 4.5, 0.75), newPosition + Vector3D(0.75, 1.0, 0.75));
+
+
+	if (scene && scene->GetScenarioCollider()->CheckCollision(newBoundingBox)) {
+		// Collision detected with the floor
+		if (verticalSpeed < 0) { // Falling down
+			newPosition.SetY(currentPosition.GetY()); // Stop falling
+			isJumping = false;
+			verticalSpeed = 0.0f;
+		}
+	}
+
+	SetCoordinates(newPosition);
+	playerBoundingBox = newBoundingBox; // Update the bounding box
 }

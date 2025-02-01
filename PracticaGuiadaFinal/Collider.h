@@ -17,7 +17,6 @@ public:
 	{
 		SetPosition(newPosition);
 	}
-	
 	virtual ~Collider() {}
 
 	inline void SetPosition(const Vector3D& positionToSet) { this->position = positionToSet; }

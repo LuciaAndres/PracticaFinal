@@ -12,7 +12,7 @@ void Game::ProcessKeyPressed(unsigned char key, int px, int py)
 				this->player->GetSpeed().GetX(),
 				this->player->GetSpeed().GetY() + 0.01,
 				this->player->GetSpeed().GetZ()));
-	} 
+	}
 	else if (key == 's')
 	{
 		this->player->SetSpeed(
@@ -37,7 +37,7 @@ void Game::ProcessKeyPressed(unsigned char key, int px, int py)
 				this->player->GetSpeed().GetY(),
 				this->player->GetSpeed().GetZ()));
 	}*/
-	
+
 	this->player->ProcessKeyPressed(key, px, py);
 }
 
@@ -50,12 +50,12 @@ void Game::ProcessMouseMovement(int x, int y)
 void Game::ProcessMouseClick(int button, int state, int x, int y)
 {
 	std::cout << "Clic: " << button << std::endl;
-	
 }
+
 void Game::Init()
 {
 	player = new Player();
-    FirstPersonCamera* view = player->getFPC();
+	FirstPersonCamera* view = player->getFPC();
 
 	Scene* mainScene = new(nothrow) Scene(view);
 	this->scenes.push_back(mainScene);
@@ -77,23 +77,33 @@ void Game::Init()
 	//mainScene->AddGameObject(sphereTest);
 	//mainScene->AddGameObject(cuboidTest);
 	//mainScene->AddHiddenObject(collider);
-	
-	
-	
+
 	player->SetCoordinates(Vector3D(-20, 2.5, -60));
 	player->SetOrientation(Vector3D(0, 180, 0));
 	player->SetScene(mainScene);
 
 	Model* scenario = new Model();
 	enemy = new Model();
-	//loader->LoadModel("..\\..\\3dModels\\soda.obj");
 	loader->setScale(0.05);
 	loader->LoadModel(".\\3dModels\\scene2.obj");
+
 	*scenario = loader->getModel();
 	scenario->SetCoordinates(Vector3D(0, 10, 0));
 	scenario->PaintColor(Color(1, 0, 0));
 	scenario->SetIsStationary(true);
+
+	Model* collider = new Model();
+	collisionLoader->setScale(0.05);
+	collisionLoader->LoadModel(".\\3dModels\\ramp.obj");
+	*collider = collisionLoader->getModel();
+
+	MeshCollider* scenarioCollider = new MeshCollider();
+	scenarioCollider->UpdatePosition(scenario->GetCoordinates());
+	scenarioCollider->GenerateBoundingBoxesFromTriangles(scenario->GetTriangles()); // Generate boxes
+
 	mainScene->AddGameObject(scenario);
+	mainScene->SetScenarioCollider(std::unique_ptr<MeshCollider>(scenarioCollider));
+
 	loader->Clear();
 	loaderT->setScale(0.15);
 	//loaderT->LoadModel(".\\3dModels\\enemigo.obj");
@@ -102,19 +112,8 @@ void Game::Init()
 	enemy->SetCoordinates(Vector3D(0, 1, 0));
 	enemy->SetOrientation(Vector3D(0, 90, 0));
 	//enemy->PaintColor(Color(1,0.6,0));
-	enemy->PaintColor(Color(0,0.6,0));
+	enemy->PaintColor(Color(0, 0.6, 0));
 	mainScene->AddGameObject(enemy);
-	
-	Model* collider = new Model();
-	collisionLoader->setScale(0.05);
-	collisionLoader->LoadModel(".\\3dModels\\ramp.obj");
-	*collider = collisionLoader->getModel();
-	collider->SetCoordinates(scenario->GetCoordinates());
-	Collider* scenarioCollider = collider->CreateMeshColliderFromModel();
-	mainScene->AddCollider(std::unique_ptr<Collider>(scenarioCollider));
-	mainScene->AddCollider(std::unique_ptr<Collider>(player->getCollisionHandler()));
-	
-
 }
 
 void Game::Render()
@@ -123,11 +122,11 @@ void Game::Render()
 	//player->getCollisionHandler()->DebugRenderer();
 	this->activeScene->Render();
 	ui.Render();
+	player->Render();
 }
 
 void Game::Update()
 {
-
 	milliseconds currentTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
 	float deltaTime = (currentTime.count() - this->initialMilliseconds.count()) - this->lastUpdatedTime;

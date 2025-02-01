@@ -1,37 +1,23 @@
 #pragma once
-#include "CapsuleCollider.h"
-#include "Triangle.h"
+#include "AABB.h"
+#include "Solid.h"
 #include <vector>
+#include "Triangle.h"
 
-class MeshCollider : public Collider
+class MeshCollider
 {
 private:
-	std::vector<Triangle> triangles;
-    Vector3D minBounds, maxBounds; // Minimum corner of the bounding box
+    std::vector<AABB> boundingBoxes;
+	Vector3D position;
 
 public:
-    MeshCollider(const std::vector<Triangle>& meshTriangles)
-        : triangles(meshTriangles) 
-    {
-        CalculateBounds();
-    }
+    MeshCollider() {}
 
-
-    const std::vector<Triangle>& GetTriangles() const {
-        return triangles;
-    }
-
-    bool CheckCollision(Collider& other) override;
-    bool CheckCollisionWithCapsule(CapsuleCollider& capsule);
-
-    void DebugRenderer() override;
-
-    void UpdatePosition(Vector3D newPosition) override;
-    void CalculateBounds(); // Calculates bounds from triangles
-    bool IsWithinBounds(Collider& other) const;
-
-    void AddTriangle(const Triangle& triangle) {
-        triangles.push_back(triangle);
-    }
+    void AddBoundingBox(const AABB& box);
+    bool CheckCollision(const AABB& other) const;
+    void GenerateBoundingBoxesFromTriangles(const std::vector<Triangle>& triangles);
+    void RenderBoundingBoxes() const;
+	void UpdatePosition(Vector3D newPosition) { position = newPosition; }
+	Vector3D GetPosition() { return position; }
 };
 

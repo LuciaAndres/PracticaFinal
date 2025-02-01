@@ -3,17 +3,16 @@
 #include "Solid.h"
 #include "FirstPersonCamera.h"
 #include "Cuboid.h"
-#include "CapsuleCollider.h"
 #include "ModelLoader.h"
 #include "Scene.h"
 #include <math.h>
-#define degToRad(angleInDegrees) ((angleInDegrees) * M_PI / 180.0) 
+#define degToRad(angleInDegrees) ((angleInDegrees) * M_PI / 180.0)
 #define radToDeg(angleInRadians) ((angleInRadians) * 180.0 / M_PI)
 
 class Player : public Solid
 {
 private:
-	
+
 	int mouseX;
 	int mouseY;
 
@@ -28,7 +27,6 @@ private:
 
 	float playerStep = INITIAL_SPEED;
 
-	void updateColliderCoords(Vector3D coords);
 	float Clamp(float value, float min, float max);
 	void MoveInDirection(float direction);
 	void MoveInDirectionDebug(float direction);
@@ -38,7 +36,7 @@ private:
 	void UpdateCamera(float deltaTime);
 	void ApplyGravity(float deltaTime);
 
-	std::unique_ptr<CapsuleCollider> playerCollider;
+	AABB playerBoundingBox;
 
 	Scene* scene;
 
@@ -51,16 +49,13 @@ public:
 
 	Player() :
 		mouseX(-1), mouseY(-1),
-		view(new FirstPersonCamera(Vector3D(0,2.5,0)))
+		view(new FirstPersonCamera(Vector3D(0, 2.5, 0)))
 	{
 		SetIsStationary(false);
-		playerCollider = std::make_unique<CapsuleCollider>(Vector3D(0, -3.75, 0), Vector3D(0, 0.75, 0), 1.0f);
 	}
-	
 	bool CheckCollision(Solid* other);
 
 	inline FirstPersonCamera* getFPC() const { return this->view; }
-
 
 	void ProcessMouseMovement(int x, int y);
 	void Update(float deltaTime);
@@ -75,12 +70,7 @@ public:
 
 	void SetScene(Scene* newScene) { scene = newScene; }
 
-	Collider* getCollisionHandler() {
-		return playerCollider.get();
-	}
-
 	Solid* Clone();
 
 	void Render();
-
 };

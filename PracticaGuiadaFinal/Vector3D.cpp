@@ -1,8 +1,8 @@
 #include "Vector3D.h"
-#include <math.h>
+#include <cmath>
 
-template class Vector3Dx<float>;  
-template class Vector3Dx<double>; 
+template class Vector3Dx<float>;
+template class Vector3Dx<double>;
 template class Vector3Dx<int>;
 
 template <class S> Vector3Dx<S> Vector3Dx<S>::Add(Vector3Dx<S> b)
@@ -53,7 +53,6 @@ template <class S> S Vector3Dx<S>::Magnitude()
 {
 	return float(sqrt(LengthSquared()));
 }
-							
 template <class S> S Vector3Dx<S>::LengthSquared()
 {
 	return float(pow(this->GetX(), 2) + pow(this->GetY(), 2) + pow(this->GetZ(), 2));
@@ -80,7 +79,7 @@ template <class S> Vector3Dx<S> Vector3Dx<S>::operator*(S v) const
 template <class S> Vector3Dx<S> Vector3Dx<S>::operator/(S v) const
 {
 	return Divide(v);
-}	
+}
 
 template <class S> bool Vector3Dx<S>::operator==(Vector3Dx<S> v)
 {

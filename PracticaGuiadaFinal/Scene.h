@@ -6,15 +6,12 @@
 #include "MeshCollider.h"
 #include "UI.h"
 
-
-
 class Scene
 {
-
 private:
-	
+
 	std::vector<Solid*> gameObjects;
-	std::vector<std::unique_ptr<Collider>> colliders;
+	std::unique_ptr<MeshCollider> scenarioCollider;
 
 	Camera* camera;
 
@@ -29,12 +26,9 @@ public:
 	Scene(Camera* cameraToSet) : camera(cameraToSet), boundary(Vector3D(8, 6, 4)) {}
 
 	virtual void AddGameObject(Solid* object);
-	virtual void AddCollider(std::unique_ptr<Collider> collider);
 	virtual MeshCollider* GetScenarioCollider();
+	virtual void SetScenarioCollider(std::unique_ptr<MeshCollider> collider);
 	virtual void AddHiddenObject(Solid* object);
 	virtual void Update(const float& time);
 	virtual void Render();
 };
-
-
-
