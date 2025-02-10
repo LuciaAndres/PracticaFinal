@@ -26,9 +26,13 @@ void Scene::Render()
 	}
 
 	if (scenarioCollider) {
-		scenarioCollider->RenderBoundingBoxes(); // Draw bounding boxes
+		//scenarioCollider->RenderBoundingBoxes(); // Draw bounding boxes
 	}
 
+	for (auto& ramp : ramps)
+	{
+		ramp->DebugRenderer();
+	}
 }
 
 void Scene::Update(const float& time) {
@@ -74,4 +78,21 @@ void Scene::checkBoundary(Solid* object)
 		Vector3D nSpeed = Vector3D(SpeedX, SpeedY, SpeedZ * -1);
 		object->SetSpeed(nSpeed);
 	}
+}
+
+void Scene::AddRamp(Vector3D start, Vector3D end, Vector3D control)
+{
+	ramps.push_back(std::make_shared<Ramps>(start, end, control));
+}
+
+bool Scene::CheckRampCollision(const AABB& other)
+{
+	for (auto& ramp : ramps)
+	{
+		if (ramp->CheckCollision(other))
+		{
+			return true;
+		}
+	}
+	return false;
 }

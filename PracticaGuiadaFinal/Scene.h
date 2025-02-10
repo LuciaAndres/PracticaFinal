@@ -5,6 +5,7 @@
 #include "Vector3D.h"
 #include "MeshCollider.h"
 #include "UI.h"
+#include "Ramps.h"
 
 class Scene
 {
@@ -12,6 +13,7 @@ private:
 
 	std::vector<Solid*> gameObjects;
 	std::unique_ptr<MeshCollider> scenarioCollider;
+	std::vector<std::shared_ptr<Ramps>> ramps;
 
 	Camera* camera;
 
@@ -31,4 +33,7 @@ public:
 	virtual void AddHiddenObject(Solid* object);
 	virtual void Update(const float& time);
 	virtual void Render();
+	virtual void AddRamp(Vector3D start, Vector3D end, Vector3D control);
+	bool CheckRampCollision(const AABB& other);
+	vector<std::shared_ptr<Ramps>> GetRamps() { return ramps; }
 };

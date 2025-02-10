@@ -55,3 +55,10 @@ void AABB::DebugRenderer(Color color) const {
     glEnd();
 	glEnable(GL_LIGHTING);
 }
+
+bool AABB::Intersects(const AABB& other) const
+{
+	return (minBounds.GetX() <= other.maxBounds.GetX() && maxBounds.GetX() >= other.minBounds.GetX()) &&
+		(minBounds.GetY() <= other.maxBounds.GetY() && maxBounds.GetY() >= other.minBounds.GetY()) &&
+		(minBounds.GetZ() <= other.maxBounds.GetZ() && maxBounds.GetZ() >= other.minBounds.GetZ());
+}

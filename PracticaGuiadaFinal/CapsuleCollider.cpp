@@ -1,17 +1,7 @@
 #include "CapsuleCollider.h"
 #include <iostream>
 
-bool CapsuleCollider::CheckCollision(Collider& other) {
-    CapsuleCollider* capsule = dynamic_cast<CapsuleCollider*>(&other);
-    if (capsule) {
-        return CapsuleCapsuleCollision(*capsule);
-    }
-
-    Triangle* triangle = dynamic_cast<Triangle*>(&other);
-    if (triangle) {
-        return CheckCollisionWithTriangle(*triangle);
-    }
-
+bool CapsuleCollider::CheckCollision(const AABB& other) {
     return false; // Extend for other collision types
 }
 

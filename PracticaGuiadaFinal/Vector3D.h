@@ -45,6 +45,7 @@ public:
 
 	Vector3Dx<S> operator+(Vector3Dx<S> v);
 	Vector3Dx<S> operator-(Vector3Dx<S> v);
+	Vector3Dx<S> operator-(const Vector3Dx<S>& other) const;
 	Vector3Dx<S> operator*(S s) const;
 	Vector3Dx<S> operator/(S s) const;
 

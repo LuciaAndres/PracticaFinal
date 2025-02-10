@@ -71,6 +71,13 @@ template <class S> Vector3Dx<S> Vector3Dx<S>::operator-(Vector3Dx<S> v)
 	return Subtract(v);
 }
 
+template <class S> Vector3Dx<S> Vector3Dx<S>::operator-(const Vector3Dx<S>& other) const
+{
+	return Vector3Dx<S>(this->GetX() - other.GetX(), this->GetY() - other.GetY(), this->GetZ() - other.GetZ());
+}
+
+
+
 template <class S> Vector3Dx<S> Vector3Dx<S>::operator*(S v) const
 {
 	return Product(v);

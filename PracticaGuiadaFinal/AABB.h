@@ -17,6 +17,7 @@ public:
     inline void SetMaxBounds(Vector3D maxBounds) { this->maxBounds = maxBounds; }
     bool CheckCollision(const AABB& other) const;
     void DebugRenderer(Color color) const;
+	bool Intersects(const AABB& other) const;
     void UpdatePosition(Vector3D newPosition);
 
 };

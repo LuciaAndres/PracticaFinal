@@ -1,17 +1,18 @@
 #pragma once
 #include "Vector3D.h"
+#include "AABB.h"
 
 class Collider
 {
 protected:
 
 	Vector3D position;
-	float scale;
+	float scale = 0;
 	Vector3D orientation;
 
 public:
 	Collider() {}
-	virtual bool CheckCollision(Collider& other) = 0;
+	virtual bool CheckCollision(const AABB& other) = 0;
 	virtual void DebugRenderer() = 0;
 	virtual void UpdatePosition(Vector3D newPosition)
 	{

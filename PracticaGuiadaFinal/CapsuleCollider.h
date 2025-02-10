@@ -12,7 +12,7 @@ private:
 
     Vector3D start;
     Vector3D end;
-   
+
     float radius;
 
     bool CapsuleCapsuleCollision(CapsuleCollider& other);
@@ -27,7 +27,7 @@ public:
     CapsuleCollider(Vector3D start, Vector3D end, float radius)
         : start(start), end(end), radius(radius) {}
 
-    bool CheckCollision(Collider& other) override;
+    bool CheckCollision(const AABB& other) override;
     bool CheckCollisionWithTriangle(Triangle& triangle);
 
     void DebugRenderer() override;

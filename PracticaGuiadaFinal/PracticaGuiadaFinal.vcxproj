@@ -145,11 +145,13 @@
     <ClCompile Include="MaterialModel.cpp" />
     <ClCompile Include="MaterialModelLoader.cpp" />
     <ClCompile Include="MaterialTriangle.cpp" />
+    <ClCompile Include="Matrix3x3.cpp" />
     <ClCompile Include="MeshCollider.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PracticaGuiada.cpp" />
+    <ClCompile Include="Ramps.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Solid.cpp" />
     <ClCompile Include="Sphere.cpp" />
@@ -179,8 +181,10 @@
     <ClInclude Include="MaterialModel.h" />
     <ClInclude Include="MaterialModelLoader.h" />
     <ClInclude Include="MaterialTriangle.h" />
+    <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="MeshCollider.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Ramps.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="util.h" />

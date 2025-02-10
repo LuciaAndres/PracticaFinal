@@ -156,6 +156,12 @@
     <ClCompile Include="AABB.cpp">
       <Filter>Source Files\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Matrix3x3.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Ramps.cpp">
+      <Filter>Source Files\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cube.h">
@@ -253,6 +259,12 @@
     </ClInclude>
     <ClInclude Include="AABB.h">
       <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Ramps.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3x3.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

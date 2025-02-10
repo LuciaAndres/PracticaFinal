@@ -1,17 +1,11 @@
 #include "SphereCollider.h"
 
-bool SphereCollider::CheckCollision(Collider& other) 
+bool SphereCollider::CheckCollision(const AABB& other)
 {
-    const SphereCollider* sphere = dynamic_cast<SphereCollider*>(&other);
-    if (sphere) {
-        float distanceSquared = (this->center - sphere->center).LengthSquared();
-        float radiusSum = radius + sphere->radius;
-        return distanceSquared <= (radiusSum * radiusSum);
-    }
-    return false;
+  return false;
 }
 
-void SphereCollider::DebugRenderer() 
+void SphereCollider::DebugRenderer()
 {
     glPushMatrix();
     glTranslatef(center.GetX(), center.GetY(), center.GetZ());

@@ -78,7 +78,7 @@ void Game::Init()
 	//mainScene->AddGameObject(cuboidTest);
 	//mainScene->AddHiddenObject(collider);
 
-	player->SetCoordinates(Vector3D(-20, 2.5, -60));
+	player->SetCoordinates(Vector3D(0, 10.5, 0));
 	player->SetOrientation(Vector3D(0, 180, 0));
 	player->SetScene(mainScene);
 
@@ -114,6 +114,9 @@ void Game::Init()
 	//enemy->PaintColor(Color(1,0.6,0));
 	enemy->PaintColor(Color(0, 0.6, 0));
 	mainScene->AddGameObject(enemy);
+
+	mainScene->AddRamp(Vector3D(3, -2, -3.4), Vector3D(6.4, 1.2, -9), Vector3D(4.7, -0.4, -6.2));
+
 }
 
 void Game::Render()
@@ -133,8 +136,9 @@ void Game::Update()
 
 	if (deltaTime > UPDATE_PERIOD)
 	{
-		enemy->SetOrientation(Vector3D(0, enemy->GetOrientation().GetY() + 1, 0));
-		enemy->SetCoordinates(Vector3D(0, cos(2 * deg2rad(enemy->GetOrientation().GetY())), 0));
+        enemy->SetOrientation(Vector3D(0, enemy->GetOrientation().GetY() + 1, 0));
+        enemy->SetCoordinates(Vector3D(0, 1 + cos(deg2rad(enemy->GetOrientation().GetY())), 0));
+
 		double time = deltaTime / 1000;
 		this->player->Update(time);
 		this->activeScene->Update(time);
