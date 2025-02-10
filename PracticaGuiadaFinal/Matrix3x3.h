@@ -28,7 +28,7 @@ public:
 	Matrix3x3 operator-() const;
 	float Determinant() const;
 	Matrix3x3 Transpose() const;
-	Matrix3x3 Inverse() const;w
+	Matrix3x3 Inverse() const;
 	float* operator[](int row);
 	const float* operator[](int row) const;
 	static Matrix3x3 Identity();
