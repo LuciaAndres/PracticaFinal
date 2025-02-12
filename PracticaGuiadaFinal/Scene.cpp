@@ -85,7 +85,7 @@ void Scene::AddRamp(Vector3D start, Vector3D end, Vector3D control)
 	ramps.push_back(std::make_shared<Ramps>(start, end, control));
 }
 
-bool Scene::CheckRampCollision(const AABB& other)
+bool Scene::CheckRampCollision(const OBB& other)
 {
 	for (auto& ramp : ramps)
 	{

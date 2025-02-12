@@ -44,6 +44,11 @@ template <class S> Vector3Dx<S> Vector3Dx<S>::Normalize()
 		this->GetZ() / magnitude);
 }
 
+template <class S> Vector3Dx<S> Vector3Dx<S>::Abs()
+{
+	return Vector3Dx<S>(abs(this->GetX()), abs(this->GetY()), abs(this->GetZ()));
+}
+
 template <class S> float Vector3Dx<S>::DotProduct(Vector3Dx<S> v)
 {
 	return float((this->GetX() * v.GetX()) + (this->GetY() * v.GetY()) + (this->GetZ() * v.GetZ()));

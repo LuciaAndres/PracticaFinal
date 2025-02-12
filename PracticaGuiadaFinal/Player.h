@@ -5,7 +5,8 @@
 #include "Cuboid.h"
 #include "ModelLoader.h"
 #include "Scene.h"
-#include <math.h>
+#include <cmath>
+
 #define degToRad(angleInDegrees) ((angleInDegrees) * M_PI / 180.0)
 #define radToDeg(angleInRadians) ((angleInRadians) * 180.0 / M_PI)
 
@@ -36,7 +37,7 @@ private:
 	void UpdateCamera(float deltaTime);
 	void ApplyGravity(float deltaTime);
 
-	AABB playerBoundingBox;
+	OBB playerBoundingBox;
 
 	Scene* scene;
 
@@ -67,6 +68,9 @@ public:
 
 	inline float GetMouseY() const { return this->mouseY; }
 	inline void SetMouseY(const float& mouseyToSet) { this->mouseY = mouseyToSet; }
+
+	inline Matrix3x3 GetOrientationMatrix() { return Matrix3x3::FromEuler(Vector3D(GetOrientation().GetX(), GetOrientation().GetY(), GetOrientation().GetZ())); }
+
 
 	void SetScene(Scene* newScene) { scene = newScene; }
 

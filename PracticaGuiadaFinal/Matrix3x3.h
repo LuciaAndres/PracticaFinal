@@ -5,9 +5,10 @@
 class Matrix3x3
 {
 private:
-	float m[3][3];
 
 public:
+	float m[3][3];
+
 	Matrix3x3();
 
 	Matrix3x3(float m00, float m01, float m02,
@@ -48,4 +49,9 @@ public:
 	static Matrix3x3 FromTranslation(const Vector3D& translation);
 	static Matrix3x3 FromLookAt(const Vector3D& eye, const Vector3D& target, Vector3D& up);
 	static Matrix3x3 FromPerspective(float fov, float aspect, float near, float far);
+
+	inline float GetValue(int row, int col) const { return m[row][col]; }
+	const float* GetMatrix() const { return &m[0][0]; }
+	inline void Set(int row, int col, float value) { m[row][col] = value; }
+
 };

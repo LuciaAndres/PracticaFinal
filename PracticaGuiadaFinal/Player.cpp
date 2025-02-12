@@ -75,7 +75,7 @@ void Player::UpdateMovement(float deltaTime)
 
 
 	Vector3D newPosition = GetCoordinates();
-	AABB newBoundingBox(newPosition - Vector3D(1.25, 2.5, 1.25), newPosition + Vector3D(1.25, 1.0, 1.25));
+	OBB newBoundingBox(newPosition, Vector3D(2.5, 5.0, 2.5), GetOrientationMatrix());
 
 	bool onRamp = false;
 
@@ -84,20 +84,13 @@ void Player::UpdateMovement(float deltaTime)
 			float rampHeight = ramp->GetRampHeightAt(newPosition);
 
 			if (newPosition.GetY() < rampHeight) {
-				std::cout << "[DEBUG] Player is on a slope, adjusting height to " << rampHeight << std::endl;
 				newPosition.SetY(rampHeight);
 				onRamp = true;
 			}
 		}
 	}
 
-	if (!onRamp) {
-		std::cout << "[DEBUG] Player is NOT on a ramp, allowing normal movement." << std::endl;
-	}
-
-	// Collision check
-	if (scene && scene->GetScenarioCollider()->CheckCollision(newBoundingBox)) {
-		// Collision detected, revert position
+	if (scene && scene->GetScenarioCollider()->CheckCollision(newBoundingBox.ToAABB())) {
 		SetCoordinates(originalPosition);
 	}
 	else {
@@ -107,8 +100,7 @@ void Player::UpdateMovement(float deltaTime)
 	if (newPosition.GetY() < -30)
 	{
 		newPosition.SetY(0);
-		SetCoordinates(Vector3D(0,2.5,0));
-		std::cout << "[WARNING] Player fell below threshold! Teleporting to (0, 2, 0)" << std::endl;
+		SetCoordinates(Vector3D(0, 2.5, 0));
 		isJumping = false;
 		verticalSpeed = 0;
 	}
@@ -263,15 +255,14 @@ void Player::ApplyGravity(float deltaTime) {
 	Vector3D newPosition = currentPosition;
 	newPosition.SetY(newPosition.GetY() + verticalSpeed * deltaTime);
 
-	// Update AABB for the new position
-	AABB newBoundingBox(newPosition - Vector3D(1.25, 4.5, 1.25), newPosition + Vector3D(1.25, 1.0, 1.25));
+	// Update OBB for the new position
+	OBB newBoundingBox(newPosition, Vector3D(2.5, 5.0, 2.5), GetOrientationMatrix());
 
 	bool onGround = false;
 
-	if (scene && scene->GetScenarioCollider()->CheckCollision(newBoundingBox)) {
-		// Collision detected with the floor
-		if (verticalSpeed < 0) { // Falling down
-			newPosition.SetY(currentPosition.GetY()); // Stop falling
+	if (scene && scene->GetScenarioCollider()->CheckCollision(newBoundingBox.ToAABB())) {
+		if (verticalSpeed < 0) {
+			newPosition.SetY(currentPosition.GetY());
 			isJumping = false;
 			verticalSpeed = 0.0f;
 		}
@@ -282,8 +273,7 @@ void Player::ApplyGravity(float deltaTime) {
 		if (ramp->CheckCollision(newBoundingBox)) {
 			float rampHeight = ramp->GetRampHeightAt(newPosition);
 
-			if (newPosition.GetY() < rampHeight) { // Only adjust if below ramp
-				std::cout << "[DEBUG] Player is moving up a slope, adjusting height to " << rampHeight << std::endl;
+			if (newPosition.GetY() < rampHeight) {
 				newPosition.SetY(rampHeight);
 				isJumping = false;
 				verticalSpeed = 0.0f;
@@ -297,5 +287,5 @@ void Player::ApplyGravity(float deltaTime) {
 	}
 
 	SetCoordinates(newPosition);
-	playerBoundingBox = newBoundingBox; // Update the bounding box
+	playerBoundingBox = newBoundingBox;
 }

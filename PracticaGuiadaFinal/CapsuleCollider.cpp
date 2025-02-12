@@ -1,10 +1,6 @@
 #include "CapsuleCollider.h"
 #include <iostream>
 
-bool CapsuleCollider::CheckCollision(const AABB& other) {
-    return false; // Extend for other collision types
-}
-
 bool CapsuleCollider::CheckCollisionWithTriangle(Triangle& triangle) {
     std::cout << "Capsule Position: " << GetPosition() << ", Radius: " << GetRadius() << std::endl;
     std::cout << "Triangle Vertices: "

@@ -1,10 +1,5 @@
 #include "SphereCollider.h"
 
-bool SphereCollider::CheckCollision(const AABB& other)
-{
-  return false;
-}
-
 void SphereCollider::DebugRenderer()
 {
     glPushMatrix();

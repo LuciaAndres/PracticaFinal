@@ -36,6 +36,7 @@ public:
 	Vector3Dx<S> Divide(S b) const;
 	Vector3Dx<S> Cross(Vector3Dx<S> b);
 	Vector3Dx<S> Normalize();
+	Vector3Dx<S> Abs();
 
 
 	float DotProduct(Vector3Dx<S> v);
@@ -53,6 +54,12 @@ public:
 	template <class T>
 	friend std::ostream& operator<<(std::ostream& os, const Vector3Dx<T>& v);
 
+	S operator[](int index) const {
+		if (index == 0) return x;
+		if (index == 1) return y;
+		if (index == 2) return z;
+		throw std::out_of_range("Vector3D index out of range");
+	}
 };
 
 template <class S>

@@ -1,6 +1,6 @@
 #pragma once
 #include "Vector3D.h"
-#include "AABB.h"
+#include "OBB.h"
 
 class Collider
 {
@@ -12,7 +12,7 @@ protected:
 
 public:
 	Collider() {}
-	virtual bool CheckCollision(const AABB& other) = 0;
+	virtual bool CheckCollision(const OBB& other) = 0;
 	virtual void DebugRenderer() = 0;
 	virtual void UpdatePosition(Vector3D newPosition)
 	{

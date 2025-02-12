@@ -1,36 +1,19 @@
 #pragma once
 #include "Collider.h"
-#include "AABB.h"
+#include "OBB.h"
+#include <cmath>
+
 class Ramps : public Collider {
 private:
 	Vector3D startPoint, endPoint, controlPoint;
 	Vector3D normal;
-	AABB boundingBox;
+	OBB boundingBox;
 
 	void RenderDebugSphere(Vector3D position, float radius, float r, float g, float b);
 public:
-	Ramps(Vector3D start, Vector3D end, Vector3D control)
-		: startPoint(start), endPoint(end), controlPoint(control)
-	{
-		boundingBox = AABB(
-			Vector3D(std::min({ start.GetX(), end.GetX(), control.GetX() }),
-				std::min({ start.GetY(), end.GetY(), control.GetY() }),
-				std::min({ start.GetZ(), end.GetZ(), control.GetZ() })),
+	Ramps(Vector3D start, Vector3D end, Vector3D control);
 
-			Vector3D(std::max({ start.GetX(), end.GetX(), control.GetX() }),
-				std::max({ start.GetY(), end.GetY(), control.GetY() }),
-				std::max({ start.GetZ(), end.GetZ(), control.GetZ() }))
-		);
-
-		Vector3D edge1 = end - start;
-		Vector3D edge2 = control - start;
-		normal = edge2.Cross(edge1).Normalize();
-	}
-
-	virtual bool CheckCollision(const AABB& other) override
-	{
-		return boundingBox.Intersects(other);
-	}
+	bool CheckCollision(const OBB& playerOBB) override;
 
 	float GetRampHeightAt(Vector3D position) {
 		// Plane equation: Ax + By + Cz + D = 0

@@ -34,6 +34,6 @@ public:
 	virtual void Update(const float& time);
 	virtual void Render();
 	virtual void AddRamp(Vector3D start, Vector3D end, Vector3D control);
-	bool CheckRampCollision(const AABB& other);
+	bool CheckRampCollision(const OBB& other);
 	vector<std::shared_ptr<Ramps>> GetRamps() { return ramps; }
 };
