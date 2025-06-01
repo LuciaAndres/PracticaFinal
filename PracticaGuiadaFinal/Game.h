@@ -28,15 +28,14 @@ private:
 	Scene* activeScene;
 	vector<Scene*> scenes;
 
-	Model* enemy;
+	Model* ammoBox;
 	Player* player;
 
 	UI ui;
-
 public:
 
 	Game() :
-	activeScene(nullptr), initialMilliseconds(duration_cast<milliseconds>(system_clock::now().time_since_epoch())), lastUpdatedTime(0), player(nullptr), enemy(nullptr){}
+	activeScene(nullptr), initialMilliseconds(duration_cast<milliseconds>(system_clock::now().time_since_epoch())), lastUpdatedTime(0), player(nullptr), ammoBox(nullptr){}
 
 	void Init();
 	void Render();

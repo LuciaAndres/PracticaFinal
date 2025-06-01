@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="EmmiterConfiguration.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Guns.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialModel.cpp" />
     <ClCompile Include="MaterialModelLoader.cpp" />
@@ -166,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="Collider.h" />
@@ -178,6 +181,7 @@
     <ClInclude Include="EmmiterConfiguration.h" />
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Guns.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialModel.h" />
     <ClInclude Include="MaterialModelLoader.h" />

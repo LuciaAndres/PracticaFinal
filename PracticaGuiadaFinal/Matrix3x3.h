@@ -54,4 +54,7 @@ public:
 	const float* GetMatrix() const { return &m[0][0]; }
 	inline void Set(int row, int col, float value) { m[row][col] = value; }
 
+	friend std::ostream& operator<<(std::ostream& os, const Matrix3x3& m);
+
+	Matrix3x3 Normalize();
 };

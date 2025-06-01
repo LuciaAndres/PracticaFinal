@@ -16,7 +16,6 @@ private:
 	int illuminationModel;
 public:
 	Material(string materialNameArgument = " ") : materialName(materialNameArgument) {}
-
 	inline string GetMaterialName() const { return this->materialName; }
 	inline Color GetAmbientColor() const { return this->ambientColor; }
 	inline void SetAmbientColor(const Color& ambientColorToSet)
@@ -67,6 +66,5 @@ public:
 	}
 	void ParseLine(string line);
 };
-
 
 

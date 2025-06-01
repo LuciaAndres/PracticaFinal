@@ -23,7 +23,7 @@ void Model::AddTriangle(Triangle triangle)
 	triangles.push_back(triangle);
 }
 
-void Model::Clear()
+void Model::clear()
 {
 	triangles.clear();
 }

@@ -18,6 +18,6 @@ public:
 	}
 
 	AABB ToAABB();
-	void DebugRenderer(Color color) const {};
+	void DebugRenderer(Color color) const;
 	bool Intersects(const OBB& other) const;
 };

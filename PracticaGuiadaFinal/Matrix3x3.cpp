@@ -334,3 +334,33 @@ Matrix3x3 Matrix3x3::FromPerspective(float fov, float aspect, float near, float 
 	);
 }
 
+std::ostream& operator<<(std::ostream& os, const Matrix3x3& matrix) {
+	os << "[ " << matrix.GetValue(0, 0) << ", " << matrix.GetValue(0, 1) << ", " << matrix.GetValue(0, 2) << " ]\n"
+		<< "[ " << matrix.GetValue(1, 0) << ", " << matrix.GetValue(1, 1) << ", " << matrix.GetValue(1, 2) << " ]\n"
+		<< "[ " << matrix.GetValue(2, 0) << ", " << matrix.GetValue(2, 1) << ", " << matrix.GetValue(2, 2) << " ]";
+	return os;
+}
+
+Matrix3x3 Matrix3x3::Normalize()
+{
+	Vector3D xAxis(m[0][0], m[1][0], m[2][0]);
+	Vector3D yAxis(m[0][1], m[1][1], m[2][1]);
+	Vector3D zAxis(m[0][2], m[1][2], m[2][2]);
+
+	// Normalize the X-axis
+	xAxis = xAxis.Normalize();
+
+	// Orthogonalize Y-axis using Gram-Schmidt
+	yAxis = (yAxis - xAxis * xAxis.DotProduct(yAxis)).Normalize();
+
+	// Compute the Z-axis as the cross-product (ensures perpendicularity)
+	zAxis = xAxis.Cross(yAxis);
+
+	// Construct the new normalized matrix
+	Matrix3x3 result;
+	result.m[0][0] = xAxis.GetX(); result.m[0][1] = yAxis.GetX(); result.m[0][2] = zAxis.GetX();
+	result.m[1][0] = xAxis.GetY(); result.m[1][1] = yAxis.GetY(); result.m[1][2] = zAxis.GetY();
+	result.m[2][0] = xAxis.GetZ(); result.m[2][1] = yAxis.GetZ(); result.m[2][2] = zAxis.GetZ();
+
+	return result;
+}

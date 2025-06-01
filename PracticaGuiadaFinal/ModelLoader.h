@@ -11,6 +11,8 @@ protected:
 
 	float scale;
 	Model model;
+	int id;
+
 	vector<Vector3D> verts;
 	vector<Vector3D> normals;
 	float maxX = 0, maxY = 0, maxZ = 0, minX = 0, minY = 0, minZ = 0;
@@ -23,6 +25,8 @@ protected:
 	Vector3D parseObjLineToVector3D(const string& line);
 	Triangle parseObjTriangle(const string& line);
 
+	bool firstTriangleOnly = true;
+
 public:
 	ModelLoader(float scaleArgument) :
 		scale(scaleArgument) {}
@@ -34,6 +38,8 @@ public:
 	inline float getScale() const { return scale; }
 	inline float getMinY() const { return minY; }
 	inline void setScale(const float& scaleToSet) { scale = scaleToSet; }
+	inline void setId(const int& idToSet) { id = idToSet; }
+	inline int getId() const { return id; }
 	void LoadModel(const string& filePath);
 	void Clear();
 	

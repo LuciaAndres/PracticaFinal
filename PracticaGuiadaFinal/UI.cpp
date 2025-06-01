@@ -59,9 +59,13 @@ void UI::UpdateFPS(float deltaTime)
 }
 
 void UI::RenderCrosshair() {
+
+	float width = 2.4f;
+	float length = 6.0f;
+
 	glColor3f(1.0f, 1.0f, 1.0f); // White color for the crosshair
 	glDisable(GL_LIGHTING);
-	glLineWidth(2.0f);
+	glLineWidth(width);
 
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -77,12 +81,12 @@ void UI::RenderCrosshair() {
 
 	glBegin(GL_LINES);
 	// Vertical Line
-	glVertex2f(centerX, centerY - 10);
-	glVertex2f(centerX, centerY + 10);
+	glVertex2f(centerX, centerY - length);
+	glVertex2f(centerX, centerY + length);
 
 	// Horizontal Line
-	glVertex2f(centerX - 10, centerY);
-	glVertex2f(centerX + 10, centerY);
+	glVertex2f(centerX - length, centerY);
+	glVertex2f(centerX + length, centerY);
 	glEnd();
 	glEnable(GL_LIGHTING);
 	glPopMatrix();

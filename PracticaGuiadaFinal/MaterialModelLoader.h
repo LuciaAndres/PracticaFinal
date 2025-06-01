@@ -16,9 +16,11 @@ private:
 	void loadMaterials(string fileName);
 	MaterialTriangle parseObjMaterialTriangle(const string& line);
 	MaterialTriangle center(MaterialTriangle triangle);
+
 public:
 	MaterialModelLoader(string modelsFolderArgument = " ", float scaleArgument = 1) :
-		ModelLoader(scaleArgument), modelsFolder(modelsFolderArgument) {}
+		ModelLoader(scaleArgument), modelsFolder(modelsFolderArgument) {
+	}
 	void LoadModel(const string& filePath);
 	inline string GetModelsFolder() const { return this->modelsFolder; }
 	inline void SetModelsFolder(const string& modelsFolderToSet) {
@@ -28,4 +30,3 @@ public:
 	inline MaterialModel GetMaterialModel() { return this->materialModel; }
 	void Clear();
 };
-

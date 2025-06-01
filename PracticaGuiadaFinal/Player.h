@@ -5,6 +5,9 @@
 #include "Cuboid.h"
 #include "ModelLoader.h"
 #include "Scene.h"
+#include "OBB.h"
+#include "Vector3D.h"
+#include "Guns.h"
 #include <cmath>
 
 #define degToRad(angleInDegrees) ((angleInDegrees) * M_PI / 180.0)
@@ -23,6 +26,7 @@ private:
 	float jumpHeight = 5.0f;
 	float verticalSpeed = 0.0f;
 	float groundLevel = 2.5f;
+	float SensValue = 0.3f;
 
 	const float INITIAL_SPEED = 0.14f;
 
@@ -38,6 +42,7 @@ private:
 	void ApplyGravity(float deltaTime);
 
 	OBB playerBoundingBox;
+	OBB spinningOBB;
 
 	Scene* scene;
 
@@ -46,11 +51,17 @@ private:
 	bool keys[256] = { false };
 	bool fullScreenMode = false;
 
+//	Bullet TempBullet;
+	//Guns pistol;
+
 public:
+
 
 	Player() :
 		mouseX(-1), mouseY(-1),
-		view(new FirstPersonCamera(Vector3D(0, 2.5, 0)))
+		view(new FirstPersonCamera(Vector3D(0, 2.5, 0))),
+		spinningOBB(Vector3D(5, 3, 5), Vector3D(2.5, 5.0, 2.5), Matrix3x3::Identity())
+		//pistol(new Guns())
 	{
 		SetIsStationary(false);
 	}
@@ -59,6 +70,7 @@ public:
 	inline FirstPersonCamera* getFPC() const { return this->view; }
 
 	void ProcessMouseMovement(int x, int y);
+	void ProcessMouseClick(int button, int state, int x, int y);
 	void Update(float deltaTime);
 	void ProcessKeyPressed(unsigned char key, int px, int py);
 	void ProcessKeyReleased(unsigned char key, int px, int py);
@@ -69,7 +81,7 @@ public:
 	inline float GetMouseY() const { return this->mouseY; }
 	inline void SetMouseY(const float& mouseyToSet) { this->mouseY = mouseyToSet; }
 
-	inline Matrix3x3 GetOrientationMatrix() { return Matrix3x3::FromEuler(Vector3D(GetOrientation().GetX(), GetOrientation().GetY(), GetOrientation().GetZ())); }
+	inline Matrix3x3 GetOrientationMatrix() { return Matrix3x3::FromEuler(Vector3D(0, GetOrientation().GetY() * pow(SensValue,2), 0)).Normalize(); }
 
 
 	void SetScene(Scene* newScene) { scene = newScene; }

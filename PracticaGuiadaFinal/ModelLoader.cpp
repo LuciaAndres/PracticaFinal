@@ -46,6 +46,15 @@ Triangle ModelLoader::parseObjTriangle(const string& line)
 	Vector3D normal = this->normals[idxNormal0 - 1];
 
 	Triangle parsedTriangle(vertex0, vertex1, vertex2, normal, normal, normal);
+	if (this->id == 1)
+	{
+		cout << "Taxi:  " << model.GetName() << " Triangle: Vert 0:" << vertex0 << "Triangle: Vert 0:" << vertex1 << "Triangle: Vert 0:" << vertex2 << endl;
+
+	}
+	else
+	{
+		cout << "Model is not taxi, it is: " << this->model.GetName() << endl;
+	}
 
 	return parsedTriangle;
 }
@@ -58,6 +67,7 @@ Vector3D ModelLoader::parseObjLineToVector3D(const string& line)
 	istringstream stringStream(line);
 	stringStream >> typeOfPoint >> xCoordinate >> yCoordinate >> zCoordinate;
 	Vector3D vectorPoint(xCoordinate, yCoordinate, zCoordinate);
+	//cout << "Scale: " << this->getScale() << endl;
 	return vectorPoint * this->getScale();
 }
 
@@ -107,8 +117,10 @@ void ModelLoader::LoadModel(const std::string& filePath)
 
 void ModelLoader::Clear()
 {
-	this->verts.clear();
+	this->verts.clear();    
 	this->normals.clear();
+	this->model.clear();
+	minX = maxX = minY = maxY = minZ = maxZ = 0;
 	cout << "Size: " << verts.size() << endl;
 	cout << "Size: " << normals.size() << endl;
 }
@@ -154,4 +166,26 @@ void ModelLoader::RenderBoundingBox()
 	glVertex3f(minX, maxY, maxZ);
 
 	glEnd();
+
+	glPointSize(8.0f);              // Make the points big enough to see
+	glColor3f(1.0f, 0.0f, 0.0f);    // Red color for corners
+	glBegin(GL_POINTS);
+
+	// Front face corners (Z = minZ)
+	glVertex3f(minX, minY, minZ);   // bottom-left-front
+	glVertex3f(maxX, minY, minZ);   // bottom-right-front
+	glVertex3f(maxX, maxY, minZ);   // top-right-front
+	glVertex3f(minX, maxY, minZ);   // top-left-front
+
+	// Back face corners (Z = maxZ)
+	glVertex3f(minX, minY, maxZ);   // bottom-left-back
+	glVertex3f(maxX, minY, maxZ);   // bottom-right-back
+	glVertex3f(maxX, maxY, maxZ);   // top-right-back
+	glVertex3f(minX, maxY, maxZ);   // top-left-back
+
+
+	glEnd();
+
+	//cout << "Bounds: X(" << minX << ", " << maxX << "), Y(" << minY << ", " << maxY << "), Z(" << minZ << ", " << maxZ << ")\n";
+
 }

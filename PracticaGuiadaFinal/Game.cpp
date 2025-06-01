@@ -1,6 +1,8 @@
 #include "Game.h"
 #include <iostream>
 
+MaterialModelLoader* texLoader = new MaterialModelLoader(".\\3dModels\\", 3);
+
 void Game::ProcessKeyPressed(unsigned char key, int px, int py)
 {
 	/*
@@ -49,83 +51,85 @@ void Game::ProcessMouseMovement(int x, int y)
 
 void Game::ProcessMouseClick(int button, int state, int x, int y)
 {
-	std::cout << "Clic: " << button << std::endl;
+	this->player->ProcessMouseClick(button, state, x, y);
+	//std::cout << "Clic: " << button << std::endl;
 }
 
 void Game::Init()
 {
+	ModelLoader* loader = new ModelLoader();
+
 	player = new Player();
 	FirstPersonCamera* view = player->getFPC();
 
 	Scene* mainScene = new(nothrow) Scene(view);
+	Scene* textureScenes = new(nothrow) Scene(view);
 	this->scenes.push_back(mainScene);
+	this->scenes.push_back(textureScenes);
 	this->activeScene = mainScene;
 
-	ModelLoader* collisionLoader = new ModelLoader();
-	ModelLoader* loader = new ModelLoader();
-	ModelLoader* loaderT = new ModelLoader();
-
-	Cuboid testCuboid = Cuboid(Vector3D(0, -2.1, 0), Color(0.8, 0.8, 0), Vector3D(0, 0, 0), 100, 0.1, 100);
-
-	Sphere testSphere = Sphere();
-	testSphere.SetCoordinates(Vector3D(0, 1, 0));
-	testSphere.SetRadius(1);
-
-	Solid* sphereTest = testSphere.Clone();
+	Cuboid testCuboid = Cuboid(Vector3D(0, -2.1, 0), Color(0.8, 0.8, 0), Vector3D(0, 0, 0), 1, 0.1, 1);
 	Solid* cuboidTest = testCuboid.Clone();
-
-	//mainScene->AddGameObject(sphereTest);
-	//mainScene->AddGameObject(cuboidTest);
-	//mainScene->AddHiddenObject(collider);
 
 	player->SetCoordinates(Vector3D(0, 10.5, 0));
 	player->SetOrientation(Vector3D(0, 180, 0));
 	player->SetScene(mainScene);
 
-	Model* scenario = new Model();
-	enemy = new Model();
-	loader->setScale(0.05);
-	loader->LoadModel(".\\3dModels\\scene2.obj");
-
+	Model* scenario = new Model("Scenario");
+	ammoBox = new Model("Box");
+	loader->setScale(0.07);
+	loader->LoadModel(".\\3dModels\\plano.obj");
 	*scenario = loader->getModel();
-	scenario->SetCoordinates(Vector3D(0, 10, 0));
+	//scenario->SetCoordinates(Vector3D(0, 10, 0));
+	scenario->SetCoordinates(Vector3D(0, -2, 0));
 	scenario->PaintColor(Color(1, 0, 0));
 	scenario->SetIsStationary(true);
-
-	Model* collider = new Model();
-	collisionLoader->setScale(0.05);
-	collisionLoader->LoadModel(".\\3dModels\\ramp.obj");
-	*collider = collisionLoader->getModel();
 
 	MeshCollider* scenarioCollider = new MeshCollider();
 	scenarioCollider->UpdatePosition(scenario->GetCoordinates());
 	scenarioCollider->GenerateBoundingBoxesFromTriangles(scenario->GetTriangles()); // Generate boxes
 
+	texLoader->Clear();
+	loader->Clear();
+	MaterialModel* test = new MaterialModel();
+	MaterialModel* cube = new MaterialModel();
+	texLoader->setId(1);
+	texLoader->LoadModel(".\\3dModels\\Taxi.obj");
+	*test = texLoader->GetMaterialModel();
+	texLoader->Clear();
+	texLoader->setId(2);
+	texLoader->LoadModel("..\\3dModels\\test.obj");
+	*cube = texLoader->GetMaterialModel();
+	cube->SetCoordinates(Vector3D(-20, 2, -20));
+	test->SetCoordinates(Vector3D(10, 2, 10));
+	mainScene->AddGameObject(test);
 	mainScene->AddGameObject(scenario);
+	mainScene->AddGameObject(cube);
 	mainScene->SetScenarioCollider(std::unique_ptr<MeshCollider>(scenarioCollider));
 
 	loader->Clear();
-	loaderT->setScale(0.15);
-	//loaderT->LoadModel(".\\3dModels\\enemigo.obj");
-	loaderT->LoadModel(".\\3dModels\\ammo.obj");
-	*enemy = loaderT->getModel();
-	enemy->SetCoordinates(Vector3D(0, 1, 0));
-	enemy->SetOrientation(Vector3D(0, 90, 0));
-	//enemy->PaintColor(Color(1,0.6,0));
-	enemy->PaintColor(Color(0, 0.6, 0));
-	mainScene->AddGameObject(enemy);
+	loader->setScale(0.15);
+	loader->LoadModel(".\\3dModels\\ammo.obj");
+	*ammoBox = loader->getModel();
+	ammoBox->SetCoordinates(Vector3D(0, 1, 0));
+	ammoBox->SetOrientation(Vector3D(0, 90, 0));
+	ammoBox->PaintColor(Color(0, 0.6, 0));
+	//mainScene->AddGameObject(ammoBox);
+	cuboidTest->SetCoordinates(test->GetCoordinates()+ Vector3D(0, 2, 0));
+	mainScene->AddGameObject(cuboidTest);
 
-	mainScene->AddRamp(Vector3D(3, -2, -3.4), Vector3D(6.4, 1.2, -9), Vector3D(4.7, -0.4, -6.2));
-
+	
 }
 
 void Game::Render()
 {
-	//this->activeScene->Render();
 	//player->getCollisionHandler()->DebugRenderer();
+
 	this->activeScene->Render();
-	ui.Render();
+	this->scenes[1]->Render();
 	player->Render();
+	ui.Render();
+	//texLoader->RenderBoundingBox();
 }
 
 void Game::Update()
@@ -136,8 +140,8 @@ void Game::Update()
 
 	if (deltaTime > UPDATE_PERIOD)
 	{
-        enemy->SetOrientation(Vector3D(0, enemy->GetOrientation().GetY() + 1, 0));
-        enemy->SetCoordinates(Vector3D(0, 1 + cos(deg2rad(enemy->GetOrientation().GetY())), 0));
+        ammoBox->SetOrientation(Vector3D(0, ammoBox->GetOrientation().GetY() + 1, 0));
+		ammoBox->SetCoordinates(Vector3D(0, 1 + cos(deg2rad(ammoBox->GetOrientation().GetY())), 0));
 
 		double time = deltaTime / 1000;
 		this->player->Update(time);

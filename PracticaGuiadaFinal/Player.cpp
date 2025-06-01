@@ -10,6 +10,8 @@ void Player::Update(float deltaTime)
 	this->UpdateMovement(deltaTime);
 	this->UpdateCamera(deltaTime);
 	this->ApplyGravity(deltaTime);
+
+	OBB staticOBB(Vector3D(5, 3, 5), Vector3D(2.5, 5.0, 2.5), GetOrientationMatrix());
 }
 
 void Player::UpdateCamera(float deltaTime)
@@ -75,12 +77,12 @@ void Player::UpdateMovement(float deltaTime)
 
 
 	Vector3D newPosition = GetCoordinates();
-	OBB newBoundingBox(newPosition, Vector3D(2.5, 5.0, 2.5), GetOrientationMatrix());
+	playerBoundingBox = OBB(newPosition + Vector3D(0, 1.25, 0), Vector3D(2.5, 2.5, 2.5), GetOrientationMatrix());
 
 	bool onRamp = false;
 
 	for (auto& ramp : scene->GetRamps()) {
-		if (ramp->CheckCollision(newBoundingBox)) {
+		if (ramp->CheckCollision(playerBoundingBox)) {
 			float rampHeight = ramp->GetRampHeightAt(newPosition);
 
 			if (newPosition.GetY() < rampHeight) {
@@ -90,17 +92,23 @@ void Player::UpdateMovement(float deltaTime)
 		}
 	}
 
-	if (scene && scene->GetScenarioCollider()->CheckCollision(newBoundingBox.ToAABB())) {
+	if (scene && scene->GetScenarioCollider()->CheckCollision(playerBoundingBox.ToAABB())) {
 		SetCoordinates(originalPosition);
-	}
-	else {
-		playerBoundingBox = newBoundingBox;
 	}
 
 	if (newPosition.GetY() < -30)
 	{
 		newPosition.SetY(0);
 		SetCoordinates(Vector3D(0, 2.5, 0));
+		isJumping = false;
+		verticalSpeed = 0;
+	}
+
+	if (newPosition.GetY() < -30)
+	{
+		newPosition.SetY(0);
+		SetCoordinates(Vector3D(0,2.5,0));
+		std::cout << "[WARNING] Player fell below threshold! Teleporting to (0, 2, 0)" << std::endl;
 		isJumping = false;
 		verticalSpeed = 0;
 	}
@@ -123,7 +131,7 @@ void Player::ProcessMouseMovement(int x, int y)
 
 		float tempSensValue = 0.3f;
 
-		Vector3D orientation = this->GetOrientation() + Vector3D(deltaY * tempSensValue, deltaX * tempSensValue, 0);
+		Vector3D orientation = this->GetOrientation() + Vector3D(deltaY * SensValue, deltaX * SensValue, 0);
 
 		orientation.SetX(Clamp(orientation.GetX(), -89.0f, 89.0f));
 
@@ -133,6 +141,14 @@ void Player::ProcessMouseMovement(int x, int y)
 	firstMouse = false;
 
 	glutWarpPointer(centerX, centerY);
+}
+
+void Player::ProcessMouseClick(int button, int state, int x, int y)
+{
+	if (button == 0)
+	{
+		
+	}
 }
 
 void Player::MoveInDirection(float direction) {
@@ -215,7 +231,10 @@ void Player::Render()
 {
 	//Collider->Render();
 	; // Green color for player's bounding box
-	playerBoundingBox.DebugRenderer(Color(0,1,0));
+	//playerBoundingBox.DebugRenderer(Color(0,1,0));
+	//playerBoundingBox.ToAABB().DebugRenderer(Color(0, 1, 0));
+	OBB staticOBB(Vector3D(5, 3, 5), Vector3D(2.5, 5.0, 2.5), GetOrientationMatrix());
+	//staticOBB.DebugRenderer(Color(0, 1, 0));
 }
 
 void Player::ProcessKeyPressed(unsigned char key, int px, int py) {
@@ -256,11 +275,14 @@ void Player::ApplyGravity(float deltaTime) {
 	newPosition.SetY(newPosition.GetY() + verticalSpeed * deltaTime);
 
 	// Update OBB for the new position
-	OBB newBoundingBox(newPosition, Vector3D(2.5, 5.0, 2.5), GetOrientationMatrix());
-
+	playerBoundingBox = OBB(newPosition + Vector3D(0, -2, 0), Vector3D(1.2, 3, 1.2), GetOrientationMatrix());
+	/*std::cout << "[DEBUG] Creating OBB at: " << newPosition
+         << " HalfSize: " << Vector3D(2.5, 5.0, 2.5)
+          << " Orientation: " << GetOrientationMatrix() << std::endl;
+		  */
 	bool onGround = false;
 
-	if (scene && scene->GetScenarioCollider()->CheckCollision(newBoundingBox.ToAABB())) {
+	if (scene && scene->GetScenarioCollider()->CheckCollision(playerBoundingBox.ToAABB())) {
 		if (verticalSpeed < 0) {
 			newPosition.SetY(currentPosition.GetY());
 			isJumping = false;
@@ -270,7 +292,7 @@ void Player::ApplyGravity(float deltaTime) {
 	}
 
 	for (auto& ramp : scene->GetRamps()) {
-		if (ramp->CheckCollision(newBoundingBox)) {
+		if (ramp->CheckCollision(playerBoundingBox)) {
 			float rampHeight = ramp->GetRampHeightAt(newPosition);
 
 			if (newPosition.GetY() < rampHeight) {
@@ -287,5 +309,4 @@ void Player::ApplyGravity(float deltaTime) {
 	}
 
 	SetCoordinates(newPosition);
-	playerBoundingBox = newBoundingBox;
 }

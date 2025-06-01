@@ -1,5 +1,4 @@
 #include "MaterialModelLoader.h"
-
 void MaterialModelLoader::loadMaterials(string fileName)
 {
 	string materialName;
@@ -28,6 +27,50 @@ void MaterialModelLoader::loadMaterials(string fileName)
 		throw runtime_error("Error openning file: " + fullFileName + " in MaterialModelLoader::loadMaterials()");
 	}
 }
+/*
+MaterialTriangle MaterialModelLoader::parseObjMaterialTriangle(const std::string& line) {
+	std::istringstream ss(line);
+	std::string tag, v0str, v1str, v2str;
+	ss >> tag >> v0str >> v1str >> v2str;
+
+	auto parseVertex = [](const std::string& token) -> std::tuple<int, int, int> {
+		size_t first = token.find('/');
+		size_t second = token.find('/', first + 1);
+		int vi = std::stoi(token.substr(0, first)) - 1;
+		int vti = std::stoi(token.substr(first + 1, second - first - 1)) - 1;
+		int vni = std::stoi(token.substr(second + 1)) - 1;
+		return std::make_tuple(vi, vti, vni);
+		};
+
+	int v0i, vt0i, vn0i;
+	int v1i, vt1i, vn1i;
+	int v2i, vt2i, vn2i;
+
+	std::tie(v0i, vt0i, vn0i) = parseVertex(v0str);
+	std::tie(v1i, vt1i, vn1i) = parseVertex(v1str);
+	std::tie(v2i, vt2i, vn2i) = parseVertex(v2str);
+
+	// Get vertex positions
+	Vector3D v0 = verts[v0i];
+	Vector3D v1 = verts[v1i];
+	Vector3D v2 = verts[v2i];
+
+	// Get normals
+	Vector3D n0 = normals[vn0i];
+	Vector3D n1 = normals[vn1i];
+	Vector3D n2 = normals[vn2i];
+
+	// Optional: use UVs if needed
+	// Vector2D uv0 = uvs[vt0i]; // Only if you store uvs
+
+	// Assign material
+	const Material& mat = materials[currentMaterial];
+	MaterialTriangle triangle(v0, v1, v2, n0, n1, n2, mat);
+
+	return triangle;
+}
+*/
+
 
 void MaterialModelLoader::LoadModel(const string& filePath)
 {
@@ -49,16 +92,16 @@ void MaterialModelLoader::LoadModel(const string& filePath)
 						vector<string> lineInfo = split(line);
 						this->currentMaterial = lineInfo[1];
 					}
-					else if (line[0] == 'v' && line[1] == 'n') //ejemplo: vn 0.0000 0.3603 - 0.9328 = > normal
+					else if (line[0] == 'v' && line[1] == 'n') //ejemplo: vn 0.0000	0.3603 - 0.9328 = > normal
 					{
-						Vector3D normal = this->parseObjLineToVector3D(line);
-						this->normals.push_back(normal);
+					Vector3D normal = this->parseObjLineToVector3D(line);
+					this->normals.push_back(normal);
 					}
 					else if (line[0] == 'v') //ejemplo: v -0.091741 0.641907 0.606832 = > vértice
 					{
-						Vector3D vertex = this->parseObjLineToVector3D(line);
-						this->calcBoundaries(vertex);
-						this->verts.push_back(vertex);
+					Vector3D vertex = this->parseObjLineToVector3D(line);
+					this->calcBoundaries(vertex);
+					this->verts.push_back(vertex);
 					}
 					else if (line[0] == 'f') //ejemplo: f 2//4 5//4 6//4 => cara, triángulo
 					{
@@ -73,21 +116,19 @@ void MaterialModelLoader::LoadModel(const string& filePath)
 		{
 			cout << "No se ha podido abrir el archivo: " << filePath << endl;
 		}
-		}
-		catch (exception& ex)
-		{
-			cout << "Excepción al procesar el archivo: " << filePath << endl;
-			cout << ex.what() << endl;
-		}
+	}
+	catch (exception& ex)
+	{
+		cout << "Excepción al procesar el archivo: " << filePath << endl;
+		cout << ex.what() << endl;
+	}
 }
-
 MaterialTriangle MaterialModelLoader::parseObjMaterialTriangle(const string& line)
 {
 	Triangle triangle = this->parseObjTriangle(line);
 	MaterialTriangle materialTriangle(triangle);
 	return materialTriangle;
 }
-
 MaterialTriangle MaterialModelLoader::center(MaterialTriangle triangle)
 {
 	Vector3D modelCenter(this->minX + this->getWidth() / 2.0,
@@ -103,7 +144,6 @@ MaterialTriangle MaterialModelLoader::center(MaterialTriangle triangle)
 	centeredTriangle.SetMaterial(triangle.GetMaterial());
 	return centeredTriangle;
 }
-
 void MaterialModelLoader::Clear()
 {
 	this->verts.clear();

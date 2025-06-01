@@ -42,7 +42,7 @@ void MeshCollider::GenerateBoundingBoxesFromTriangles(const std::vector<Triangle
         boundingBoxes.emplace_back(minBounds, maxBounds);
     }
 
-    std::cout << "Generated " << boundingBoxes.size() << " bounding boxes for the scenario." << std::endl;
+    //std::cout << "Generated " << boundingBoxes.size() << " bounding boxes for the scenario." << std::endl;
 }
 
 void MeshCollider::RenderBoundingBoxes() const {

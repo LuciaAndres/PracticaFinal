@@ -14,13 +14,21 @@ private:
 
 	std::vector<Triangle> triangles;
 
+	string name = "nullptr";
+
 public:
 
 	Model(Vector3D coordinates, Color color, Vector3D orientation) :
-		Solid(coordinates, color, orientation) {}
+		Solid(coordinates, color, orientation) {
+	}
 
 	Model() :
-		Solid() {}
+		Solid() {
+	}
+
+	Model(string name) :
+		Solid(), name(name){
+	}
 
 
 	bool CheckCollisionWithCapsule(CapsuleCollider& capsule);
@@ -30,8 +38,9 @@ public:
 	const std::vector<Triangle>& GetTriangles() const {
 		return triangles;
 	}
-
-	void Clear();
+	inline void SetName(const string& name) { this->name = name; }
+	inline string GetName() const { return this->name; }
+	void clear();
 	void PaintColor(Color color);
 	Solid* Clone();
 };
