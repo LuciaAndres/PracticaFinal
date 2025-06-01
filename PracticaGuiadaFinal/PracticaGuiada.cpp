@@ -137,7 +137,7 @@ int main(int argc, char** argv)
 	glutIdleFunc(idle);
 	glutKeyboardUpFunc(keyReleased); //DETECTAR CUANDO UNA TECLA NO ESTA PRESIONADA
 	glutSetCursor(GLUT_CURSOR_NONE); //HACER EL CURSOR INVISIBLE
-
+	glEnable(GL_NORMALIZE);
 
 	writeLine("Iniciando graficos");
 	initGraphics();

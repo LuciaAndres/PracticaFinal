@@ -246,7 +246,11 @@ void Player::ProcessKeyPressed(unsigned char key, int px, int py) {
 }
 
 void Player::ProcessKeyReleased(unsigned char key, int px, int py) {
-	keys[key] = false;
+	unsigned char lowerkey = tolower(key);
+	unsigned char upperkey = toupper(key);
+
+	keys[lowerkey] = false;
+	keys[upperkey] = false;
 	switch (key)
 	{
 	case 'w':

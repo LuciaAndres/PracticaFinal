@@ -2,12 +2,20 @@
 
 void ModelLoader::calcBoundaries(Vector3D vectorPoint)
 {
-	this->maxX = fmax(this->maxX, vectorPoint.GetX()); 
-	this->maxY = fmax(this->maxY, vectorPoint.GetY());
-	this->maxZ = fmax(this->maxZ, vectorPoint.GetZ());
-	this->minX = fmin(this->minX, vectorPoint.GetX()); 
-	this->minY = fmin(this->minY, vectorPoint.GetY());
-	this->minZ = fmin(this->minZ, vectorPoint.GetZ());
+	if (verts.empty()) { // Primer punto
+		this->maxX = this->minX = vectorPoint.GetX();
+		this->maxY = this->minY = vectorPoint.GetY();
+		this->maxZ = this->minZ = vectorPoint.GetZ();
+	}
+	else {
+		this->maxX = fmax(this->maxX, vectorPoint.GetX());
+		this->maxY = fmax(this->maxY, vectorPoint.GetY());
+		this->maxZ = fmax(this->maxZ, vectorPoint.GetZ());
+
+		this->minX = fmin(this->minX, vectorPoint.GetX());
+		this->minY = fmin(this->minY, vectorPoint.GetY());
+		this->minZ = fmin(this->minZ, vectorPoint.GetZ());
+	}
 }
 
 Triangle ModelLoader::center(Triangle triangle)
@@ -43,12 +51,14 @@ Triangle ModelLoader::parseObjTriangle(const string& line)
 	Vector3D vertex0 = this->verts[idxVertex0 - 1];
 	Vector3D vertex1 = this->verts[idxVertex1 - 1];
 	Vector3D vertex2 = this->verts[idxVertex2 - 1];
-	Vector3D normal = this->normals[idxNormal0 - 1];
+	Vector3D normal0 = this->normals[idxNormal0 - 1];
+	Vector3D normal1 = this->normals[idxNormal1 - 1];
+	Vector3D normal2 = this->normals[idxNormal2 - 1];
+	Triangle parsedTriangle(vertex0, vertex1, vertex2, normal0, normal1, normal2);
 
-	Triangle parsedTriangle(vertex0, vertex1, vertex2, normal, normal, normal);
 	if (this->id == 1)
 	{
-		cout << "Taxi:  " << model.GetName() << " Triangle: Vert 0:" << vertex0 << "Triangle: Vert 0:" << vertex1 << "Triangle: Vert 0:" << vertex2 << endl;
+		//cout << "Taxi:  " << model.GetName() << " Triangle: Vert 0:" << vertex0 << "Triangle: Vert 0:" << vertex1 << "Triangle: Vert 0:" << vertex2 << endl;
 
 	}
 	else
@@ -97,8 +107,8 @@ void ModelLoader::LoadModel(const std::string& filePath)
 				else if (line[0] == 'f')
 				{
 					Triangle triangle = this->parseObjTriangle(line);
-					this->model.AddTriangle(this->center(triangle));
-					//this->model.AddTriangle(triangle);
+					//this->model.AddTriangle(this->center(triangle));
+					this->model.AddTriangle(triangle);
 				}
 			}
 			objFile.close();
@@ -121,8 +131,8 @@ void ModelLoader::Clear()
 	this->normals.clear();
 	this->model.clear();
 	minX = maxX = minY = maxY = minZ = maxZ = 0;
-	cout << "Size: " << verts.size() << endl;
-	cout << "Size: " << normals.size() << endl;
+	//cout << "Size: " << verts.size() << endl;
+	//cout << "Size: " << normals.size() << endl;
 }
 
 void ModelLoader::RenderBoundingBox()

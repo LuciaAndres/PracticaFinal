@@ -98,12 +98,12 @@ void Game::Init()
 	*test = texLoader->GetMaterialModel();
 	texLoader->Clear();
 	texLoader->setId(2);
-	texLoader->LoadModel("..\\3dModels\\test.obj");
+	//texLoader->LoadModel("..\\3dModels\\cubito.obj");
 	*cube = texLoader->GetMaterialModel();
 	cube->SetCoordinates(Vector3D(-20, 2, -20));
 	test->SetCoordinates(Vector3D(10, 2, 10));
 	mainScene->AddGameObject(test);
-	mainScene->AddGameObject(scenario);
+	//mainScene->AddGameObject(scenario);
 	mainScene->AddGameObject(cube);
 	mainScene->SetScenarioCollider(std::unique_ptr<MeshCollider>(scenarioCollider));
 

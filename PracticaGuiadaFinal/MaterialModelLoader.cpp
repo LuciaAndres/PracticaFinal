@@ -103,13 +103,22 @@ void MaterialModelLoader::LoadModel(const string& filePath)
 					this->calcBoundaries(vertex);
 					this->verts.push_back(vertex);
 					}
-					else if (line[0] == 'f') //ejemplo: f 2//4 5//4 6//4 => cara, triángulo
-					{
-						MaterialTriangle triangle = this -> parseObjMaterialTriangle(line);
-						triangle.SetMaterial(this->materials[this -> currentMaterial]);
-						this->materialModel.AddMaterialTriangle(this -> center(triangle));
+					else if (line[0] == 'f') {
+						std::cout << "Parsing face line: " << line << std::endl;
+						MaterialTriangle triangle = this->parseObjMaterialTriangle(line);
+						std::cout << "Vertices: "
+							<< triangle.getCoords0() << ", "
+							<< triangle.getCoords1() << ", "
+							<< triangle.getCoords2() << std::endl;
+						triangle.SetMaterial(this->materials[this->currentMaterial]);
+						this->materialModel.AddMaterialTriangle(this->center(triangle));
 					}
+					std::cout << "[BOUNDARIES] min: (" << minX << ", " << minY << ", " << minZ << ")\n";
+					std::cout << "[BOUNDARIES] max: (" << maxX << ", " << maxY << ", " << maxZ << ")\n";
+					std::cout << "[CENTER] (" << (minX + getWidth() / 2) << ", " << (minY + getHeight() / 2) << ", " << (minZ + getLength() / 2) << ")\n";
 			}
+			
+
 			objFile.close();
 		}
 		else
@@ -128,12 +137,16 @@ MaterialTriangle MaterialModelLoader::parseObjMaterialTriangle(const string& lin
 	Triangle triangle = this->parseObjTriangle(line);
 	MaterialTriangle materialTriangle(triangle);
 	return materialTriangle;
+
+
 }
 MaterialTriangle MaterialModelLoader::center(MaterialTriangle triangle)
 {
-	Vector3D modelCenter(this->minX + this->getWidth() / 2.0,
+	Vector3D modelCenter(
+		this->minX + this->getWidth() / 2.0,
 		this->minY + this->getHeight() / 2.0,
-		this->minZ + this->getLength() / 2);
+		this->minZ + this->getLength() / 2.0);
+
 	MaterialTriangle centeredTriangle(
 		triangle.getCoords0() - modelCenter,
 		triangle.getCoords1() - modelCenter,
@@ -141,6 +154,7 @@ MaterialTriangle MaterialModelLoader::center(MaterialTriangle triangle)
 		triangle.getNormal0(),
 		triangle.getNormal1(),
 		triangle.getNormal2());
+
 	centeredTriangle.SetMaterial(triangle.GetMaterial());
 	return centeredTriangle;
 }
