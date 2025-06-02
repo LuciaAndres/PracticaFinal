@@ -107,8 +107,8 @@ void ModelLoader::LoadModel(const std::string& filePath)
 				else if (line[0] == 'f')
 				{
 					Triangle triangle = this->parseObjTriangle(line);
-					//this->model.AddTriangle(this->center(triangle));
-					this->model.AddTriangle(triangle);
+					this->model.AddTriangle(this->center(triangle));
+					//this->model.AddTriangle(triangle);
 				}
 			}
 			objFile.close();

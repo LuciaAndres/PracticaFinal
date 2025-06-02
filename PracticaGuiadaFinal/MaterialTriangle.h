@@ -37,9 +37,9 @@ public:
 		Color color0Argument = Color(1, 0, 0),
 		Color color1Argument = Color(0, 1, 0),
 		Color color2Argument = Color(0, 0, 1))
-		: Triangle(vertex0Argument, vertex1Argument, vertex2Argument,
-			normal0Argument, normal1Argument, normal2Argument,
-			color0Argument, color1Argument, color2Argument),
+		: Triangle(color0Argument, normal0Argument, vertex0Argument,
+			color1Argument, normal1Argument, vertex1Argument,
+			color2Argument, normal2Argument, vertex2Argument),
 		material(materialArgument)
 	{
 	}

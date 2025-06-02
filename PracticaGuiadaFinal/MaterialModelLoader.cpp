@@ -111,7 +111,8 @@ void MaterialModelLoader::LoadModel(const string& filePath)
 							<< triangle.getCoords1() << ", "
 							<< triangle.getCoords2() << std::endl;
 						triangle.SetMaterial(this->materials[this->currentMaterial]);
-						this->materialModel.AddMaterialTriangle(this->center(triangle));
+						//this->materialModel.AddMaterialTriangle(this->center(triangle));
+						this->materialModel.AddMaterialTriangle(triangle);
 					}
 					std::cout << "[BOUNDARIES] min: (" << minX << ", " << minY << ", " << minZ << ")\n";
 					std::cout << "[BOUNDARIES] max: (" << maxX << ", " << maxY << ", " << maxZ << ")\n";
@@ -132,14 +133,83 @@ void MaterialModelLoader::LoadModel(const string& filePath)
 		cout << ex.what() << endl;
 	}
 }
-MaterialTriangle MaterialModelLoader::parseObjMaterialTriangle(const string& line)
+/*MaterialTriangle MaterialModelLoader::parseObjMaterialTriangle(const string& line)
 {
 	Triangle triangle = this->parseObjTriangle(line);
 	MaterialTriangle materialTriangle(triangle);
 	return materialTriangle;
 
 
+
+
+}*/
+
+MaterialTriangle MaterialModelLoader::parseObjMaterialTriangle(const std::string& line) {
+	std::istringstream ss(line);
+	std::string tag, v0str, v1str, v2str;
+	ss >> tag >> v0str >> v1str >> v2str;
+
+	auto parseVertex = [](const std::string& token) -> std::tuple<int, int, int> {
+		int vi = -1, vti = -1, vni = -1;
+		size_t first = token.find('/');
+		size_t second = token.find('/', first + 1);
+
+		try {
+			if (first == std::string::npos) {
+				vi = std::stoi(token) - 1;
+			}
+			else if (second == std::string::npos) {
+				vi = std::stoi(token.substr(0, first)) - 1;
+				vti = std::stoi(token.substr(first + 1)) - 1;
+			}
+			else if (second == first + 1) {
+				vi = std::stoi(token.substr(0, first)) - 1;
+				vni = std::stoi(token.substr(second + 1)) - 1;
+			}
+			else {
+				vi = std::stoi(token.substr(0, first)) - 1;
+				vti = std::stoi(token.substr(first + 1, second - first - 1)) - 1;
+				vni = std::stoi(token.substr(second + 1)) - 1;
+			}
+		}
+		catch (...) {
+			std::cerr << "Error al parsear token: " << token << std::endl;
+		}
+
+		return std::make_tuple(vi, vti, vni);
+		};
+
+	int v0i, vt0i, vn0i;
+	int v1i, vt1i, vn1i;
+	int v2i, vt2i, vn2i;
+
+	std::tie(v0i, vt0i, vn0i) = parseVertex(v0str);
+	std::tie(v1i, vt1i, vn1i) = parseVertex(v1str);
+	std::tie(v2i, vt2i, vn2i) = parseVertex(v2str);
+
+	if (v0i < 0 || v1i < 0 || v2i < 0 ||
+		v0i >= verts.size() || v1i >= verts.size() || v2i >= verts.size()) {
+		throw std::runtime_error("Índice de vértice fuera de rango en línea: " + line);
+	}
+
+	Vector3D v0 = verts[v0i];
+	Vector3D v1 = verts[v1i];
+	Vector3D v2 = verts[v2i];
+
+	Vector3D n0 = (vn0i >= 0 && vn0i < normals.size()) ? normals[vn0i] : Vector3D();
+	Vector3D n1 = (vn1i >= 0 && vn1i < normals.size()) ? normals[vn1i] : Vector3D();
+	Vector3D n2 = (vn2i >= 0 && vn2i < normals.size()) ? normals[vn2i] : Vector3D();
+
+	Material mat;
+	if (materials.find(currentMaterial) != materials.end()) {
+		mat = materials[currentMaterial];
+	}
+
+	return MaterialTriangle(v0, v1, v2, n0, n1, n2, mat);
 }
+
+
+
 MaterialTriangle MaterialModelLoader::center(MaterialTriangle triangle)
 {
 	Vector3D modelCenter(
