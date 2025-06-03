@@ -1,45 +1,9 @@
 #include "Game.h"
 #include <iostream>
 
-MaterialModelLoader* texLoader = new MaterialModelLoader(".\\3dModels\\", 3);
 
 void Game::ProcessKeyPressed(unsigned char key, int px, int py)
 {
-	/*
-	std::cout << "Tecla pulsada: " << key << std::endl;
-	if (key == 'w')
-	{
-		this->player->SetSpeed(
-			Vector3D(
-				this->player->GetSpeed().GetX(),
-				this->player->GetSpeed().GetY() + 0.01,
-				this->player->GetSpeed().GetZ()));
-	}
-	else if (key == 's')
-	{
-		this->player->SetSpeed(
-			Vector3D(
-				this->player->GetSpeed().GetX(),
-				this->player->GetSpeed().GetY() - 0.01,
-				this->player->GetSpeed().GetZ()));
-	}
-	else if (key == 'a')
-	{
-		this->player->SetSpeed(
-			Vector3D(
-				this->player->GetSpeed().GetX() - 0.01,
-				this->player->GetSpeed().GetY(),
-				this->player->GetSpeed().GetZ()));
-	}
-	else if (key == 'd')
-	{
-		this->player->SetSpeed(
-			Vector3D(
-				this->player->GetSpeed().GetX() + 0.01,
-				this->player->GetSpeed().GetY(),
-				this->player->GetSpeed().GetZ()));
-	}*/
-
 	this->player->ProcessKeyPressed(key, px, py);
 }
 
@@ -77,9 +41,10 @@ void Game::Init()
 
 	Model* scenario = new Model("Scenario");
 	ammoBox = new Model("Box");
-	loader->setScale(0.07);
-	loader->LoadModel(".\\3dModels\\plano.obj");
+	loader->setScale(2);
+	loader->LoadModel(".\\3dModels\\m1.obj");
 	*scenario = loader->getModel();
+	scenario->SetIsHidden(true);
 	//scenario->SetCoordinates(Vector3D(0, 10, 0));
 	scenario->SetCoordinates(Vector3D(0, -2, 0));
 	scenario->PaintColor(Color(1, 0, 0));
@@ -89,12 +54,15 @@ void Game::Init()
 	scenarioCollider->UpdatePosition(scenario->GetCoordinates());
 	scenarioCollider->GenerateBoundingBoxesFromTriangles(scenario->GetTriangles()); // Generate boxes
 
+
+	MaterialModelLoader* texLoader = new MaterialModelLoader(".\\3dModels\\", 1);
 	texLoader->Clear();
 	loader->Clear();
 	MaterialModel* test = new MaterialModel();
 	MaterialModel* cube = new MaterialModel();
-	texLoader->setId(1);
-	texLoader->LoadModel(".\\3dModels\\Taxi.obj");
+	texLoader->setId(1); 
+		loader->setScale(1);
+	texLoader->LoadModelMaterial(".\\3dModels\\m1.obj");
 	*test = texLoader->GetMaterialModel();
 	texLoader->Clear();
 	texLoader->setId(2);
@@ -103,12 +71,12 @@ void Game::Init()
 	cube->SetCoordinates(Vector3D(-20, 2, -20));
 	test->SetCoordinates(Vector3D(10, 2, 10));
 	mainScene->AddGameObject(test);
-	//mainScene->AddGameObject(scenario);
-	mainScene->AddGameObject(cube);
+	mainScene->AddGameObject(scenario);
+	//mainScene->AddGameObject(cube);
 	mainScene->SetScenarioCollider(std::unique_ptr<MeshCollider>(scenarioCollider));
 
 	loader->Clear();
-	loader->setScale(0.15);
+	loader->setScale(0);
 	loader->LoadModel(".\\3dModels\\ammo.obj");
 	*ammoBox = loader->getModel();
 	ammoBox->SetCoordinates(Vector3D(0, 1, 0));

@@ -103,15 +103,6 @@ void Player::UpdateMovement(float deltaTime)
 		isJumping = false;
 		verticalSpeed = 0;
 	}
-
-	if (newPosition.GetY() < -30)
-	{
-		newPosition.SetY(0);
-		SetCoordinates(Vector3D(0,2.5,0));
-		std::cout << "[WARNING] Player fell below threshold! Teleporting to (0, 2, 0)" << std::endl;
-		isJumping = false;
-		verticalSpeed = 0;
-	}
 }
 
 void Player::ProcessMouseMovement(int x, int y)

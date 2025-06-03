@@ -56,16 +56,6 @@ Triangle ModelLoader::parseObjTriangle(const string& line)
 	Vector3D normal2 = this->normals[idxNormal2 - 1];
 	Triangle parsedTriangle(vertex0, vertex1, vertex2, normal0, normal1, normal2);
 
-	if (this->id == 1)
-	{
-		//cout << "Taxi:  " << model.GetName() << " Triangle: Vert 0:" << vertex0 << "Triangle: Vert 0:" << vertex1 << "Triangle: Vert 0:" << vertex2 << endl;
-
-	}
-	else
-	{
-		cout << "Model is not taxi, it is: " << this->model.GetName() << endl;
-	}
-
 	return parsedTriangle;
 }
 

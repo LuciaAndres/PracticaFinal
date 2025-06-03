@@ -12,7 +12,7 @@ const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 const int WINDOW_POSITION_X = 300;
 const int WINDOW_POSITION_Y = 400;
-const char TITLE[] = "FIRST PERSON SHOOTER";
+const char TITLE[] = "Locura en el Mercadona";
 bool fullScreenMode = false;
 const GLclampf RED = 0.2;
 const GLclampf GREEN = 0.4;
@@ -132,12 +132,17 @@ int main(int argc, char** argv)
 	glutKeyboardFunc(keyPressed);
 	glutSpecialFunc(specialKey);
 	glutPassiveMotionFunc(mouseMoved);
-	glutMotionFunc(mouseMoved);
 	glutMouseFunc(mouseClicked);
 	glutIdleFunc(idle);
+
+	//AÑADIDO DESPUES
+	
+	glutMotionFunc(mouseMoved);
 	glutKeyboardUpFunc(keyReleased); //DETECTAR CUANDO UNA TECLA NO ESTA PRESIONADA
 	glutSetCursor(GLUT_CURSOR_NONE); //HACER EL CURSOR INVISIBLE
 	glEnable(GL_NORMALIZE);
+
+	//
 
 	writeLine("Iniciando graficos");
 	initGraphics();

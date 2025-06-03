@@ -14,7 +14,7 @@ void Guns::Trigger()
 	bullets.push_back(newBullet);
 	lastShotTime = now;
 }
-
+ 
 void Guns::Update(const float& time) {
 	for (auto& bullet : bullets)
 	{

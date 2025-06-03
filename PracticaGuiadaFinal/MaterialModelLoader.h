@@ -21,7 +21,7 @@ public:
 	MaterialModelLoader(string modelsFolderArgument = " ", float scaleArgument = 1) :
 		ModelLoader(scaleArgument), modelsFolder(modelsFolderArgument) {
 	}
-	void LoadModel(const string& filePath);
+	void LoadModelMaterial(const string& filePath);
 	inline string GetModelsFolder() const { return this->modelsFolder; }
 	inline void SetModelsFolder(const string& modelsFolderToSet) {
 		this->modelsFolder =

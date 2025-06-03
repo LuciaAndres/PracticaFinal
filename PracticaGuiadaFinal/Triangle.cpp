@@ -1,7 +1,7 @@
 #include "Triangle.h"
 void Triangle::Render()
 {
-    glEnable(GL_COLOR_MATERIAL);
+    //glEnable(GL_COLOR_MATERIAL);
 	glBegin(GL_TRIANGLES);
 
 	//vértice 1
