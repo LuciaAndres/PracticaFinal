@@ -58,6 +58,9 @@
     <Filter Include="Source Files\Collider">
       <UniqueIdentifier>{3bc09bb1-f168-40ff-b1d2-07ddb46034e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Guns">
+      <UniqueIdentifier>{a410aa04-1b38-4316-a14e-da9b87e49c1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PracticaGuiada.cpp">
@@ -163,12 +166,21 @@
       <Filter>Source Files\Collider</Filter>
     </ClCompile>
     <ClCompile Include="OBB.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Guns.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Guns</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\Guns</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -275,13 +287,22 @@
     <ClInclude Include="Matrix3x3.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="OBB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Guns.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OBB.h">
+      <Filter>Header Files\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

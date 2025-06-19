@@ -1,13 +1,7 @@
 #include "ModelLoader.h"
 
 void ModelLoader::calcBoundaries(Vector3D vectorPoint)
-{
-	if (verts.empty()) { // Primer punto
-		this->maxX = this->minX = vectorPoint.GetX();
-		this->maxY = this->minY = vectorPoint.GetY();
-		this->maxZ = this->minZ = vectorPoint.GetZ();
-	}
-	else {
+{	
 		this->maxX = fmax(this->maxX, vectorPoint.GetX());
 		this->maxY = fmax(this->maxY, vectorPoint.GetY());
 		this->maxZ = fmax(this->maxZ, vectorPoint.GetZ());
@@ -15,7 +9,6 @@ void ModelLoader::calcBoundaries(Vector3D vectorPoint)
 		this->minX = fmin(this->minX, vectorPoint.GetX());
 		this->minY = fmin(this->minY, vectorPoint.GetY());
 		this->minZ = fmin(this->minZ, vectorPoint.GetZ());
-	}
 }
 
 Triangle ModelLoader::center(Triangle triangle)

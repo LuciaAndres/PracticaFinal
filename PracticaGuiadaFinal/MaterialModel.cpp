@@ -21,12 +21,13 @@ void MaterialModel::Render()
 	glPopMatrix();
 }
 
+
 void MaterialModel::Clear()
 {
 	this->triangles.clear();
 }
 
-Solid* MaterialModel::Clone()
+MaterialModel* MaterialModel::Clone()
 {
-	return nullptr;
+	return new MaterialModel(*this);
 }

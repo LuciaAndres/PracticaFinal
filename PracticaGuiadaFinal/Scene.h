@@ -5,7 +5,7 @@
 #include "Vector3D.h"
 #include "MeshCollider.h"
 #include "UI.h"
-#include "Ramps.h"
+#include "MaterialModel.h"
 
 class Scene
 {
@@ -13,7 +13,7 @@ private:
 
 	std::vector<Solid*> gameObjects;
 	std::unique_ptr<MeshCollider> scenarioCollider;
-	std::vector<std::shared_ptr<Ramps>> ramps;
+	std::vector<MaterialModel*> collectibles;
 
 	Camera* camera;
 
@@ -29,11 +29,13 @@ public:
 
 	virtual void AddGameObject(Solid* object);
 	virtual MeshCollider* GetScenarioCollider();
+	
 	virtual void SetScenarioCollider(std::unique_ptr<MeshCollider> collider);
 	virtual void AddHiddenObject(Solid* object);
 	virtual void Update(const float& time);
 	virtual void Render();
 	virtual void AddRamp(Vector3D start, Vector3D end, Vector3D control);
 	bool CheckRampCollision(const OBB& other);
-	vector<std::shared_ptr<Ramps>> GetRamps() { return ramps; }
+	vector<MaterialModel*>& GetCollectibles() { return collectibles; }
+	vector<Solid*> GetGameObjects() { return gameObjects; }
 };

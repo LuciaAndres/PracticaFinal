@@ -40,6 +40,7 @@ public:
 
 
 	float DotProduct(Vector3Dx<S> v);
+	float Dot(Vector3Dx<S> v);
 	S Magnitude();
 	S LengthSquared();
 	bool isZero();

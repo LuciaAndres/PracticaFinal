@@ -1,124 +1,271 @@
 #include "Game.h"
+#include <algorithm>
+#include <random>
 #include <iostream>
 
 
 void Game::ProcessKeyPressed(unsigned char key, int px, int py)
 {
-	this->player->ProcessKeyPressed(key, px, py);
+	if(!isInMenu) this->player->ProcessKeyPressed(key, px, py);
+
 }
 
 void Game::ProcessMouseMovement(int x, int y)
 {
-	this->player->ProcessMouseMovement(x, y);
+	if (!isInMenu) this->player->ProcessMouseMovement(x, y);
 	//std::cout << "Movimiento del mouse: " << x << ", " << y << std::endl;
 }
 
 void Game::ProcessMouseClick(int button, int state, int x, int y)
 {
-	this->player->ProcessMouseClick(button, state, x, y);
-	//std::cout << "Clic: " << button << std::endl;
-}
+	std::cout << "Clic: " << button << " en " << x << ", " << y << std::endl;
 
+	if (isInMenu)
+	{
+		menuManager.OnMouseClick(x, y);
+		std::string selected = menuManager.GetCurrentSelection();
+		cout << "Selected: " << selected << endl;
+
+		if (selected == "game") {
+			InitLevels();
+			isInMenu = false;
+		}
+		else if (selected == "credits") {
+			menuManager.FindMenu("main").SetSelectedScene(" ");
+			menuManager.SetActiveMenu("credits");
+		}
+		else if (selected == "exit") {
+			exit(0);
+		}
+		else if (selected == "main") {
+			menuManager.FindMenu("credits").SetSelectedScene(" ");
+			menuManager.SetActiveMenu("main");
+		}
+		return;
+	}
+
+	player->ProcessMouseClick(button, state, x, y);
+}
 void Game::Init()
 {
-	ModelLoader* loader = new ModelLoader();
+	Menu mainMenu;
+	float centerX = glutGet(GLUT_WINDOW_WIDTH) / 2.0f;
+	float buttonWidth = 150;
 
+	mainMenu.AddButton(Button("Jugar", Vector3D(centerX - buttonWidth / 2, 160, 0), buttonWidth, 50, "game"));
+	mainMenu.AddButton(Button("Creditos", Vector3D(centerX - buttonWidth / 2, 230, 0), buttonWidth, 50, "credits"));
+	mainMenu.AddButton(Button("Salir", Vector3D(centerX - buttonWidth / 2, 300, 0), buttonWidth, 50, "exit"));
+	menuManager.AddMenu("main", mainMenu);
+	menuManager.SetActiveMenu("main");
+	isInMenu = true;
+
+	Menu creditsMenu;
+	creditsMenu.AddButton(Button("Volver", Vector3D(200, 400, 0), 150, 50, "main"));
+	menuManager.AddMenu("credits", creditsMenu);
+}
+
+void Game::InitLevels()
+{
+	//GLUT STUFF
+	glutSetCursor(GLUT_CURSOR_NONE);
+	const GLclampf RED = 0.2;
+	const GLclampf GREEN = 0.4;
+	const GLclampf BLUE = 0.8;
+	const GLclampf ALPHA = 1.0;
+	glClearColor(RED, GREEN, BLUE, ALPHA);
+
+	//MAKING ML
+	ModelLoader* loader = new ModelLoader();
+	MaterialModelLoader* texLoader = new MaterialModelLoader(".\\3dModels\\", 1);
+
+	//SETTING UP PLAYER
 	player = new Player();
 	FirstPersonCamera* view = player->getFPC();
 
-	Scene* mainScene = new(nothrow) Scene(view);
-	Scene* textureScenes = new(nothrow) Scene(view);
-	this->scenes.push_back(mainScene);
-	this->scenes.push_back(textureScenes);
-	this->activeScene = mainScene;
-
-	Cuboid testCuboid = Cuboid(Vector3D(0, -2.1, 0), Color(0.8, 0.8, 0), Vector3D(0, 0, 0), 1, 0.1, 1);
-	Solid* cuboidTest = testCuboid.Clone();
-
 	player->SetCoordinates(Vector3D(0, 10.5, 0));
 	player->SetOrientation(Vector3D(0, 180, 0));
-	player->SetScene(mainScene);
 
-	Model* scenario = new Model("Scenario");
-	ammoBox = new Model("Box");
-	loader->setScale(2);
-	loader->LoadModel(".\\3dModels\\m1.obj");
-	*scenario = loader->getModel();
-	scenario->SetIsHidden(true);
-	//scenario->SetCoordinates(Vector3D(0, 10, 0));
-	scenario->SetCoordinates(Vector3D(0, -2, 0));
-	scenario->PaintColor(Color(1, 0, 0));
-	scenario->SetIsStationary(true);
+	//SETTING UP SCENES
+	Scene* levelOne = new(nothrow) Scene(view);
+	Scene* levelTwo = new(nothrow) Scene(view);
 
+	this->scenes.push_back(levelOne);
+	this->scenes.push_back(levelTwo);
+
+	this->activeScene = levelTwo;
+
+	player->SetScene(levelTwo);
+
+	//SETTING UP LEVEL 1
+
+	MaterialModel* scenarioMat = new MaterialModel();
 	MeshCollider* scenarioCollider = new MeshCollider();
-	scenarioCollider->UpdatePosition(scenario->GetCoordinates());
-	scenarioCollider->GenerateBoundingBoxesFromTriangles(scenario->GetTriangles()); // Generate boxes
-
-
-	MaterialModelLoader* texLoader = new MaterialModelLoader(".\\3dModels\\", 1);
 	texLoader->Clear();
-	loader->Clear();
-	MaterialModel* test = new MaterialModel();
-	MaterialModel* cube = new MaterialModel();
 	texLoader->setId(1); 
-		loader->setScale(1);
-	texLoader->LoadModelMaterial(".\\3dModels\\m1.obj");
-	*test = texLoader->GetMaterialModel();
+
+	texLoader->LoadModelMaterial(".\\3dModels\\n1.obj");
+	*scenarioMat = texLoader->GetMaterialModel();
+	scenarioMat->SetCoordinates(Vector3D(0, 80, 0));
+
+	scenarioCollider->UpdatePosition(scenarioMat->GetCoordinates());
+	scenarioCollider->GenerateBoundingBoxesFromTriangles(scenarioMat->GetTriangles());
+	levelOne->SetScenarioCollider(std::unique_ptr<MeshCollider>(scenarioCollider));
+
+	levelOne->AddGameObject(scenarioMat);
+
+	//SETTING UP LEVEL 2
+
+	MaterialModel* scenarioMatLevel2 = new MaterialModel();
+	MeshCollider* scenarioColliderLevel2 = new MeshCollider();
 	texLoader->Clear();
 	texLoader->setId(2);
-	//texLoader->LoadModel("..\\3dModels\\cubito.obj");
-	*cube = texLoader->GetMaterialModel();
-	cube->SetCoordinates(Vector3D(-20, 2, -20));
-	test->SetCoordinates(Vector3D(10, 2, 10));
-	mainScene->AddGameObject(test);
-	mainScene->AddGameObject(scenario);
-	//mainScene->AddGameObject(cube);
-	mainScene->SetScenarioCollider(std::unique_ptr<MeshCollider>(scenarioCollider));
 
-	loader->Clear();
-	loader->setScale(0);
-	loader->LoadModel(".\\3dModels\\ammo.obj");
-	*ammoBox = loader->getModel();
-	ammoBox->SetCoordinates(Vector3D(0, 1, 0));
-	ammoBox->SetOrientation(Vector3D(0, 90, 0));
-	ammoBox->PaintColor(Color(0, 0.6, 0));
-	//mainScene->AddGameObject(ammoBox);
-	cuboidTest->SetCoordinates(test->GetCoordinates()+ Vector3D(0, 2, 0));
-	mainScene->AddGameObject(cuboidTest);
+	texLoader->LoadModelMaterial(".\\3dModels\\n2.obj");
+	*scenarioMatLevel2 = texLoader->GetMaterialModel();
+	scenarioMatLevel2->SetCoordinates(Vector3D(0, 10, 0));
 
+	scenarioColliderLevel2->UpdatePosition(scenarioMatLevel2->GetCoordinates());
+	scenarioColliderLevel2->GenerateBoundingBoxesFromTriangles(scenarioMatLevel2->GetTriangles());
+	levelTwo->SetScenarioCollider(std::unique_ptr<MeshCollider>(scenarioColliderLevel2));
+
+	levelTwo->AddGameObject(scenarioMatLevel2);
 	
+	//COLLECTIBLES
+
+	std::vector<Vector3D> spawnPointsLevel1;
+	std::vector<Vector3D> spawnPointsLevel2;
+
+	spawnPointsLevel1 = {
+		Vector3D(-39, 5, -86), Vector3D(112, 5, -86), Vector3D(49, 5, 52),
+		Vector3D(25, 5, 85),
+	};
+
+	spawnPointsLevel2 = {
+		Vector3D(75, -6, -21), Vector3D(-82, -6, 29), Vector3D(45, -6, 31),
+		Vector3D(4, -6, 75),
+	};
+
+	random_shuffle(spawnPointsLevel1.begin(), spawnPointsLevel1.end());
+	random_shuffle(spawnPointsLevel2.begin(), spawnPointsLevel2.end());
+
+	texLoader->Clear();
+	texLoader->setId(3);
+
+	MaterialModel* cog = new MaterialModel();
+	MeshCollider* cogCollider = new MeshCollider();
+
+	texLoader->LoadModelMaterial(".\\3dModels\\ammo.obj");
+	*cog = texLoader->GetMaterialModel();
+	cogCollider->GenerateBoundingBoxesFromTriangles(cog->GetTriangles());
+
+	MaterialModel* cog0 = cog->Clone();
+	MaterialModel* cog1 = cog->Clone();
+	MaterialModel* cog2 = cog->Clone();
+	MaterialModel* cog3 = cog->Clone();
+	MaterialModel* cog4 = cog->Clone();
+	MaterialModel* cog5 = cog->Clone();
+
+	cog0->SetCoordinates(spawnPointsLevel1[0]);
+	cog1->SetCoordinates(spawnPointsLevel1[1]);
+	cog2->SetCoordinates(spawnPointsLevel1[2]);
+	cog3->SetCoordinates(spawnPointsLevel2[0]);
+	cog4->SetCoordinates(spawnPointsLevel2[1]);
+	cog5->SetCoordinates(spawnPointsLevel2[2]);
+
+	cogCollider->UpdatePosition(cog0->GetCoordinates());
+	cog0->SetOBB(*cogCollider);
+	cogCollider->UpdatePosition(cog1->GetCoordinates());
+	cog1->SetOBB(*cogCollider);
+	cogCollider->UpdatePosition(cog2->GetCoordinates());
+	cog2->SetOBB(*cogCollider);
+	cogCollider->UpdatePosition(cog3->GetCoordinates());
+	cog3->SetOBB(*cogCollider);
+	cogCollider->UpdatePosition(cog4->GetCoordinates());
+	cog4->SetOBB(*cogCollider);
+	cogCollider->UpdatePosition(cog5->GetCoordinates());
+	cog5->SetOBB(*cogCollider);
+
+	levelOne->GetCollectibles().push_back(cog0);
+	levelOne->GetCollectibles().push_back(cog1);
+	levelOne->GetCollectibles().push_back(cog2);
+
+	levelTwo->GetCollectibles().push_back(cog3);
+	levelTwo->GetCollectibles().push_back(cog4);
+	levelTwo->GetCollectibles().push_back(cog5);
+
+	levelOne->AddGameObject(cog0);
+	levelOne->AddGameObject(cog1);
+	levelOne->AddGameObject(cog2);
+
+	levelTwo->AddGameObject(cog3);
+	levelTwo->AddGameObject(cog4);
+	levelTwo->AddGameObject(cog5);
 }
 
 void Game::Render()
 {
-	//player->getCollisionHandler()->DebugRenderer();
-
-	this->activeScene->Render();
-	this->scenes[1]->Render();
+	if (isInMenu) {
+		menuManager.Render();
+		if (menuManager.GetCurrentMenu() == "credits")
+		{
+			menuManager.FindMenu("credits").RenderCredits();
+		}
+		return;
+	}
+	activeScene->Render();
 	player->Render();
 	ui.Render();
-	//texLoader->RenderBoundingBox();
+
+	for (MaterialModel* pickup : activeScene->GetCollectibles()) {
+		pickup->GetOBB().RenderBoundingBoxes();
+	}
 }
 
 void Game::Update()
 {
-	milliseconds currentTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	if (isInMenu) return;
 
-	float deltaTime = (currentTime.count() - this->initialMilliseconds.count()) - this->lastUpdatedTime;
+	milliseconds currentTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	float deltaTime = (currentTime.count() - initialMilliseconds.count()) - lastUpdatedTime;
 
 	if (deltaTime > UPDATE_PERIOD)
 	{
-        ammoBox->SetOrientation(Vector3D(0, ammoBox->GetOrientation().GetY() + 1, 0));
-		ammoBox->SetCoordinates(Vector3D(0, 1 + cos(deg2rad(ammoBox->GetOrientation().GetY())), 0));
-
-		double time = deltaTime / 1000;
-		this->player->Update(time);
-		this->activeScene->Update(time);
+		double time = deltaTime / 1000.0;
+		player->Update(time);
+		activeScene->Update(time);
 		ui.UpdateFPS(time);
-		this->lastUpdatedTime = currentTime.count() - this->initialMilliseconds.count();
+		lastUpdatedTime = currentTime.count() - initialMilliseconds.count();
+
+			for (MaterialModel* pickup : activeScene->GetCollectibles()) {  
+				if (pickup && !pickup->GetIsHidden() && pickup->GetOBB().CheckCollision(player->getBoundingBox().ToAABB())) {
+					cout << "Esta Escondido?" << pickup->GetIsHidden() << endl;
+					OnPickupCollected(pickup);  
+                }  
+            }
 	}
 }
 
 void Game::ProcessKeyReleased(unsigned char key, int px, int py) {
-	player->ProcessKeyReleased(key, px, py);
+	if (!isInMenu) player->ProcessKeyReleased(key, px, py);
+}
+
+void Game::OnPickupCollected(MaterialModel* pickup) {
+	pickup->SetIsHidden(true); // Hide it so it’s no longer visible or collidable
+	collectedItems++;
+
+	cout << "[DEBUG] Pickup collected! Total: " << collectedItems << endl;
+
+	if (collectedItems >= 3) {
+		// Move to next level or end game
+		if (currentLevel < scenes.) {
+			currentLevel++;
+			activeScene = scenes[currentLevel];
+			player->SetScene(activeScene);
+		}
+		else {
+			cout << "Fin De Juego" << endl;
+			// Optionally return to menu or show win screen
+			exit(0);
+		}
+	}
 }

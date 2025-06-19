@@ -8,8 +8,6 @@ class MaterialTriangle : public Triangle
 private:
 	Material material;
 
-	void useMaterial();
-
 public:
 	MaterialTriangle(
 		Vector3D vertex0Argument = Vector3D(),
@@ -40,6 +38,7 @@ public:
 		this->material =
 			materialToSet;
 	}
+	void useMaterial();
 	void Render();
 };
 

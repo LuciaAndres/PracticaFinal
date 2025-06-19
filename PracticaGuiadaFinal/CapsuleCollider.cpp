@@ -2,12 +2,12 @@
 #include <iostream>
 
 bool CapsuleCollider::CheckCollisionWithTriangle(Triangle& triangle) {
-    std::cout << "Capsule Position: " << GetPosition() << ", Radius: " << GetRadius() << std::endl;
-    std::cout << "Triangle Vertices: "
+    //std::cout << "Capsule Position: " << GetPosition() << ", Radius: " << GetRadius() << std::endl;
+    /*std::cout << "Triangle Vertices: "
         << triangle.getCoords0() << ", "
         << triangle.getCoords1() << ", "
         << triangle.getCoords2() << std::endl;
-
+    */
     Vector3D startUpdated = this->start + this->position;
     Vector3D endUpdated = this->end + this->position;
     Vector3D closestPointOnTriangle = triangle.GetClosestPointToSegment(startUpdated, endUpdated);
@@ -16,7 +16,7 @@ bool CapsuleCollider::CheckCollisionWithTriangle(Triangle& triangle) {
 
     if (distanceSquared <= (this->radius * this->radius))
     {
-        cout << triangle.GetCoordinates() << endl;
+        //cout << triangle.GetCoordinates() << endl;
     }
     bool collisionDetected = distanceSquared <= (this->radius * this->radius);
 

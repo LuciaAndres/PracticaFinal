@@ -28,7 +28,7 @@ private:
 	float groundLevel = 2.5f;
 	float SensValue = 0.3f;
 
-	const float INITIAL_SPEED = 0.14f;
+	const float INITIAL_SPEED = 1.0f;
 
 	float playerStep = INITIAL_SPEED;
 
@@ -45,12 +45,14 @@ private:
 	OBB spinningOBB;
 
 	Scene* scene;
-
+	
 	FirstPersonCamera* view;
 
 	bool keys[256] = { false };
 	bool fullScreenMode = false;
 
+	vector<Solid*> collectibles;
+	int collectedCount = 0;
 //	Bullet TempBullet;
 	//Guns pistol;
 
@@ -68,6 +70,7 @@ public:
 	bool CheckCollision(Solid* other);
 
 	inline FirstPersonCamera* getFPC() const { return this->view; }
+	inline OBB getBoundingBox() { return this->playerBoundingBox; }
 
 	void ProcessMouseMovement(int x, int y);
 	void ProcessMouseClick(int button, int state, int x, int y);

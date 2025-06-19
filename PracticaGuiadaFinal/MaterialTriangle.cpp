@@ -2,27 +2,50 @@
 
 void MaterialTriangle::Render() {
 	glDisable(GL_COLOR_MATERIAL);
-	this->useMaterial();
+	useMaterial();
+
 	glBegin(GL_TRIANGLES);
-	glNormal3f(this->getNormal0().GetX(), this->getNormal0().GetY(), this -> getNormal0().GetZ());
-glVertex3f(this->getCoords0().GetX(), this->getCoords0().GetY(), this -> getCoords0().GetZ());
-glNormal3f(this->getNormal1().GetX(), this->getNormal1().GetY(), this -> getNormal1().GetZ());
-glVertex3f(this->getCoords1().GetX(), this->getCoords1().GetY(), this -> getCoords1().GetZ());
-glNormal3f(this->getNormal2().GetX(), this->getNormal2().GetY(), this -> getNormal2().GetZ());
-glVertex3f(this->getCoords2().GetX(), this->getCoords2().GetY(), this -> getCoords2().GetZ());
-glEnd();
+
+	// Vértice 0
+	const Vector3D& n0 = getNormal0();
+	const Vector3D& v0 = getCoords0();
+	glNormal3f(n0.GetX(), n0.GetY(), n0.GetZ());
+	glVertex3f(v0.GetX(), v0.GetY(), v0.GetZ());
+
+	// Vértice 1
+	const Vector3D& n1 = getNormal1();
+	const Vector3D& v1 = getCoords1();
+	glNormal3f(n1.GetX(), n1.GetY(), n1.GetZ());
+	glVertex3f(v1.GetX(), v1.GetY(), v1.GetZ());
+
+	// Vértice 2
+	const Vector3D& n2 = getNormal2();
+	const Vector3D& v2 = getCoords2();
+	glNormal3f(n2.GetX(), n2.GetY(), n2.GetZ());
+	glVertex3f(v2.GetX(), v2.GetY(), v2.GetZ());
+
+	glEnd();
+}
+void MaterialTriangle::useMaterial() {
+	Color ambient = material.GetAmbientColor();
+	Color diffuse = material.GetDiffuseColor();
+	Color specular = material.GetSpecularColor();
+
+	float MatAmbient[]  = { ambient.GetRed(),  ambient.GetGreen(),  ambient.GetBlue(),  1.0f };
+	float MatDiffuse[]  = { diffuse.GetRed(),  diffuse.GetGreen(),  diffuse.GetBlue(),  1.0f };
+	float MatSpecular[] = { specular.GetRed(), specular.GetGreen(), specular.GetBlue(), 0.1f };
+	float MatShininess  = 60.0f;
+	float black[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+/*
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   MatAmbient);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   MatDiffuse);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  MatSpecular);
+	glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, MatShininess);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  black);*/
+	glMaterialfv(GL_FRONT, GL_AMBIENT, MatAmbient);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, MatDiffuse);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, MatSpecular);
+	glMaterialf(GL_FRONT, GL_SHININESS, MatShininess);
+	glMaterialfv(GL_FRONT, GL_EMISSION, black); 
 }
 
-void MaterialTriangle::useMaterial()
-{
-	float MatAmbient[] = { this->material.GetAmbientColor().GetRed(), this -> material.GetAmbientColor().GetGreen(), this->material.GetAmbientColor().GetBlue(), 1.0f };
-	float MatDiffuse[] = { this->material.GetDiffuseColor().GetRed(), this -> material.GetDiffuseColor().GetGreen(), this->material.GetDiffuseColor().GetBlue(), 1.0f };
-	float MatSpecular[] = { this->material.GetSpecularColor().GetRed(), this -> material.GetSpecularColor().GetGreen(), this->material.GetSpecularColor().GetBlue(), 0.1f };
-	float MatShininess = 60;
-	float black[] = { 0.0f,0.0f,0.0f,1.0f };
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MatAmbient);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MatDiffuse);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, MatSpecular);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, MatShininess);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, black);
-}

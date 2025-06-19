@@ -6,7 +6,6 @@
 #include <vector>
 #include "Color.h"
 #include "Vector3D.h"
-
 using namespace std;
 
 const double PI = 3.14159265358979;

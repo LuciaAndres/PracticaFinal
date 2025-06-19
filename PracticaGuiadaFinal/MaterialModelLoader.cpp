@@ -67,8 +67,8 @@ void MaterialModelLoader::LoadModelMaterial(const string& filePath)
 						//	<< triangle.getCoords1() << ", "
 						//	<< triangle.getCoords2() << std::endl;
 						triangle.SetMaterial(this->materials[this->currentMaterial]);
-						//this->materialModel.AddMaterialTriangle(this->center(triangle));
-						this->materialModel.AddMaterialTriangle(triangle);
+						this->materialModel.AddMaterialTriangle(this->center(triangle));
+						//this->materialModel.AddMaterialTriangle(triangle);
 					}
 					//std::cout << "[BOUNDARIES] min: (" << minX << ", " << minY << ", " << minZ << ")\n";
 					//std::cout << "[BOUNDARIES] max: (" << maxX << ", " << maxY << ", " << maxZ << ")\n";

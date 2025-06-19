@@ -54,6 +54,11 @@ template <class S> float Vector3Dx<S>::DotProduct(Vector3Dx<S> v)
 	return float((this->GetX() * v.GetX()) + (this->GetY() * v.GetY()) + (this->GetZ() * v.GetZ()));
 }
 
+template <class S> float Vector3Dx<S>::Dot(Vector3Dx<S> v)
+{
+	return DotProduct(v);
+}
+
 template <class S> S Vector3Dx<S>::Magnitude()
 {
 	return float(sqrt(LengthSquared()));

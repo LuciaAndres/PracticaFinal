@@ -29,19 +29,12 @@ void Scene::Render()
 		//scenarioCollider->RenderBoundingBoxes(); // Draw bounding boxes
 	}
 
-	for (auto& ramp : ramps)
-	{
-		ramp->DebugRenderer();
-	}
 }
 
 void Scene::Update(const float& time) {
 	for (auto& object : gameObjects) {
 		object->Update(time, Vector3D(0, -9.81f, 0));
-
-		// Update associated collider position if it exists
 	}
-	// Check collisions
 }
 
 MeshCollider* Scene::GetScenarioCollider() {
@@ -82,17 +75,9 @@ void Scene::checkBoundary(Solid* object)
 
 void Scene::AddRamp(Vector3D start, Vector3D end, Vector3D control)
 {
-	ramps.push_back(std::make_shared<Ramps>(start, end, control));
 }
 
 bool Scene::CheckRampCollision(const OBB& other)
 {
-	for (auto& ramp : ramps)
-	{
-		if (ramp->CheckCollision(other))
-		{
-			return true;
-		}
-	}
 	return false;
 }

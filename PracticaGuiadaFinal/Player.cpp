@@ -36,8 +36,13 @@ void Player::UpdateMovement(float deltaTime)
 	if (keys['d'] || keys['D']) {
 		this->StrafeInDirection(1);
 	}
+	if (keys['r'] || keys['R'])
+	{
+		SetCoordinates(Vector3D(0, 10.5, 0));
+	}
 	if (keys['c'] || keys['C'])
 	{
+		cout << GetCoordinates() << endl;
 		std::cout << view->GetCoordinates().GetX() << ", " << view->GetCoordinates().GetY() << ", " << view->GetCoordinates().GetZ() << std::endl;
 		std::cout << verticalSpeed << std::endl;
 	}
@@ -80,17 +85,6 @@ void Player::UpdateMovement(float deltaTime)
 	playerBoundingBox = OBB(newPosition + Vector3D(0, 1.25, 0), Vector3D(2.5, 2.5, 2.5), GetOrientationMatrix());
 
 	bool onRamp = false;
-
-	for (auto& ramp : scene->GetRamps()) {
-		if (ramp->CheckCollision(playerBoundingBox)) {
-			float rampHeight = ramp->GetRampHeightAt(newPosition);
-
-			if (newPosition.GetY() < rampHeight) {
-				newPosition.SetY(rampHeight);
-				onRamp = true;
-			}
-		}
-	}
 
 	if (scene && scene->GetScenarioCollider()->CheckCollision(playerBoundingBox.ToAABB())) {
 		SetCoordinates(originalPosition);
@@ -221,9 +215,9 @@ Solid* Player::Clone()
 void Player::Render()
 {
 	//Collider->Render();
-	; // Green color for player's bounding box
+	 // Green color for player's bounding box
 	//playerBoundingBox.DebugRenderer(Color(0,1,0));
-	//playerBoundingBox.ToAABB().DebugRenderer(Color(0, 1, 0));
+	playerBoundingBox.ToAABB().DebugRenderer(Color(0, 1, 0));
 	OBB staticOBB(Vector3D(5, 3, 5), Vector3D(2.5, 5.0, 2.5), GetOrientationMatrix());
 	//staticOBB.DebugRenderer(Color(0, 1, 0));
 }
@@ -270,7 +264,7 @@ void Player::ApplyGravity(float deltaTime) {
 	newPosition.SetY(newPosition.GetY() + verticalSpeed * deltaTime);
 
 	// Update OBB for the new position
-	playerBoundingBox = OBB(newPosition + Vector3D(0, -2, 0), Vector3D(1.2, 3, 1.2), GetOrientationMatrix());
+	playerBoundingBox = OBB(newPosition + Vector3D(0, -2, 0), Vector3D(0.3, 1, 0.3), GetOrientationMatrix());
 	/*std::cout << "[DEBUG] Creating OBB at: " << newPosition
          << " HalfSize: " << Vector3D(2.5, 5.0, 2.5)
           << " Orientation: " << GetOrientationMatrix() << std::endl;
@@ -286,7 +280,7 @@ void Player::ApplyGravity(float deltaTime) {
 		onGround = true;
 	}
 
-	for (auto& ramp : scene->GetRamps()) {
+	/*for (auto& ramp : scene->GetRamps()) {
 		if (ramp->CheckCollision(playerBoundingBox)) {
 			float rampHeight = ramp->GetRampHeightAt(newPosition);
 
@@ -297,7 +291,7 @@ void Player::ApplyGravity(float deltaTime) {
 				onGround = true;
 			}
 		}
-	}
+	}*/
 
 	if (!onGround) {
 		isJumping = true;

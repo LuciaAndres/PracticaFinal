@@ -12,11 +12,11 @@ const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 const int WINDOW_POSITION_X = 300;
 const int WINDOW_POSITION_Y = 400;
-const char TITLE[] = "Locura en el Mercadona";
+const char TITLE[] = "Locura en miniatura";
 bool fullScreenMode = false;
-const GLclampf RED = 0.2;
-const GLclampf GREEN = 0.4;
-const GLclampf BLUE = 0.8;
+const GLclampf RED = 0.1;
+const GLclampf GREEN = 0.1;
+const GLclampf BLUE = 0.1;
 const GLclampf ALPHA = 1.0;
 
 /////////////////////////FUNCIONES AUXILIARES/////////////////////////
@@ -40,6 +40,14 @@ void initGraphics()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
+	GLfloat lightPos[] = { 2.0f, 25.0f, 2.0f, 1.0f };  // Posición de la luz
+	GLfloat lightDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
+
 	glClearColor(RED, GREEN, BLUE, ALPHA);
 	game.Init();
 }
@@ -62,7 +70,7 @@ void reshape(GLsizei width, GLsizei height)
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0f, aspectRatio, 1.0f, 200.0f);
+	gluPerspective(60.0f, aspectRatio, 1.0f, 2000.0f);
 	glMatrixMode(GL_MODELVIEW);
 }
 
@@ -138,8 +146,10 @@ int main(int argc, char** argv)
 	//AÑADIDO DESPUES
 	
 	glutMotionFunc(mouseMoved);
-	glutKeyboardUpFunc(keyReleased); //DETECTAR CUANDO UNA TECLA NO ESTA PRESIONADA
-	glutSetCursor(GLUT_CURSOR_NONE); //HACER EL CURSOR INVISIBLE
+	glutKeyboardUpFunc(keyReleased); 
+	//DETECTAR CUANDO UNA TECLA NO ESTA PRESIONADA
+	//glutSetCursor(GLUT_CURSOR_NONE); //HACER EL CURSOR INVISIBLE
+	glutSetCursor(GLUT_CURSOR_INFO); //HACER EL CURSOR INVISIBLE
 	glEnable(GL_NORMALIZE);
 
 	//

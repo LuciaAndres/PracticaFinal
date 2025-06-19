@@ -17,7 +17,7 @@ bool MeshCollider::CheckCollision(const AABB& other) const {
     }
     return false;
 }
-
+/*
 void MeshCollider::GenerateBoundingBoxesFromTriangles(const std::vector<Triangle>& triangles) {
     boundingBoxes.clear(); // Reset existing boxes
 
@@ -44,7 +44,7 @@ void MeshCollider::GenerateBoundingBoxesFromTriangles(const std::vector<Triangle
 
     //std::cout << "Generated " << boundingBoxes.size() << " bounding boxes for the scenario." << std::endl;
 }
-
+*/
 void MeshCollider::RenderBoundingBoxes() const {
     for (const auto& box : boundingBoxes) {
         box.DebugRenderer(Color(1,0,0));
