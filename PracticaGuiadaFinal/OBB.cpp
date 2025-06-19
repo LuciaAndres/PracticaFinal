@@ -59,7 +59,6 @@ bool OBB::Intersects(const OBB& other) const {
         }
     }
 
-    std::cout << "[DEBUG] No Separating Axis Found: COLLISION DETECTED" << std::endl;
     return true; // No separating axis -> collision detected
 }
 

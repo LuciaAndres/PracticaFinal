@@ -21,15 +21,15 @@ public:
 	inline void SetAmbientColor(const Color& ambientColorToSet)
 	{
 		this->ambientColor = ambientColorToSet;
-		cout << this->ambientColor.GetRed() << "," << this->ambientColor.GetGreen() <<
-			"," << this->ambientColor.GetBlue() << endl;
+		//cout << this->ambientColor.GetRed() << "," << this->ambientColor.GetGreen() <<
+		//	"," << this->ambientColor.GetBlue() << endl;
 	}
 	inline Color GetDiffuseColor() const { return this->diffuseColor; }
 	inline void SetDiffuseColor(const Color& diffuseColorToSet)
 	{
 		this->diffuseColor = diffuseColorToSet;
-		cout << this->diffuseColor.GetRed() << "," << this->diffuseColor.GetGreen() <<
-			"," << this->diffuseColor.GetBlue() << endl;
+		//cout << this->diffuseColor.GetRed() << "," << this->diffuseColor.GetGreen() <<
+		//	"," << this->diffuseColor.GetBlue() << endl;
 	}
 	inline Color GetSpecularColor() const { return this->specularColor; }
 	inline void SetSpecularColor(const Color& specularColorToSet) {

@@ -62,7 +62,6 @@ void Menu::HandleClick(int x, int y) {
     for (auto& button : buttons) {
         if (button.IsHovered(x, y, windowHeight)) {
             selectedScene = button.GetTargetScene();
-            std::cout << "[DEBUG] Botón '" << button.GetTargetScene() << "' clicado.\n";
             return;
         }
     }

@@ -66,6 +66,7 @@ void Game::Init()
 
 void Game::InitLevels()
 {
+	cout << "CARGANDO NIVELES PUEDE TARDAR UNOS SEGUNDOS EN CARGAR" << endl;
 	//GLUT STUFF
 	glutSetCursor(GLUT_CURSOR_NONE);
 	const GLclampf RED = 0.2;
@@ -157,11 +158,11 @@ void Game::InitLevels()
 	MaterialModel* puzzle = new MaterialModel();
 	MeshCollider* puzzleCollider = new MeshCollider();
 
-	texLoader->LoadModelMaterial(".\\3dModels\\chapita.obj");
+	texLoader->LoadModelMaterial(".\\3dModels\\puzzle.obj");
 	*cog = texLoader->GetMaterialModel();
 	texLoader->Clear();
 
-	texLoader->LoadModelMaterial(".\\3dModels\\puzzle.obj");
+	texLoader->LoadModelMaterial(".\\3dModels\\chapita.obj");
 	*puzzle = texLoader->GetMaterialModel();
 	MaterialModel* cog0 = cog->Clone();
 	MaterialModel* cog1 = cog->Clone();
@@ -267,10 +268,10 @@ void Game::ProcessKeyReleased(unsigned char key, int px, int py) {
 
 void Game::OnPickupCollected(MaterialModel* pickup) {
 	pickup->SetIsHidden(true); 
-	cout << "Hidden: " << pickup->GetIsHidden() << endl;
+	//cout << "Hidden: " << pickup->GetIsHidden() << endl;
 	collectedItems++;
 	ui.UpdateScore(ui.getScore() + 100);
-	cout << "[DEBUG] Pickup collected! Total: " << collectedItems << endl;
+	//cout << "[DEBUG] Pickup collected! Total: " << collectedItems << endl;
 
 	if (collectedItems == 3) {
 		currentLevel++;

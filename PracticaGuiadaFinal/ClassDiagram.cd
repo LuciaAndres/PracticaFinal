@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Bullet">
+    <Position X="2.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAYAAAAAQAAAAAAAAAAQAAABAAQABQAAA=</HashCode>
+      <FileName>Bullet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Button">
+    <Position X="47.75" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAABQAQABAIABCAAAAAAAAABAAAAAEAAA=</HashCode>
+      <FileName>Button.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Guns">
+    <Position X="50.75" Y="10.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BEQIAAAAAIIIIBBBAAIAgAAAAIAAACAAABCgAAAQAIA=</HashCode>
+      <FileName>Guns.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Menu">
+    <Position X="52" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAgIAAAAAAAAAAEABAARIAAEgA=</HashCode>
+      <FileName>Menu.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuManager">
+    <Position X="50.25" Y="7.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AABAABAAAAAEAAEQAAAIAACABAAAAAAAAhAAAAAAAAA=</HashCode>
+      <FileName>MenuManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cube">
+    <Position X="24.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAACAAIAIAAAAAAAAAAAAABAAAAAAABA=</HashCode>
+      <FileName>Cube.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cuboid">
+    <Position X="33.25" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAQAREAAAABAAAQAAAAAQBAAAEAAABQ=</HashCode>
+      <FileName>Cuboid.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cylinder">
+    <Position X="4.5" Y="8.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAEAAAACIRUAAAAAAAFACIQBAIAAAJQQAAAAEBA=</HashCode>
+      <FileName>Cylinder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Solid">
+    <Position X="21" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>EAQRAAAAAEAAIEQAAAiiABAAIQESAQGIRFgAAAAAADA=</HashCode>
+      <FileName>Solid.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sphere">
+    <Position X="11.25" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAiAAAAACAACIAAAAAQAAAAQAEAAAAAAApAAAAiAABA=</HashCode>
+      <FileName>Sphere.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Teapot">
+    <Position X="14.5" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAIAIAAAAEAAAAAAAABAAAAAAABA=</HashCode>
+      <FileName>Teapot.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Text">
+    <Position X="21.5" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACACAAAAAAAAIABAAiAAAABA=</HashCode>
+      <FileName>Text.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Torus">
+    <Position X="26.5" Y="8.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAACAAIAAAAgAAAAQAQBAJAJAAwAAAEBA=</HashCode>
+      <FileName>Torus.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Material">
+    <Position X="54" Y="7.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>gUCAhEEgFAAIwChMhAAAAAAAAMAAQAQEUAAAgAAQAAA=</HashCode>
+      <FileName>Material.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaterialModel">
+    <Position X="18" Y="13" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAIgAAIAAAAQAAAAAAAAAgEBAAAABAABA=</HashCode>
+      <FileName>MaterialModel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaterialModelLoader">
+    <Position X="0.5" Y="20" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAggAACCAgAgAAAAAACAAAAAAAAAAEAAAAgAAAFABAA=</HashCode>
+      <FileName>MaterialModelLoader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaterialTriangle">
+    <Position X="29.75" Y="17.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAIAAAAAAAAAAAAAAAQAAAAEABAAAABAAAA=</HashCode>
+      <FileName>MaterialTriangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model">
+    <Position X="17.75" Y="8.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AEAAAQAAAAAAAAAAAAAAAQgAAAAEAAAAABggQABABBA=</HashCode>
+      <FileName>Model.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModelLoader">
+    <Position X="0.5" Y="12.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QngAAKAAAAAGIBAABCAIAAACAQAgRAACAAAAIHBIAgA=</HashCode>
+      <FileName>ModelLoader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Triangle">
+    <Position X="29.5" Y="8.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAALARFgAAAAEBwCAAgAAAAABDQgwAIARc=</HashCode>
+      <FileName>Triangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game">
+    <Position X="54.75" Y="1" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAQQAoBAAAIAGAQAIAAAAIABBEwEAACBBBADAAAAAAA=</HashCode>
+      <FileName>Game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scene">
+    <Position X="38.25" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAREAAYAAgAgFAAIgKACAAAAAABEAAAAABAEQAAEAAQ=</HashCode>
+      <FileName>Scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera">
+    <Position X="7.75" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAABA=</HashCode>
+      <FileName>Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FirstPersonCamera">
+    <Position X="7.5" Y="11" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAAAAAEAAAAAAABEBAAAAAAAAABBACAAAAAAE=</HashCode>
+      <FileName>FirstPersonCamera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Color">
+    <Position X="49.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>EQAYgAAAAAAAAAAAAAIAAAACAAAAAAAAAAAAgAAAAiA=</HashCode>
+      <FileName>Color.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coordinate">
+    <Position X="48.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>Coordinate.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix3x3">
+    <Position X="44.5" Y="4" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAIAgABoACEQIACgAAIAkAQCAAAkAgAAgFAAI=</HashCode>
+      <FileName>Matrix3x3.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player">
+    <Position X="36" Y="8.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAQBIooBACAIAQUAASAAJMBFAAQABASAARGAAQCQBBE=</HashCode>
+      <FileName>Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI">
+    <Position X="41.5" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAgAAAAABAAQAAAAEYAAggAEAAAACAABAAQAAAEAA=</HashCode>
+      <FileName>UI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vector3Dx&lt;S&gt;">
+    <Position X="6" Y="19" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAICYAAAAQAACBYAkAACAQAACAEAAAAAYAHgAQEAAAA=</HashCode>
+      <FileName>Vector3D.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Emmiter">
+    <Position X="39.75" Y="8.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>gAQGAAAAAAAAAQCAAAiCAAAAgAAAAECAABACAAAAABA=</HashCode>
+      <FileName>Emmiter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EmmiterConfiguration">
+    <Position X="44.5" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAICAgAAAIAIAAACEAAAAAAAACQAAA=</HashCode>
+      <FileName>EmmiterConfiguration.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AABB">
+    <Position X="41.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAIAAiAAAAAIAAAAAAAAICCAAAAAgEAAAIA=</HashCode>
+      <FileName>AABB.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CapsuleCollider">
+    <Position X="4.25" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAADCAAAAAAgAAAAAAAAAAAAIACAAAAEQAgAAAA=</HashCode>
+      <FileName>CapsuleCollider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Collider" Collapsed="true">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAACAAACAAAAAAIAACAAAQIgGQIAAAAgQAAAA=</HashCode>
+      <FileName>Collider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MeshCollider">
+    <Position X="48.5" Y="4" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAACAAACAAAAAQIAAAAAAAAACABAABAAAAAAQ=</HashCode>
+      <FileName>MeshCollider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OBB">
+    <Position X="57.5" Y="7.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAgBAAAAAAAAACAAAAAAAEAAAAAAIAABAAAAAAAACIA=</HashCode>
+      <FileName>OBB.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ramps">
+    <Position X="7.5" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAABAEAEAAgAAABAIACgAAAAAAAIAAA=</HashCode>
+      <FileName>Ramps.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SphereCollider">
+    <Position X="0.75" Y="1.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAACAAAAAABAAAAAAAAIAAAIACAAAAAAAgAAAA=</HashCode>
+      <FileName>SphereCollider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Typedef Name="Vector3D" Collapsed="true">
+    <Position X="4" Y="26.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Vector3D.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Vector3Df" Collapsed="true">
+    <Position X="4" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Vector3D.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Vector3Dd" Collapsed="true">
+    <Position X="7" Y="26.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Vector3D.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Vector3Di" Collapsed="true">
+    <Position X="7" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Vector3D.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

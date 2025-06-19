@@ -32,19 +32,19 @@ Vector3D FirstPersonCamera::calculateTextCoordinates()
     Vector3D up = forward.Cross(right).Normalize();
 
     // Debugging output
-    std::cout << "Camera Position: " << coordinates << "\n";
-    std::cout << "Forward: " << forward << ", Right: " << right << ", Up: " << up << "\n";
+    //std::cout << "Camera Position: " << coordinates << "\n";
+    //std::cout << "Forward: " << forward << ", Right: " << right << ", Up: " << up << "\n";
 
     // Calculate text position relative to the camera
     Vector3D textPosition = coordinates;
     textPosition = textPosition + (forward * 5.0f);  // Move forward
-    std::cout << "After Forward Offset: " << textPosition << "\n";
+    //std::cout << "After Forward Offset: " << textPosition << "\n";
 
     textPosition = textPosition + (right * 2.0f);   // Move to the right
-    std::cout << "After Right Offset: " << textPosition << "\n";
+    //std::cout << "After Right Offset: " << textPosition << "\n";
 
     textPosition = textPosition + (up * 1.5f);      // Move upward
-    std::cout << "After Up Offset: " << textPosition << "\n";
+    //std::cout << "After Up Offset: " << textPosition << "\n";
 
     // Return the calculated position (no inverted offsets)
     return textPosition;

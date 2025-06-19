@@ -48,19 +48,19 @@ void Player::UpdateMovement(float deltaTime)
 	}
 	if (keys['i'] || keys['I'])
 	{
-		this->MoveInDirectionDebug(1);
+		//this->MoveInDirectionDebug(1);
 	}
 	if (keys['k'] || keys['K'])
 	{
-		this->MoveInDirectionDebug(-1);
+		//this->MoveInDirectionDebug(-1);
 	}
 	if (keys['j'] || keys['J'])
 	{
-		this->StrafeInDirectionDebug(-1);
+		//this->StrafeInDirectionDebug(-1);
 	}
 	if (keys['l'] || keys['L'])
 	{
-		this->StrafeInDirectionDebug(1);
+		//this->StrafeInDirectionDebug(1);
 	}
 	if (keys['t'] || keys['T'])
 	{
@@ -217,8 +217,8 @@ void Player::Render()
 	//Collider->Render();
 	 // Green color for player's bounding box
 	//playerBoundingBox.DebugRenderer(Color(0,1,0));
-	playerBoundingBox.ToAABB().DebugRenderer(Color(0, 1, 0));
-	OBB staticOBB(Vector3D(5, 3, 5), Vector3D(2.5, 5.0, 2.5), GetOrientationMatrix());
+	//playerBoundingBox.ToAABB().DebugRenderer(Color(0, 1, 0));
+	//OBB staticOBB(Vector3D(5, 3, 5), Vector3D(2.5, 5.0, 2.5), GetOrientationMatrix());
 	//staticOBB.DebugRenderer(Color(0, 1, 0));
 }
 
