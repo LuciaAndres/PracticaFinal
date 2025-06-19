@@ -10,6 +10,7 @@
 class Scene
 {
 private:
+	string name = " ";
 
 	std::vector<Solid*> gameObjects;
 	std::unique_ptr<MeshCollider> scenarioCollider;
@@ -31,11 +32,13 @@ public:
 	virtual MeshCollider* GetScenarioCollider();
 	
 	virtual void SetScenarioCollider(std::unique_ptr<MeshCollider> collider);
+	virtual void SetName(string NameToSet) { name = NameToSet; }
+	virtual string getName() { return name; }
 	virtual void AddHiddenObject(Solid* object);
 	virtual void Update(const float& time);
 	virtual void Render();
 	virtual void AddRamp(Vector3D start, Vector3D end, Vector3D control);
 	bool CheckRampCollision(const OBB& other);
 	vector<MaterialModel*>& GetCollectibles() { return collectibles; }
-	vector<Solid*> GetGameObjects() { return gameObjects; }
+	vector<Solid*>& GetGameObjects() { return gameObjects; }
 };

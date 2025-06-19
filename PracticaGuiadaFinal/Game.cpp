@@ -92,9 +92,9 @@ void Game::InitLevels()
 	this->scenes.push_back(levelOne);
 	this->scenes.push_back(levelTwo);
 
-	this->activeScene = levelTwo;
+	this->activeScene = levelOne;
 
-	player->SetScene(levelTwo);
+	player->SetScene(levelOne);
 
 	//SETTING UP LEVEL 1
 
@@ -154,52 +154,63 @@ void Game::InitLevels()
 	MaterialModel* cog = new MaterialModel();
 	MeshCollider* cogCollider = new MeshCollider();
 
-	texLoader->LoadModelMaterial(".\\3dModels\\ammo.obj");
-	*cog = texLoader->GetMaterialModel();
-	cogCollider->GenerateBoundingBoxesFromTriangles(cog->GetTriangles());
+	MaterialModel* puzzle = new MaterialModel();
+	MeshCollider* puzzleCollider = new MeshCollider();
 
+	texLoader->LoadModelMaterial(".\\3dModels\\chapita.obj");
+	*cog = texLoader->GetMaterialModel();
+	texLoader->Clear();
+
+	texLoader->LoadModelMaterial(".\\3dModels\\puzzle.obj");
+	*puzzle = texLoader->GetMaterialModel();
 	MaterialModel* cog0 = cog->Clone();
 	MaterialModel* cog1 = cog->Clone();
 	MaterialModel* cog2 = cog->Clone();
-	MaterialModel* cog3 = cog->Clone();
-	MaterialModel* cog4 = cog->Clone();
-	MaterialModel* cog5 = cog->Clone();
+	MaterialModel* pieza0 = puzzle->Clone();
+	MaterialModel* pieza1 = puzzle->Clone();
+	MaterialModel* pieza2 = puzzle->Clone();
 
 	cog0->SetCoordinates(spawnPointsLevel1[0]);
 	cog1->SetCoordinates(spawnPointsLevel1[1]);
 	cog2->SetCoordinates(spawnPointsLevel1[2]);
-	cog3->SetCoordinates(spawnPointsLevel2[0]);
-	cog4->SetCoordinates(spawnPointsLevel2[1]);
-	cog5->SetCoordinates(spawnPointsLevel2[2]);
+	pieza0->SetCoordinates(spawnPointsLevel2[0]);
+	pieza1->SetCoordinates(spawnPointsLevel2[1]);
+	pieza2->SetCoordinates(spawnPointsLevel2[2]);
 
 	cogCollider->UpdatePosition(cog0->GetCoordinates());
+	cogCollider->GenerateBoundingBoxesFromTriangles(cog->GetTriangles());
 	cog0->SetOBB(*cogCollider);
 	cogCollider->UpdatePosition(cog1->GetCoordinates());
+	cogCollider->GenerateBoundingBoxesFromTriangles(cog->GetTriangles());
 	cog1->SetOBB(*cogCollider);
 	cogCollider->UpdatePosition(cog2->GetCoordinates());
+	cogCollider->GenerateBoundingBoxesFromTriangles(cog->GetTriangles());
 	cog2->SetOBB(*cogCollider);
-	cogCollider->UpdatePosition(cog3->GetCoordinates());
-	cog3->SetOBB(*cogCollider);
-	cogCollider->UpdatePosition(cog4->GetCoordinates());
-	cog4->SetOBB(*cogCollider);
-	cogCollider->UpdatePosition(cog5->GetCoordinates());
-	cog5->SetOBB(*cogCollider);
+	cogCollider->UpdatePosition(pieza0->GetCoordinates());
+	cogCollider->GenerateBoundingBoxesFromTriangles(puzzle->GetTriangles());
+	pieza0->SetOBB(*cogCollider);
+	cogCollider->UpdatePosition(pieza1->GetCoordinates());
+	cogCollider->GenerateBoundingBoxesFromTriangles(puzzle->GetTriangles());
+	pieza1->SetOBB(*cogCollider);
+	cogCollider->UpdatePosition(pieza2->GetCoordinates());
+	cogCollider->GenerateBoundingBoxesFromTriangles(puzzle->GetTriangles());
+	pieza2->SetOBB(*cogCollider);
 
 	levelOne->GetCollectibles().push_back(cog0);
 	levelOne->GetCollectibles().push_back(cog1);
 	levelOne->GetCollectibles().push_back(cog2);
 
-	levelTwo->GetCollectibles().push_back(cog3);
-	levelTwo->GetCollectibles().push_back(cog4);
-	levelTwo->GetCollectibles().push_back(cog5);
+	levelTwo->GetCollectibles().push_back(pieza0);
+	levelTwo->GetCollectibles().push_back(pieza1);
+	levelTwo->GetCollectibles().push_back(pieza2);
 
 	levelOne->AddGameObject(cog0);
 	levelOne->AddGameObject(cog1);
 	levelOne->AddGameObject(cog2);
 
-	levelTwo->AddGameObject(cog3);
-	levelTwo->AddGameObject(cog4);
-	levelTwo->AddGameObject(cog5);
+	levelTwo->AddGameObject(pieza0);
+	levelTwo->AddGameObject(pieza1);
+	levelTwo->AddGameObject(pieza2);
 }
 
 void Game::Render()
@@ -217,7 +228,10 @@ void Game::Render()
 	ui.Render();
 
 	for (MaterialModel* pickup : activeScene->GetCollectibles()) {
-		pickup->GetOBB().RenderBoundingBoxes();
+		if (!pickup->GetIsHidden()) {
+			//pickup->GetOBB().RenderBoundingBoxes();
+
+		}
 	}
 }
 
@@ -236,12 +250,14 @@ void Game::Update()
 		ui.UpdateFPS(time);
 		lastUpdatedTime = currentTime.count() - initialMilliseconds.count();
 
-			for (MaterialModel* pickup : activeScene->GetCollectibles()) {  
-				if (pickup && !pickup->GetIsHidden() && pickup->GetOBB().CheckCollision(player->getBoundingBox().ToAABB())) {
-					cout << "Esta Escondido?" << pickup->GetIsHidden() << endl;
-					OnPickupCollected(pickup);  
-                }  
-            }
+		for (MaterialModel* pickup : activeScene->GetCollectibles()) {
+			if (pickup && !pickup->GetIsHidden()){
+				if (pickup->GetOBB().CheckCollision(player->getBoundingBox().ToAABB())) {
+					OnPickupCollected(pickup);
+					break;
+				}
+			}
+		}
 	}
 }
 
@@ -250,22 +266,40 @@ void Game::ProcessKeyReleased(unsigned char key, int px, int py) {
 }
 
 void Game::OnPickupCollected(MaterialModel* pickup) {
-	pickup->SetIsHidden(true); // Hide it so it’s no longer visible or collidable
+	pickup->SetIsHidden(true); 
+	cout << "Hidden: " << pickup->GetIsHidden() << endl;
 	collectedItems++;
-
+	ui.UpdateScore(ui.getScore() + 100);
 	cout << "[DEBUG] Pickup collected! Total: " << collectedItems << endl;
 
-	if (collectedItems >= 3) {
-		// Move to next level or end game
-		if (currentLevel < scenes.) {
-			currentLevel++;
-			activeScene = scenes[currentLevel];
-			player->SetScene(activeScene);
-		}
-		else {
-			cout << "Fin De Juego" << endl;
-			// Optionally return to menu or show win screen
+	if (collectedItems == 3) {
+		currentLevel++;
+		if (currentLevel >= scenes.size()) {
+			cout << "Fin de juego" << endl << "Puntuacion guardada en puntuacion.txt";
+			saveScore("puntuacion.txt");
 			exit(0);
+
 		}
+
+		activeScene = scenes[currentLevel];
+		player->SetScene(activeScene);
+		player->SetCoordinates(Vector3D(0, 10.5, 0));
+		player->SetOrientation(Vector3D(0, 180, 0));
+		collectedItems = 0;  // Reset for next level
+	}
+	
+}
+
+void Game::saveScore(const string& nombreArchivo) {
+	try {
+		ofstream salida(nombreArchivo);
+			if (!salida.is_open()) {
+				throw runtime_error("No se pudo abrir el archivo.");
+			}
+			salida << "Puntuacion: " << ui.getScore() << endl;
+		salida.close();
+	}
+	catch (const exception& e) {
+		cerr << "Error al guardar en archivo: " << e.what() << endl;
 	}
 }

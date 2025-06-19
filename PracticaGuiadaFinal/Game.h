@@ -37,7 +37,9 @@ private:
 
 	UI ui;
 
-	int currentLevel = 1;
+	float aT = 0.0f;
+
+	int currentLevel = 0;
 	int collectedItems = 0;
 
 public:
@@ -54,4 +56,6 @@ public:
 	void ProcessKeyPressed(unsigned char key, int px, int py);
 	void ProcessKeyReleased(unsigned char key, int px, int py);
 	void OnPickupCollected(MaterialModel* pickup);
+
+	void saveScore(const string& nombreArchivo);
 };

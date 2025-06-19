@@ -3,6 +3,7 @@ void UI::Render()
 {
 	RenderFPS();
 	RenderCrosshair();
+	RenderScore();
 }
 
 void UI::RenderFPS()
@@ -93,4 +94,38 @@ void UI::RenderCrosshair() {
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
+}
+
+void UI::UpdateScore(int newScore) {
+	score = newScore;
+	scoreText.SetColor(Color(1, 1, 1));
+	scoreText.setText("Puntuacion: "+std::to_string(score));
+}
+
+void UI::RenderScore()
+{
+	float width = 2.4f;
+
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+	glLineWidth(width);
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glOrtho(0, screenWidth, 0, screenHeight, -1, 1);
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	scoreText.SetColor(Color(1, 1, 1));
+	scoreText.renderOnScreenAt(screenWidth - 220, screenHeight - 30); // Ajusta la posición si lo necesitas
+
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
 }
